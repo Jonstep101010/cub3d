@@ -8,6 +8,8 @@ project(
   DESCRIPTION "cub3d with cmake"
   LANGUAGES C)
 
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
+
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 

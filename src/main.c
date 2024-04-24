@@ -8,21 +8,16 @@ int32_t	main(int argc, char **argv)
 {
 	t_cube_data cubed;
 
-	// if (ac != 2)
-	// 	return (EXIT_FAILURE);
 	cubed = (t_cube_data) {
 		.unused = 0,
 	};
-
-	if (parse_file(&cubed, argv[1]) != 0)
-		exit(EXIT_FAILURE);
-
-
+	if (argc != 2 || parse_file(&cubed, argv[1]) != 0)
+		return (EXIT_FAILURE);
 
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 
 	if (!mlx)
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 
     mlx_image_t* img = mlx_new_image(mlx, 128, 128);
 
