@@ -4,7 +4,7 @@
 # Optionally glob, but only for CMake 3.12 or later:
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CUBED_SOURCE_DIR}/include/*.h")
 
-file(GLOB sources *.c)
+file(GLOB sources **/**.c)
 list(REMOVE_ITEM sources "./main.c")
 
 # Make an automatic library - will be static or dynamic based on user setting

@@ -3,10 +3,21 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-
-int32_t	main(void)
+uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
+int32_t	main(int argc, char **argv)
 {
 	t_cube_data cubed;
+
+	// if (ac != 2)
+	// 	return (EXIT_FAILURE);
+	cubed = (t_cube_data) {
+		.unused = 0,
+	};
+
+	if (parse_file(&cubed, argv[1]) != 0)
+		exit(EXIT_FAILURE);
+
+
 
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 
