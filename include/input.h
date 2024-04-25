@@ -28,23 +28,37 @@ typedef enum e_line_attr
 
 typedef struct s_map_line
 {
-    char		*line;
+	char		*line;
 	t_line_attr	attr;
 }   t_map_line;
 
 # include "structs.h"
 
-typedef struct s_cube_file
+typedef struct s_parse_fc
+{
+	char		*tmp;
+	bool		set;
+	t_rgb		color;
+}   t_parse_fc;
+
+typedef struct s_cube_textures
 {
 	char		*path_north;
 	char		*path_south;
 	char		*path_west;
 	char		*path_east;
+	bool		set;
+}   t_cube_textures;
+
+typedef struct s_cube_file
+{
+	char		**lines;
+	t_cube_textures	tex_wall;
+	int		space_idx;
 	t_map_line	*map_lines;
-	t_rgb		floor_color;
-	t_rgb		ceiling_color;
+	t_parse_fc	floor;
+	t_parse_fc	ceiling;
 	int 		err;
-	int			fd;
 	int			map_height;
 	int			map_width;
 	bool		has_player;
