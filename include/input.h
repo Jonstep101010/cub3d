@@ -58,6 +58,7 @@ typedef struct s_cube_file
 	t_map_line	*map_lines;
 	t_parse_fc	floor;
 	t_parse_fc	ceiling;
+	int			map_start;
 	int 		err;
 	int			map_height;
 	int			map_width;

@@ -31,6 +31,7 @@ static char	**read_file_lines(int fd)
 {
 	char	**arr_lines;
 	char	*line;
+	char	*line_no_nl;
 
 	arr_lines = NULL;
 	while (1)
@@ -38,14 +39,16 @@ static char	**read_file_lines(int fd)
 		line = get_next_line(fd);
 		if (!line)
 			return (arr_lines);
-		arr_lines = append_str_arr_free(arr_lines, line);
+		line_no_nl = ft_strtrim(line, "\n");
+		arr_lines = append_str_arr_free(arr_lines, line_no_nl);
+		free_null(&line);
 		if (!arr_lines)
 			return (NULL);
 	}
 	return (NULL);
 }
 
-uint8_t	parse_non_map(t_cube_file	*file);
+uint8_t	parse_non_map(t_cube_file *file);
 
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 {
