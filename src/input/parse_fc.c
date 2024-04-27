@@ -3,6 +3,17 @@
 #include "libft.h"
 #include "libutils.h"
 
+static bool	string_is_digit(char *s)
+{
+	while (*s)
+	{
+		if (!ft_isdigit(*s))
+			return (false);
+		s++;
+	}
+	return (true);
+}
+
 static t_parse_fc	parse_fc(const char *trimmed_line)
 {
 	char		*tmp;
@@ -16,11 +27,11 @@ static t_parse_fc	parse_fc(const char *trimmed_line)
 	while (size--)
 	{
 		tmp = ft_strtrim(split[size], ", ");
-		if (!tmp || ft_strlen(tmp) > 3 || !*tmp)
+		if (!tmp || ft_strlen(tmp) > 3 || !*tmp || !string_is_digit(tmp))
 			return (arr_free((char **)split), free(tmp), (t_parse_fc){0});
 		atoi_ret[size] = ft_atoi(tmp);
 		free_null(&tmp);
-		if (atoi_ret[size] > UINT8_MAX)
+		if (atoi_ret[size] > UINT8_MAX || atoi_ret[size] < 0)
 			return (arr_free((char **)split), (t_parse_fc){0});
 	}
 	arr_free((char **)split);
