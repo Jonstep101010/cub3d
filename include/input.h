@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 # define INPUT_H
 
+#include <stddef.h>
 #include <stdbool.h>
 typedef enum e_err
 {
@@ -50,20 +51,25 @@ typedef struct s_cube_textures
 	bool		set;
 }   t_cube_textures;
 
+typedef struct s_player
+{
+	size_t	x;
+	size_t	y;
+	char	dir_nsew;
+}  t_player;
+
 typedef struct s_cube_file
 {
-	char		**line_ptr;
-	char		**lines;
+	char			**line_ptr;
+	char			**lines;
 	t_cube_textures	tex_wall;
-	// int			space_idx;
-	t_map_line	*map_lines;
-	t_parse_fc	floor;
-	t_parse_fc	ceiling;
-	int 		err;
-	int			map_height;
-	int			map_width;
-	int			player_x;
-	int			player_y;
+	t_map_line		*map_lines;
+	t_parse_fc		floor;
+	t_parse_fc		ceiling;
+	int 			err;
+	size_t			map_height;
+	// size_t			map_width;
+	t_player		player;
 }   t_cube_file;
 
 #endif

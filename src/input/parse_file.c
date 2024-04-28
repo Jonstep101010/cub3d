@@ -49,6 +49,7 @@ static char	**read_file_lines(int fd)
 }
 
 uint8_t	parse_non_map(t_cube_file *file);
+uint8_t	parse_map(t_cube_file *file);
 
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 {
@@ -61,13 +62,17 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	if (!data->file)
 		return (close(fd), EXIT_FAILURE);
 	data->file->lines = read_file_lines(fd);
-	if (!data->file->lines)
-		return (free(data->file), close(fd), EXIT_FAILURE);
 	close(fd);
+	if (!data->file->lines)
+		return (free(data->file), EXIT_FAILURE);
 	// check contents & set values
+	// @follow-up purge lines, then free lines
 	if (parse_non_map(data->file) != 0)
 	{
-		return (close(fd), 1);
+		return (1);
+	}
+	if (parse_map(data->file) != 0) {
+		return (1);
 	}
 	// validate map
 	return (0);
