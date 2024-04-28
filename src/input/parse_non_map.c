@@ -9,23 +9,23 @@ int		check_textures(const char *line, t_cube_textures *files);
 static uint8_t	parse_non_map_line(t_cube_file	*file, bool *map)
 {
 	int				ii;
-	const size_t	len = ft_strlen(*file->lines);
+	const size_t	len = ft_strlen(*file->line_ptr);
 	int				space_idx;
 
 	ii = 0;
-	while (*file->lines[ii] && ft_isspace(*file->lines[ii]))
+	while (*file->line_ptr[ii] && ft_isspace(*file->line_ptr[ii]))
 		ii++;
-	space_idx = index_of(&*file->lines[ii], ' ', (int)len);
-	if (!*file->lines[ii] || *file->lines[ii] == '1')
+	space_idx = index_of(&*file->line_ptr[ii], ' ', (int)len);
+	if (!*file->line_ptr[ii] || *file->line_ptr[ii] == '1')
 		*map = true;
-	else if (ft_strchr("NESW", **file->lines))
+	else if (ft_strchr("NESW", **file->line_ptr))
 	{
 		return (space_idx != 2 || file->tex_wall.set
-			|| check_textures(&*file->lines[ii], &file->tex_wall) != 0);
+			|| check_textures(&*file->line_ptr[ii], &file->tex_wall) != 0);
 	}
-	else if (ft_strchr("FC", **file->lines))
+	else if (ft_strchr("FC", **file->line_ptr))
 	{
-		return (space_idx != 1 || !check_fc_colors(*file->lines, file));
+		return (space_idx != 1 || !check_fc_colors(*file->line_ptr, file));
 	}
 	else
 		return (1);
@@ -37,18 +37,18 @@ uint8_t	parse_non_map(t_cube_file *file)
 	bool	map;
 
 	map = false;
-	file->original_lines = file->lines;
+	file->line_ptr = file->lines;
 	// iterate over file to get lines
-	while (!map && *file->lines)
+	while (!map && *file->line_ptr)
 	{
-		if (**file->lines && parse_non_map_line(file, &map) != 0)
+		if (**file->line_ptr && parse_non_map_line(file, &map) != 0)
 		{
 			return (1);
 		}
 		if (!map)
 		{
-			free(*file->lines);
-			file->lines++;
+			free(*file->line_ptr);
+			file->line_ptr++;
 		}
 	}
 	// on map, stop search and invalidate on missing params
