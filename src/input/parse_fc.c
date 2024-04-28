@@ -18,7 +18,7 @@ static t_parse_fc	parse_fc(const char *trimmed_line)
 {
 	char		*tmp;
 	char *const	*split = (char *const *)ft_split(trimmed_line, ',');
-	int			size;
+	size_t		size;
 	int			atoi_ret[3];
 
 	size = arr_len(split);
@@ -43,21 +43,17 @@ static t_parse_fc	parse_fc(const char *trimmed_line)
 
 bool	check_fc_colors(const char *line, t_cube_file *file)
 {
-	if (file->space_idx == 1 && ft_strchr("FC", *line))
+	if (*line == 'F')
 	{
-		if (*line == 'F')
-		{
-			if (file->floor.set)
-				return (false);
-			file->floor = parse_fc(&line[2]);
-		}
-		if (*line == 'C')
-		{
-			if (file->ceiling.set)
-				return (false);
-			file->ceiling = parse_fc(&line[2]);
-		}
-		return (true);
+		if (file->floor.set)
+			return (false);
+		file->floor = parse_fc(&line[2]);
 	}
-	return (false);
+	if (*line == 'C')
+	{
+		if (file->ceiling.set)
+			return (false);
+		file->ceiling = parse_fc(&line[2]);
+	}
+	return (true);
 }

@@ -55,7 +55,7 @@ typedef struct s_cube_file
 	char		**lines;
 	char		**original_lines;
 	t_cube_textures	tex_wall;
-	int			space_idx;
+	// int			space_idx;
 	t_map_line	*map_lines;
 	t_parse_fc	floor;
 	t_parse_fc	ceiling;
