@@ -2,6 +2,7 @@
 # show up in IDEs unless they are listed in add_library.
 
 # Optionally glob, but only for CMake 3.12 or later:
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fsanitize=address")
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CUBED_SOURCE_DIR}/include/*.h")
 
 file(GLOB sources **/**.c)
@@ -24,7 +25,7 @@ add_custom_target(libgnl COMMAND make -C ${PROJECT_SOURCE_DIR}/include/libgnl)
 add_custom_target(libutils COMMAND make -C ${PROJECT_SOURCE_DIR}/include/libutils)
 add_custom_target(libft COMMAND make -C ${PROJECT_SOURCE_DIR}/include/libft)
 # Add dependencies
-add_dependencies(cubed libft libutils libgnl)
+# add_dependencies(cubed libft libutils libgnl)
 
 # Link the libraries with your executable
 target_link_libraries(cubed 
