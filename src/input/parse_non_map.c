@@ -38,7 +38,6 @@ uint8_t	parse_non_map(t_cube_file *file)
 
 	map = false;
 	file->line_ptr = file->lines;
-	// iterate over file to get lines
 	while (!map && *file->line_ptr)
 	{
 		if (**file->line_ptr && parse_non_map_line(file, &map) != 0)
@@ -51,7 +50,9 @@ uint8_t	parse_non_map(t_cube_file *file)
 			file->line_ptr++;
 		}
 	}
-	// on map, stop search and invalidate on missing params
-	return (!map || (map
-			&& (!file->tex_wall.set || !file->ceiling.set || !file->floor.set)));
+	return (!map
+		|| (map && (!file->tex_wall.set
+				|| !file->ceiling.set
+				|| !file->floor.set))
+	);
 }

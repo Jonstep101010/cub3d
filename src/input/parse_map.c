@@ -39,7 +39,8 @@ static uint8_t	copy_to_map(t_cube_file *file)
 }
 
 uint8_t	parse_player_data(t_map_line *map_lines, t_player *player);
-// @todo make sure map lines do not have any invalid characters: 0, 1, ' ', N, S, E, W
+// @todo make sure map lines do not have any
+// invalid characters: 0, 1, ' ', N, S, E, W
 
 // member idx should be null if the line is empty
 uint8_t	parse_map(t_cube_file *file)
@@ -48,6 +49,5 @@ uint8_t	parse_map(t_cube_file *file)
 		return (1);
 	if (parse_player_data(file->map_lines, &file->player) != 1)
 		return (1);
-	return 0;
-
+	return (0);
 }
