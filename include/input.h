@@ -27,9 +27,13 @@ typedef enum e_line_attr
 	WALL_ONLY,
 }	t_line_attr;
 
+# define MAP_CHARS "10NSEW "
+# define DIRECTIONS "NSEW"
+
 typedef struct s_map_line
 {
 	char		*line;
+	size_t		len;
 	t_line_attr	attr;
 }   t_map_line;
 
@@ -68,7 +72,7 @@ typedef struct s_cube_file
 	t_parse_fc		ceiling;
 	int 			err;
 	size_t			map_height;
-	// size_t			map_width;
+	size_t			map_width;
 	t_player		player;
 }   t_cube_file;
 
