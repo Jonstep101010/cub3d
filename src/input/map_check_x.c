@@ -36,6 +36,8 @@ bool	x_contains_invalid_chars(t_cube_file *file)
 	bool	x_wall_east;
 
 	i = 0;
+	if (!ft_strchr(*file->line_ptr, '1'))
+		return (true);
 	while (file->line_ptr[i])
 	{
 		x_wall_west = false;

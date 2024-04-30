@@ -2,6 +2,26 @@
 #include "libft.h"
 #include "libutils.h"
 
+bool	mixed_space_zero(char **lines)
+{
+	size_t	i;
+	size_t	ii;
+
+	i = 0;
+	while (lines[i])
+	{
+		ii = 0;
+		while (lines[i][ii] && lines[i][ii + 1]) {
+			if ((lines[i][ii + 1] == '0' && lines[i][ii] == ' ')
+				|| (lines[i][ii] == '0' && lines[i][ii + 1] == ' '))
+				return (printf("mixed zero and space\n"), true);
+			ii++;
+		}
+		i++;
+	}
+	return (false);
+}
+
 /**
  * @audit moves line_ptr
  */

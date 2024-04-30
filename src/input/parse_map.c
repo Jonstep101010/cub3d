@@ -2,28 +2,10 @@
 #include "libft.h"
 #include "libutils.h"
 
-bool	mixed_space_zero(char **lines)
-{
-	size_t	i;
-	size_t	ii;
-
-	i = 0;
-	while (lines[i])
-	{
-		ii = 0;
-		while (lines[i][ii] && lines[i][ii + 1]) {
-			if ((lines[i][ii + 1] == '0' && lines[i][ii] == ' ')
-				|| (lines[i][ii] == '0' && lines[i][ii + 1] == ' '))
-				return (printf("mixed zero and space\n"), true);
-			ii++;
-		}
-		i++;
-	}
-	return (false);
-}
-
+bool	mixed_space_zero(char **lines);
 bool	map_has_empty_line(t_cube_file *file);
 bool	x_contains_invalid_chars(t_cube_file *file);
+
 /**
  * @audit moves line_ptr
  */
@@ -31,9 +13,8 @@ uint8_t	copy_to_map(t_cube_file *file)
 {
 	size_t	i;
 
-	if (!ft_strchr(*file->line_ptr, '1') || x_contains_invalid_chars(file) || mixed_space_zero(file->line_ptr))
+	if (x_contains_invalid_chars(file) || mixed_space_zero(file->line_ptr))
 		return (1);
-	// @todo check y (columns)
 	while (file->line_ptr[file->map_height]
 		&& *file->line_ptr[file->map_height])
 			file->map_height++;
@@ -89,15 +70,10 @@ uint8_t	scale_to_widest_line(t_map_line *map_lines, size_t map_width, size_t map
 	return (0);
 }
 
-
 bool	y_contains_invalid_chars(t_cube_file *file);
 bool	player_next_spaces(t_cube_file *file);
 uint8_t	parse_player_data(t_map_line *map_lines, t_player *player);
-// @todo make sure map lines do not have any
-// invalid characters: 0, 1, ' ', N, S, E, W
-// get map grid, delimited by walls, check no empty lines
 
-// member idx should be null if the line is empty
 uint8_t	parse_map(t_cube_file *file)
 {
 	if (copy_to_map(file) != 0)
