@@ -1,0 +1,74 @@
+
+When training state-of-the-art AI models, it’s extremely important to address factual errors or misinformation. LLMs are known to "hallucinate" or make up information that isn't true. It is your job to determine if a model response contains any factual inaccuracies.
+
+
+
+We think about Truthfulness in two ways:
+
+Verifiable Facts
+Misleading Information
+
+
+1. Verifiable Facts 🚫📝
+What’s a Verifiable Fact?
+
+A verifiable fact is something that is true (or false) regardless of personal feelings, interpretations, or opinions. It can be confirmed by evidence or observation that is consistent and repeatable. Some examples are:
+George Washington was the first president of the United States --> true
+The Earth is flat --> false
+Spain is a city in Europe --> false
+
+
+How to Spot a Verifiable Fact
+
+You can identify a verifiable fact by asking yourself: "Is this statement or assertion definitively true or false? " Opinions, perspectives, feelings, etc. are not verifiable facts.
+
+
+
+To be considered verifiable, a fact generally needs to be:
+
+Objective: The fact should be independent of personal feelings or opinions.
+Observable: There should be a way to observe or measure the fact.
+Repeatable: The observations or measurements can be repeated by others with consistent results.
+Documentable: There should be records or documentation that can be reviewed or checked.
+
+
+Here are two sentences to consider:
+
+"The heart pumps blood through the body." — This is a verifiable fact because it can be confirmed by medical science through observation, experiments, and medical imaging.
+"Paris is the most beautiful city in the world." — This is not a verifiable fact but an opinion, as "beauty" is subjective and cannot be objectively measured or verified.
+
+
+How to Validate Whether a Verifiable Fact is True or False
+
+Google it! Or use your search engine of choice. Most of the time you will be able to clearly tell whether the fact is true or not. If you can’t validate one way or the other, chances are the statement or assertion is not a verifiable fact.
+Check Your Sources: Make sure the information is coming from and confirmed by multiple sources.
+Be wary of lists: sometimes a response will contain a lot of verifiable pieces of information, make sure to check each of them
+
+
+2. Misleading Information 🔍💬
+
+
+What is Misleading Information?
+
+We define Misleading Information is anything presented as a verifiable fact that cannot actually be verified. Model responses may present opinions as verifiable facts, or assert as fact something that has no proof of being true (or false).
+
+
+
+Consider the following examples:
+
+"Nike has the best running shoes" --> this is an opinion, since the definition of "best" is subjective.
+By contrast: “Nike sells the most running shoes” is a statement that could be verified.
+"The vegan diet is the healthiest" --> this asserts as a fact something that cannot be wholly verified.
+By contrast: “Some people believe the vegan diet is healthiest” is a statement that could be verified.
+
+
+How to Spot Them
+
+Look for Extreme Words or Superlatives: Words like "always," "never," or "all" can be signs of overgeneralization.
+Compare and Contrast: See if other reliable sources say the same thing. You might be dealing with misleading info if they’re not
+If You Can't Verify the Statement Quickly: Spend at most 30 seconds checking if the statement is true or false. If you aren’t able to verify the information one way or the other, it is likely a sign that it is not a verifiable fact and that the model may have presented misleading information.
+
+Note:
+Truthfulness vs. Other Evaluation Criteria
+
+A mistake in Truthfulness is WORSE for our purposes than problems with Writing Quality and Verbosity. In general, you should weigh Truthfulness heavily when ranking two responses since Truthfulness mistakes are critical failures of the model. 
