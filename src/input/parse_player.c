@@ -30,3 +30,20 @@ bool	parse_player_data(t_map_line *map_lines, t_player *player)
 	}
 	return (!((!player->x || !player->y) && printf("no player found\n")));
 }
+
+bool	player_next_spaces(t_cube_file *file)
+{
+	const t_player		*player = &file->player;
+	const t_map_line	*map_lines = file->map_lines;
+
+	return (player->x + 1 >= map_lines[player->y].len
+		|| map_lines[player->y - 1].y_view[player->x] == ' '
+		|| map_lines[player->y + 1].y_view[player->x] == ' '
+		|| map_lines[player->y].y_view[player->x - 1] == ' '
+		|| map_lines[player->y].y_view[player->x + 1] == ' '
+		|| map_lines[player->y + 1].y_view[player->x - 1] == ' '
+		|| map_lines[player->y + 1].y_view[player->x + 1] == ' '
+		|| map_lines[player->y - 1].y_view[player->x - 1] == ' '
+		|| map_lines[player->y - 1].y_view[player->x + 1] == ' '
+	);
+}
