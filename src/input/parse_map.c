@@ -2,60 +2,22 @@
 #include "libft.h"
 #include "libutils.h"
 
-static uint8_t	set_map_size(t_cube_file *file)
+bool	map_has_empty_line(t_cube_file *file);
+bool	x_contains_invalid_chars(t_cube_file *file);
+/**
+ * @audit moves line_ptr
+ */
+uint8_t	copy_to_map(t_cube_file *file)
 {
-	size_t	line_len;
+	size_t	i;
 
+	if (!ft_strchr(*file->line_ptr, '1') || x_contains_invalid_chars(file))
+		return (1);
+	// @todo check y (columns)
 	while (file->line_ptr[file->map_height]
 		&& *file->line_ptr[file->map_height])
-	{
-		if (ft_strchr(file->line_ptr[file->map_height], '\t'))
-			return (1);
-		line_len = ft_strlen(file->line_ptr[file->map_height]);
-		if (line_len < 3)
-			return (1);
-		file->map_height++;
-	}
-	return (file->map_height < 3);
-}
-
-/**
- * @audit moves line_ptr
- */
-static bool	map_has_empty_line(t_cube_file *file)
-{
-	size_t	i;
-	size_t	len;
-	bool	split_map;
-
-	i = 0;
-	split_map = false;
-	while (*file->line_ptr)
-	{
-		i = 0;
-		len = ft_strlen(*file->line_ptr);
-		while (i < len && !split_map)
-		{
-			if (ft_strchr("01NSEW ",  **file->line_ptr))
-				split_map = true;
-			i++;
-		}
-		free(*file->line_ptr);
-		file->line_ptr++;
-	}
-	free_null(&file->lines);
-	file->line_ptr = NULL;
-	return (split_map && printf("split map!\n"));
-}
-
-/**
- * @audit moves line_ptr
- */
-static uint8_t	copy_to_map(t_cube_file *file)
-{
-	size_t	i;
-
-	if (set_map_size(file) != 0)// free mem
+			file->map_height++;
+	if (file->map_height < 3)
 		return (1);
 	file->map_lines = ft_calloc(file->map_height + 1, sizeof(t_map_line));
 	if (!file->map_lines)// free mem map_lines
@@ -64,6 +26,11 @@ static uint8_t	copy_to_map(t_cube_file *file)
 	while (*file->line_ptr && **file->line_ptr)
 	{
 		file->map_lines[i].line = *file->line_ptr;
+		file->map_lines[i].len = ft_strlen(*file->line_ptr);
+		while (file->map_lines[i].line[file->map_lines[i].len - 1] == ' ')
+			file->map_lines[i].len--;
+		if (file->map_lines[i].len > file->map_width)
+			file->map_width = file->map_lines[i].len;
 		i++;
 		file->line_ptr++;
 	}
@@ -71,6 +38,39 @@ static uint8_t	copy_to_map(t_cube_file *file)
 	return (map_has_empty_line(file));
 }
 
+uint8_t	scale_to_widest_line(t_map_line *map_lines, size_t map_width, size_t map_height)
+{
+	size_t	i;
+	size_t	ii;
+	char	*scaled_line;
+
+	i = 0;
+	while (i <= map_height)
+	{
+		ii = 0;
+		scaled_line = ft_calloc(map_width + 1, sizeof(char));
+		if (!scaled_line)
+		{
+			while (i--)
+				free_null(&(map_lines[i].y_view));
+			return (2);
+		}
+		while (ii < map_width)
+		{
+			if (ii < map_lines[i].len)
+				scaled_line[ii] = map_lines[i].line[ii];
+			else
+				scaled_line[ii] = ' ';
+			ii++;
+		}
+		map_lines[i].y_view = scaled_line;
+		i++;
+	}
+	return (0);
+}
+
+
+bool	y_contains_invalid_chars(t_cube_file *file);
 uint8_t	parse_player_data(t_map_line *map_lines, t_player *player);
 // @todo make sure map lines do not have any
 // invalid characters: 0, 1, ' ', N, S, E, W
@@ -80,6 +80,10 @@ uint8_t	parse_player_data(t_map_line *map_lines, t_player *player);
 uint8_t	parse_map(t_cube_file *file)
 {
 	if (copy_to_map(file) != 0)
+		return (1);
+	if (scale_to_widest_line(file->map_lines, file->map_width, file->map_height) != 0)
+		return (1);
+	if (y_contains_invalid_chars(file) != 0)
 		return (1);
 	if (parse_player_data(file->map_lines, &file->player) != 1)
 		return (1);

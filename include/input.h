@@ -33,6 +33,7 @@ typedef enum e_line_attr
 typedef struct s_map_line
 {
 	char		*line;
+	char		*y_view;
 	size_t		len;
 	t_line_attr	attr;
 }   t_map_line;
@@ -41,7 +42,6 @@ typedef struct s_map_line
 
 typedef struct s_parse_fc
 {
-	char		*tmp;
 	bool		set;
 	t_rgb		color;
 }   t_parse_fc;
