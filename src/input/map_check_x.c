@@ -4,7 +4,7 @@
 static bool	x_delim_walls(char *map_line,
 	bool *wall_west, bool *wall_east)
 {
-	size_t	ii;
+	int	ii;
 
 	ii = 0;
 	while (map_line[ii])
@@ -36,6 +36,7 @@ bool	x_contains_invalid_chars(t_cube_file *file)
 	bool	x_wall_east;
 
 	i = 0;
+	// @follow-up check map actually begins here
 	if (!ft_strchr(*file->line_ptr, '1'))
 		return (true);
 	while (file->line_ptr[i])

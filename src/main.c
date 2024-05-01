@@ -3,6 +3,27 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+
+void	free_cubed(t_cube_data *cubed)
+{
+	int i;
+	free(cubed->file->tex_wall.path_north);
+	free(cubed->file->tex_wall.path_east);
+	free(cubed->file->tex_wall.path_south);
+	free(cubed->file->tex_wall.path_west);
+
+	i = 0;
+	// handle errors in parsing as well, free all mallocs (sep func)
+	while (i <= (int)cubed->file->map_height)
+	{
+		free(cubed->file->map_lines[i].y_view);
+		free(cubed->file->map_lines[i].line);
+		i++;
+	}
+	free(cubed->file->map_lines);
+	free(cubed->file);
+}
+
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 int32_t	main(int argc, char **argv)
 {
@@ -31,5 +52,7 @@ int32_t	main(int argc, char **argv)
     mlx_loop(mlx);
     mlx_terminate(mlx);
 
+	// free all data structures
+	free_cubed(&cubed);
     return (EXIT_SUCCESS);
 }

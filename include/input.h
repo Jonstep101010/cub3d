@@ -14,18 +14,11 @@ typedef enum e_err
 	DUPLICATE_PARAM,
 	INVALID_PARAM,
 	// WRONG_RGB,
-}	t_err;
-
-typedef enum e_line_attr
-{
 	ERR_NO_LEADING_ONE,
 	ERR_NO_TRAILING_ONE,
 	ERR_SPACE_BETWEEN_ZERO,
-	ERR_OTHER,
 	ERR_EMPTY_LINE,
-	VALID_LINE,
-	WALL_ONLY,
-}	t_line_attr;
+}	t_err;
 
 # define MAP_CHARS "10NSEW "
 # define DIRECTIONS "NSEW"
@@ -35,7 +28,6 @@ typedef struct s_map_line
 	char		*line;
 	char		*y_view;
 	size_t		len;
-	t_line_attr	attr;
 }   t_map_line;
 
 # include "structs.h"
@@ -64,8 +56,7 @@ typedef struct s_player
 
 typedef struct s_cube_file
 {
-	char			**line_ptr;
-	char			**lines;
+	char * const	*line_ptr;
 	t_cube_textures	tex_wall;
 	t_map_line		*map_lines;
 	t_parse_fc		floor;

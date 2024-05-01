@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "libutils.h"
 
-bool	mixed_space_zero(char **lines)
+bool	mixed_space_zero(char * const *lines)
 {
 	size_t	i;
 	size_t	ii;
@@ -46,7 +46,6 @@ bool	map_has_empty_line(t_cube_file *file)
 		free(*file->line_ptr);
 		file->line_ptr++;
 	}
-	free_null(&file->lines);
 	file->line_ptr = NULL;
 	return (split_map && printf("split map!\n"));
 }

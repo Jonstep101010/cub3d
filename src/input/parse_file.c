@@ -9,6 +9,22 @@
 #include "libft.h"
 #include <fcntl.h>
 
+void	free_file_data(t_cube_file *data, void *nullable)
+{
+	free_null(&(data->tex_wall.path_north));
+	free_null(&(data->tex_wall.path_east));
+	free_null(&(data->tex_wall.path_south));
+	free_null(&(data->tex_wall.path_west));
+	while (*data->line_ptr)
+	{
+		free(*data->line_ptr);
+		data->line_ptr++;
+	}
+	free(data);
+	if (nullable)
+		free(nullable);
+}
+
 static int	open_cubefile(const char *path_to_file)
 {
 	const size_t	len = secure_strlen(path_to_file);
@@ -48,12 +64,13 @@ static char	**read_file_lines(int fd)
 	return (NULL);
 }
 
-uint8_t	parse_non_map(t_cube_file *file);
+uint8_t	parse_non_map(t_cube_file *file, char * const *lines);
 uint8_t	parse_map(t_cube_file *file);
 
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 {
 	const int	fd = open_cubefile(path_to_file);
+	char		**lines;
 
 	if (fd == -1)
 		return (1);
@@ -61,19 +78,20 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	data->file = ft_calloc(1, sizeof(t_cube_file));
 	if (!data->file)
 		return (close(fd), EXIT_FAILURE);
-	data->file->lines = read_file_lines(fd);
-	close(fd);
-	if (!data->file->lines)
+	lines = read_file_lines(fd);
+	if (!lines || close(fd) == -1)
 		return (free(data->file), EXIT_FAILURE);
 	// check contents & set values
 	// @follow-up purge lines, then free lines
-	if (parse_non_map(data->file) != 0)
+	if (parse_non_map(data->file, (char * const *)lines) != 0)
 	{
+		free_file_data(data->file, lines);
 		return (1);
 	}
-	if (parse_map(data->file) != 0) {
+	if (parse_map(data->file) != 0)
+	{
+		free_file_data(data->file, lines);
 		return (1);
 	}
-	// validate map
-	return (0);
+	return (free(lines), 0);
 }

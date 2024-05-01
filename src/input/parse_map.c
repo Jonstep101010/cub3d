@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "libutils.h"
 
-bool	mixed_space_zero(char **lines);
+bool	mixed_space_zero(char * const *lines);
 bool	map_has_empty_line(t_cube_file *file);
 bool	x_contains_invalid_chars(t_cube_file *file);
 
