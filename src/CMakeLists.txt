@@ -5,16 +5,22 @@
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fsanitize=address")
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CUBED_SOURCE_DIR}/include/*.h")
 
-file(GLOB sources **/**.c)
-list(REMOVE_ITEM sources "./main.c")
+file(GLOB sources input/*.c utils/*.c)
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(cubed ${sources} ${HEADER_LIST})
 
+# Link the libraries with your executable
+target_link_libraries(cubed 
+	${PROJECT_SOURCE_DIR}/include/libgnl/libgnl.a 
+	${PROJECT_SOURCE_DIR}/include/libutils/libutils.a
+	${PROJECT_SOURCE_DIR}/include/libft/libft.a 
+)
+
 # We need this directory, and users of our library will need it too
 target_include_directories(cubed PUBLIC
 	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/include/MLX42
+	${PROJECT_SOURCE_DIR}/include/MLX42/include/MLX42
 	${PROJECT_SOURCE_DIR}/include/libgnl
 	${PROJECT_SOURCE_DIR}/include/libutils/include
 	${PROJECT_SOURCE_DIR}/include/libft
@@ -26,13 +32,6 @@ add_custom_target(libutils COMMAND make -C ${PROJECT_SOURCE_DIR}/include/libutil
 add_custom_target(libft COMMAND make -C ${PROJECT_SOURCE_DIR}/include/libft)
 # Add dependencies
 # add_dependencies(cubed libft libutils libgnl)
-
-# Link the libraries with your executable
-target_link_libraries(cubed 
-	${PROJECT_SOURCE_DIR}/include/libgnl/libgnl.a 
-	${PROJECT_SOURCE_DIR}/include/libutils/libutils.a
-    ${PROJECT_SOURCE_DIR}/include/libft/libft.a 
-)
 
 # IDEs should put the headers in a nice place
 source_group(
