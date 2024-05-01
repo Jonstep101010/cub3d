@@ -1,8 +1,10 @@
 #ifndef INPUT_H
 # define INPUT_H
 
-#include <stddef.h>
-#include <stdbool.h>
+typedef struct s_cube_data t_cube_data;
+typedef struct s_rgb t_rgb;
+# include <stddef.h>
+# include <stdbool.h>
 typedef enum e_err
 {
 	NO_ERR,

@@ -1,7 +1,8 @@
 #include "cubed.h"
+#include "structs.h"
+#include "input.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <unistd.h>
 
 void	free_cubed(t_cube_data *cubed)
@@ -17,7 +18,6 @@ void	free_cubed(t_cube_data *cubed)
 	while (i <= (int)cubed->file->map_height)
 	{
 		free(cubed->file->map_lines[i].y_view);
-		free(cubed->file->map_lines[i].line);
 		i++;
 	}
 	free(cubed->file->map_lines);

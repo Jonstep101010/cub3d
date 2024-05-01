@@ -7,11 +7,4 @@
 
 # define BPP sizeof(int32_t)
 
-# include "input.h"
-typedef struct s_cube_data
-{
-	t_cube_file	*file;
-    uint8_t	 	unused;
-
-}   t_cube_data;
 #endif
