@@ -7,12 +7,24 @@
 #include "libft.h"
 #include <fcntl.h>
 
+/**
+ * @audit moves line_ptr for the last time
+ */
 void	free_file_data(t_cube_file *data, void *nullable)
 {
+	int		i;
+
 	free_null(&(data->tex_wall.path_north));
 	free_null(&(data->tex_wall.path_east));
 	free_null(&(data->tex_wall.path_south));
 	free_null(&(data->tex_wall.path_west));
+	i = 0;
+	while (data->map_lines && data->map_lines[i].y_view)
+	{
+		free(data->map_lines[i].y_view);
+		i++;
+	}
+	free(data->map_lines);
 	while (*data->line_ptr)
 	{
 		free(*data->line_ptr);
@@ -80,7 +92,6 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	if (!lines || close(fd) == -1)
 		return (free(data->file), EXIT_FAILURE);
 	// check contents & set values
-	// @follow-up purge lines, then free lines
 	if (parse_non_map(data->file, (char * const *)lines) != 0)
 	{
 		free_file_data(data->file, lines);

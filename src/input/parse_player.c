@@ -8,12 +8,12 @@ bool	parse_player_data(t_map_line *map_lines, t_player *player)
 	size_t	x;
 
 	y = 0;
-	while (map_lines[y].line)
+	while (map_lines[y].y_view)
 	{
 		x = 0;
-		while (map_lines[y].line[x])
+		while (map_lines[y].y_view[x])
 		{
-			if (ft_strchr("NESW", map_lines[y].line[x]))
+			if (ft_strchr("NESW", map_lines[y].y_view[x]))
 			{
 				if (!y || !x)
 					return (printf("player at 0 index\n"), false);
@@ -21,7 +21,7 @@ bool	parse_player_data(t_map_line *map_lines, t_player *player)
 					return (printf("more than one player found\n"), false);
 				player->x = x;
 				player->y = y;
-				player->dir_nsew = map_lines[y].line[x];
+				player->dir_nsew = map_lines[y].y_view[x];
 				printf("player found at line %zu, col %zu\n", y, x);
 			}
 			x++;

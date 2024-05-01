@@ -36,14 +36,11 @@ bool	x_contains_invalid_chars(t_cube_file *file)
 	bool	x_wall_east;
 
 	i = 0;
-	// @follow-up check map actually begins here
-	if (!ft_strchr(*file->line_ptr, '1'))
-		return (true);
-	while (file->line_ptr[i])
+	while (file->map_lines[i].y_view && i < file->map_height)
 	{
 		x_wall_west = false;
 		x_wall_east = false;
-		if (!x_delim_walls(file->line_ptr[i], &x_wall_west, &x_wall_east))
+		if (!x_delim_walls(file->map_lines[i].y_view, &x_wall_west, &x_wall_east))
 			return (true);
 		if (!x_wall_west || !x_wall_east)
 			return (true);
@@ -74,7 +71,7 @@ static bool	y_delim_walls(t_cube_file *file, size_t x,
 		if (file->map_lines[y].y_view[x] == '1' && !*wall_south)
 			*wall_south = true;
 		else if (!*wall_south
-			&& (file->map_lines[y].y_view[x] == '0' || ft_strchr(DIRECTIONS, file->map_lines[y].y_view[x])))
+			&& ((file->map_lines[y].y_view[x] == '0' || ft_strchr(DIRECTIONS, file->map_lines[y].y_view[x])) && x < file->map_lines[y].len))
 			return (printf("Player not enclosed by walls\n"), false);
 	}
 	return (true);

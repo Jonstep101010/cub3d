@@ -27,7 +27,6 @@ typedef enum e_err
 
 typedef struct s_map_line
 {
-	char		*line;
 	char		*y_view;
 	size_t		len;
 }   t_map_line;
