@@ -8,17 +8,17 @@
 void	free_cubed(t_cube_data *cubed)
 {
 	int i;
-	free(cubed->file->tex_wall.path_north);
-	free(cubed->file->tex_wall.path_east);
-	free(cubed->file->tex_wall.path_south);
-	free(cubed->file->tex_wall.path_west);
 
-	i = 0;
+	i = -1;
 	// handle errors in parsing as well, free all mallocs (sep func)
-	while (i <= (int)cubed->file->map_height)
-	{
+	while (++i <= (int)cubed->file->map_height)
 		free(cubed->file->map_lines[i].y_view);
-		i++;
+	if (cubed->file->tex_wall.set)
+	{
+		mlx_delete_texture(cubed->file->tex_wall.north);
+		mlx_delete_texture(cubed->file->tex_wall.east);
+		mlx_delete_texture(cubed->file->tex_wall.south);
+		mlx_delete_texture(cubed->file->tex_wall.west);
 	}
 	free(cubed->file->map_lines);
 	free(cubed->file);

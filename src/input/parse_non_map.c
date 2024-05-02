@@ -42,10 +42,6 @@ uint8_t	parse_non_map(t_cube_file *file, char * const *lines)
 	{
 		if (**file->line_ptr && parse_non_map_line(file, &map) != 0)
 		{
-			free_null(file->tex_wall.path_north);
-			free_null(file->tex_wall.path_east);
-			free_null(file->tex_wall.path_south);
-			free_null(file->tex_wall.path_west);
 			return (1);
 		}
 		if (!map)

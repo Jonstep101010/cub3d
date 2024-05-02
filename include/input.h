@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 # define INPUT_H
 
+#include "MLX42.h"
 typedef struct s_cube_data t_cube_data;
 typedef struct s_rgb t_rgb;
 # include <stddef.h>
@@ -41,11 +42,15 @@ typedef struct s_parse_fc
 
 typedef struct s_cube_textures
 {
-	char		*path_north;
-	char		*path_south;
-	char		*path_west;
-	char		*path_east;
-	bool		set;
+	char			*path_north;
+	mlx_texture_t	*north; 
+	char			*path_south;
+	mlx_texture_t	*south; 
+	char			*path_west;
+	mlx_texture_t	*west; 
+	char			*path_east;
+	mlx_texture_t	*east;
+	bool			set;
 }   t_cube_textures;
 
 typedef struct s_player
