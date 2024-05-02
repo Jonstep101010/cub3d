@@ -7,6 +7,8 @@
 #include "libft.h"
 #include <fcntl.h>
 
+void	free_textures(t_cube_textures *tex);
+
 /**
  * @audit moves line_ptr for the last time
  */
@@ -14,10 +16,7 @@ void	free_file_data(t_cube_file *data, void *nullable)
 {
 	int		i;
 
-	free_null(&(data->tex_wall.path_north));
-	free_null(&(data->tex_wall.path_east));
-	free_null(&(data->tex_wall.path_south));
-	free_null(&(data->tex_wall.path_west));
+	free_textures(&data->tex_wall);
 	i = 0;
 	while (data->map_lines && data->map_lines[i].y_view)
 	{

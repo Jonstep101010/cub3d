@@ -42,17 +42,18 @@ uint8_t	parse_non_map(t_cube_file *file, char * const *lines)
 	{
 		if (**file->line_ptr && parse_non_map_line(file, &map) != 0)
 		{
+			printf("Error\ninvalid line before map: '%s'\n", *file->line_ptr);
 			return (1);
 		}
 		if (!map)
 		{
-			free(*file->line_ptr);
-			file->line_ptr++;
+			free(*file->line_ptr++);
 		}
 	}
-	return (!map
-		|| (map && (!file->tex_wall.set
-				|| !file->ceiling.set
-				|| !file->floor.set))
+	return ((!map && printf("Error\nno map provided\n"))
+		|| (map && ((!file->tex_wall.set
+			&& printf("Error\nprovided invalid textures\n"))
+				|| ((!file->ceiling.set || !file->floor.set)
+				&& printf("Error\nprovided invalid colors\n"))))
 	);
 }

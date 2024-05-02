@@ -6,22 +6,6 @@ typedef struct s_cube_data t_cube_data;
 typedef struct s_rgb t_rgb;
 # include <stddef.h>
 # include <stdbool.h>
-typedef enum e_err
-{
-	NO_ERR,
-	// NO_FILE,
-	// NO_MAP,
-	MISSING_MAP,
-	INVALID_MAP,
-	MISSING_PARAM,
-	DUPLICATE_PARAM,
-	INVALID_PARAM,
-	// WRONG_RGB,
-	ERR_NO_LEADING_ONE,
-	ERR_NO_TRAILING_ONE,
-	ERR_SPACE_BETWEEN_ZERO,
-	ERR_EMPTY_LINE,
-}	t_err;
 
 # define MAP_CHARS "10NSEW "
 # define DIRECTIONS "NSEW"
@@ -40,16 +24,15 @@ typedef struct s_parse_fc
 	t_rgb		color;
 }   t_parse_fc;
 
+typedef struct	s_dir_nesw
+{
+	char			*path;
+	mlx_texture_t	*tex;
+}	t_dir_nesw;
+
 typedef struct s_cube_textures
 {
-	char			*path_north;
-	mlx_texture_t	*north; 
-	char			*path_south;
-	mlx_texture_t	*south; 
-	char			*path_west;
-	mlx_texture_t	*west; 
-	char			*path_east;
-	mlx_texture_t	*east;
+	t_dir_nesw		dir_nesw[4];
 	bool			set;
 }   t_cube_textures;
 
@@ -67,7 +50,6 @@ typedef struct s_cube_file
 	t_map_line		*map_lines;
 	t_parse_fc		floor;
 	t_parse_fc		ceiling;
-	int 			err;
 	size_t			map_height;
 	size_t			map_width;
 	t_player		player;

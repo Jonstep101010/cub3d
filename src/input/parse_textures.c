@@ -3,61 +3,30 @@
 #include "libutils.h"
 #include <fcntl.h>
 
-static char	**get_tex_member(t_cube_textures *tex, int direction)
+static bool	load_textures(t_cube_textures *tex)
 {
-	if (direction == 0)
-		return (&tex->path_north);
-	if (direction == 1)
-		return (&tex->path_east);
-	if (direction == 2)
-		return (&tex->path_south);
-	if (direction == 3)
-		return (&tex->path_west);
-	return (NULL);
-}
-
-static	bool	load_textures(t_cube_textures *tex)
-{
-	mlx_texture_t	*textures[4];
-	char			**path;
 	int				i;
 
 	i = -1;
 	while (++i < 4)
 	{
-		path = get_tex_member(tex, i);
-		if (!path)
-			return (false);
-		textures[i] = mlx_load_png(*path);
-		free_null(path);
-		if (!textures[i])
+		tex->dir_nesw[i].tex = mlx_load_png(tex->dir_nesw[i].path);
+		free_null(&tex->dir_nesw[i].path);
+		if (!tex->dir_nesw[i].tex)
 		{
 			while (i-- > 0)
-				mlx_delete_texture(textures[i]);
+			{
+				free_null(&tex->dir_nesw[i].path);
+				mlx_delete_texture(tex->dir_nesw[i].tex);
+			}
 			return (false);
 		}
 	}
-	tex->north = textures[0];
-	tex->east = textures[1];
-	tex->south = textures[2];
-	tex->west = textures[3];
+	tex->set = true;
 	return (true);
 }
 
-void	free_textures(t_cube_textures *tex)
-{
-	free_null(&tex->path_north);
-	free_null(&tex->path_east);
-	free_null(&tex->path_south);
-	free_null(&tex->path_west);
-	if (tex->set)
-	{
-		mlx_delete_texture(tex->north);
-		mlx_delete_texture(tex->east);
-		mlx_delete_texture(tex->south);
-		mlx_delete_texture(tex->west);
-	}
-}
+void	free_textures(t_cube_textures *tex);
 
 /**
  * @brief make sure there are textex for each direction
@@ -65,7 +34,6 @@ void	free_textures(t_cube_textures *tex)
 static uint8_t	check_paths_differ(char **path,
 	t_cube_textures *tex, int direction)
 {
-	char			**other_paths;
 	int				i;
 	const size_t	len = ft_strlen(*path);
 
@@ -74,22 +42,13 @@ static uint8_t	check_paths_differ(char **path,
 	{
 		if (i != direction)
 		{
-			other_paths = get_tex_member(tex, i);
-			if (other_paths && len == secure_strlen(*other_paths)
-				&& ft_strnstr(*path, *other_paths, len))
+			if (tex->dir_nesw[i].path && len == ft_strlen(tex->dir_nesw[i].path)
+				&& ft_strnstr(*path, tex->dir_nesw[i].path, len))
 				return (1);
 		}
 		i++;
 	}
 	return (0);
-}
-
-static void free_texpaths(t_cube_textures *tex)
-{
-	free_null(tex->path_north);
-	free_null(tex->path_east);
-	free_null(tex->path_west);
-	free_null(tex->path_south);
 }
 
 /**
@@ -101,26 +60,24 @@ static	uint8_t	tex_direction(const char *line,
 	char	**path;
 	int		fd;
 
-	path = get_tex_member(tex, direction);
+	path = &(tex->dir_nesw[direction].path);
 	if (*path)
-		return (free_texpaths(tex), 1);
+		return (free_textures(tex), 1);
 	*path = ft_strtrim(line + 2, " ");
 	if (!*path || !**path)
-		return (free_texpaths(tex), 1);
+		return (free_textures(tex), 1);
 	if (check_paths_differ(path, tex, direction) != 0)
-		return (free_texpaths(tex), 1);
+		return (free_textures(tex), 1);
 	fd = open(*path, O_RDONLY);
 	if (fd == -1)
-		return (free_texpaths(tex), 1);
+		return (free_textures(tex), 1);
 	close(fd);
-	if (tex->path_north && tex->path_east
-		&& tex->path_south && tex->path_west)
-	{
-		if (!load_textures(tex))
-			return (1);
-		tex->set = true;
-	}
-	return (0);
+	return (tex->dir_nesw[0].path
+		&& tex->dir_nesw[1].path
+		&& tex->dir_nesw[2].path
+		&& tex->dir_nesw[3].path
+		&& !load_textures(tex)
+	);
 }
 
 /**
@@ -136,13 +93,14 @@ int	check_textures(const char *line, t_cube_textures *tex)
 	{
 		if (ft_strncmp(line, directions[i], 2) == 0)
 		{
-			// @follow-up enable error printing, handle free mem
 			if (tex_direction(line, tex, i) != 0)
-				return (free_textures(tex), 1);
+			{
+				free_textures(tex);
+				return (1);
+			}
 			return (0);
 		}
 		i++;
 	}
-	free_textures(tex);
 	return (1);
 }
