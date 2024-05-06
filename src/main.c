@@ -20,6 +20,7 @@ void	free_cubed(t_cube_data *cubed)
 	free(cubed->file);
 }
 
+int		paint_background(t_cube_data *game);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 int32_t	main(int argc, char **argv)
 {
@@ -32,23 +33,19 @@ int32_t	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 
 	mlx_t *mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
+	cubed.mlx = mlx;
 
 	if (!mlx)
 		return (EXIT_FAILURE);
 
-    mlx_image_t* img = mlx_new_image(mlx, 128, 128);
+	paint_background(&cubed);
 
-    // Set the channels of each pixel in our image to the maximum byte value of 255.
-    memset(img->pixels, 255, img->width * img->height * BPP);
 
-    // Draw the image at coordinate (0, 0).
-    mlx_image_to_window(mlx, img, 0, 0);
-
-    // Run the main loop and terminate on quit.
-    mlx_loop(mlx);
-    mlx_terminate(mlx);
+	// Run the main loop and terminate on quit.
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
 
 	// free all data structures
 	free_cubed(&cubed);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
