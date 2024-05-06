@@ -1,10 +1,10 @@
 #ifndef CUBED_H
 # define CUBED_H
-# include "MLX42.h"
+# include "MLX42/include/MLX42/MLX42.h"
 
-typedef struct s_cube_data
-{
-    
+# define WIDTH 1280
+# define HEIGHT 720
 
-}   t_cube_data;
+# define BPP sizeof(int32_t)
+
 #endif
