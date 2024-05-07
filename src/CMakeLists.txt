@@ -5,16 +5,16 @@
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fsanitize=address")
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CUBED_SOURCE_DIR}/include/*.h")
 
-file(GLOB sources input/*.c input/textures/*.c input/map/*.c utils/*.c view/*.c)
+file(GLOB sources input/*.c input/textures/*.c input/map/*.c utils/*.c view/*.c dda_ray/*.c)
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(cubed ${sources} ${HEADER_LIST})
 
 # Link the libraries with your executable
-target_link_libraries(cubed 
-	${PROJECT_SOURCE_DIR}/include/libgnl/libgnl.a 
+target_link_libraries(cubed
+	${PROJECT_SOURCE_DIR}/include/libgnl/libgnl.a
 	${PROJECT_SOURCE_DIR}/include/libutils/libutils.a
-	${PROJECT_SOURCE_DIR}/include/libft/libft.a 
+	${PROJECT_SOURCE_DIR}/include/libft/libft.a
 )
 
 # We need this directory, and users of our library will need it too
