@@ -12,24 +12,23 @@ void	free_textures(t_cube_textures *tex);
 /**
  * @audit moves line_ptr for the last time
  */
-void	free_file_data(t_cube_file *data, void *nullable)
+void	free_file_data(t_cube_file *file, void *nullable)
 {
 	int		i;
 
-	free_textures(&data->tex_wall);
+	free_textures(&file->tex_wall);
 	i = 0;
-	while (data->map_lines && data->map_lines[i].y_view)
+	while (file->map_lines && file->map_lines[i].y_view)
 	{
-		free(data->map_lines[i].y_view);
+		free(file->map_lines[i].y_view);
 		i++;
 	}
-	free(data->map_lines);
-	while (*data->line_ptr)
+	free(file->map_lines);
+	while (*file->line_ptr)
 	{
-		free(*data->line_ptr);
-		data->line_ptr++;
+		free(*file->line_ptr);
+		file->line_ptr++;
 	}
-	free(data);
 	if (nullable)
 		free(nullable);
 }
@@ -76,30 +75,52 @@ static char	**read_file_lines(int fd)
 uint8_t	parse_non_map(t_cube_file *file, char * const *lines);
 uint8_t	parse_map(t_cube_file *file);
 
+static t_parse_res	*create_res(t_cube_file *file, char **lines)
+{
+	t_parse_res	*res;
+
+	res = ft_calloc(1, sizeof(t_parse_res));
+	if (!res)
+		return (free_file_data(file, lines), NULL);
+	res->map_lines = file->map_lines;
+	res->map_height = file->map_height;
+	res->map_width = file->map_width;
+	ft_memmove(&res->p_start, &file->player, sizeof(t_parse_player));
+	res->floor = file->floor.color;
+	res->ceiling = file->ceiling.color;
+	res->tex[0] = file->tex_wall.dir_nesw[0].tex;
+	res->tex[1] = file->tex_wall.dir_nesw[1].tex;
+	res->tex[2] = file->tex_wall.dir_nesw[2].tex;
+	res->tex[3] = file->tex_wall.dir_nesw[3].tex;
+	return (res);
+}
+
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 {
 	const int	fd = open_cubefile(path_to_file);
 	char		**lines;
+	t_cube_file	file;
 
 	if (fd == -1)
 		return (1);
-	// create cube_file struct
-	data->file = ft_calloc(1, sizeof(t_cube_file));
-	if (!data->file)
-		return (close(fd), EXIT_FAILURE);
 	lines = read_file_lines(fd);
 	if (!lines || close(fd) == -1)
-		return (free(data->file), EXIT_FAILURE);
-	// check contents & set values
-	if (parse_non_map(data->file, (char * const *)lines) != 0)
+		return (EXIT_FAILURE);
+	if (parse_non_map(&file, (char * const *)lines) != 0)
 	{
-		free_file_data(data->file, lines);
+		free_file_data(&file, lines);
 		return (1);
 	}
-	if (parse_map(data->file) != 0)
+	if (parse_map(&file) != 0)
 	{
-		free_file_data(data->file, lines);
+		free_file_data(&file, lines);
 		return (1);
 	}
+	data->res = create_res(&file, lines);
+	if (!data->res)
+		return (1);
+	// only temporary @audit
+	data->ceil_c = data->res->ceiling;
+	data->floor_c = data->res->floor;
 	return (free(lines), 0);
 }
