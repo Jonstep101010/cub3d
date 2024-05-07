@@ -10,7 +10,7 @@ bool	map_has_empty_line(t_cube_file *file);
 bool	x_contains_invalid_chars(t_cube_file *file);
 bool	y_contains_invalid_chars(t_cube_file *file);
 
-uint8_t	parse_player_data(t_map_line *map_lines, t_player *player);
+uint8_t	parse_player_data(t_map_line *map_lines, t_parse_player *player);
 bool	player_next_spaces(t_cube_file *file);
 
 uint8_t	parse_map(t_cube_file *file)

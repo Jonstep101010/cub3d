@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <stdint.h>
 
-bool	parse_player_data(t_map_line *map_lines, t_player *player)
+bool	parse_player_data(t_map_line *map_lines, t_parse_player *player)
 {
 	size_t	y;
 	size_t	x;
@@ -33,8 +33,8 @@ bool	parse_player_data(t_map_line *map_lines, t_player *player)
 
 bool	player_next_spaces(t_cube_file *file)
 {
-	const t_player		*player = &file->player;
-	const t_map_line	*map_lines = file->map_lines;
+	const t_parse_player	*player = &file->player;
+	const t_map_line		*map_lines = file->map_lines;
 
 	return (player->x + 1 >= map_lines[player->y].len
 		|| map_lines[player->y - 1].y_view[player->x] == ' '

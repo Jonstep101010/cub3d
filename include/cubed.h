@@ -1,6 +1,6 @@
 #ifndef CUBED_H
 # define CUBED_H
-# include "MLX42/include/MLX42/MLX42.h"
+# include "MLX42.h"
 
 # define WIDTH 1280
 # define HEIGHT 720

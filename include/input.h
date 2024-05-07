@@ -36,12 +36,12 @@ typedef struct s_cube_textures
 	bool			set;
 }   t_cube_textures;
 
-typedef struct s_player
+typedef struct s_parse_player
 {
 	size_t	x;
 	size_t	y;
 	char	dir_nsew;
-}  t_player;
+}  t_parse_player;
 
 typedef struct s_cube_file
 {
@@ -52,7 +52,7 @@ typedef struct s_cube_file
 	t_parse_fc		ceiling;
 	size_t			map_height;
 	size_t			map_width;
-	t_player		player;
+	t_parse_player	player;
 }   t_cube_file;
 
 #endif

@@ -17,6 +17,8 @@ typedef struct s_cube_data
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
 	uint8_t	 	unused;
+	t_rgb		floor_c;//tmp to merge data structures from incoming changes
+	t_rgb		ceil_c;//tmp to merge data structures from incoming changes
 }	t_cube_data;
 
 #endif
