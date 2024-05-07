@@ -1,6 +1,5 @@
-#include "cubed.h"
+#include "defines.h"
 #include "input.h"
-#include "utils.h"
 
 void	paint_image(mlx_image_t *image, t_rgb color)
 {
@@ -24,15 +23,15 @@ void	paint_image(mlx_image_t *image, t_rgb color)
 
 int	paint_background(t_cube_data *game)
 {
-   	game->ceiling = mlx_new_image(game->mlx, WIDTH, HEIGHT / 2);
-   	game->floor = mlx_new_image(game->mlx, WIDTH, HEIGHT / 2);
+   	game->ceiling = mlx_new_image(game->mlx_ptr, WIDTH, HEIGHT / 2);
+   	game->floor = mlx_new_image(game->mlx_ptr, WIDTH, HEIGHT / 2);
 
 	if (!game->ceiling || !game->floor)
 		return (1);
-	paint_image(game->ceiling, game->file->ceiling.color);
-	paint_image(game->floor, game->file->floor.color);
+	paint_image(game->ceiling, game->res->ceiling);
+	paint_image(game->floor, game->res->floor);
 
-	mlx_image_to_window(game->mlx, game->ceiling, 0, 0);
-	mlx_image_to_window(game->mlx, game->floor, 0, HEIGHT / 2);
+	mlx_image_to_window(game->mlx_ptr, game->ceiling, 0, 0);
+	mlx_image_to_window(game->mlx_ptr, game->floor, 0, HEIGHT / 2);
 	return (0);
 }

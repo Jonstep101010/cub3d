@@ -1,5 +1,5 @@
-#ifndef COLORS_H
-# define COLORS_H
+#ifndef UTILS_H
+# define UTILS_H
 
 #include "structs.h"
 #include <stdint.h>
