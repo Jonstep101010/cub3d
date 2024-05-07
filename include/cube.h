@@ -59,8 +59,7 @@ typedef struct s_player
 	double starting_posy;  ////player position
 	double		dir_x;
 	double		dir_y;
-	double		plane_x;	   // playerin x düzlemindeki kendi koordinatı
-	double		plane_y;	   // playerin y düzlemindeki kendi koordinatı
+
 	int			player_start_dir; //playerın BASLAMA YONU
 
 } t_player;
@@ -72,7 +71,8 @@ typedef struct s_texture
 	int				side;
 } t_texture;
 
-typedef struct s_draw {
+typedef struct s_draw
+{
 	int height; // Çizilecek texture yüksekliği
 	int start;      // Çizime başlanacak y koordinatı
 	int end;        // Çizim bitirilecek y koordinatı
@@ -107,6 +107,8 @@ typedef struct s_cube_data
 	int				numRays;		// Ray sayısı
 	t_color		floor_c;
 	t_color		ceil_c;
+		double		plane_x;	   // playerin x düzlemindeki kendi koordinatı
+	double		plane_y;	   // playerin y düzlemindeki kendi koordinatı
 } t_cube;
 
 void initialize_textures(t_cube *game);
@@ -114,6 +116,10 @@ void load_texture(t_cube *game, t_texture *texture, const char *file_path);
 // cube.h içerisine ekleyin
 char* get_direction_name(t_direction dir);
 void draw_map(t_cube *game);
-
+void initialize_dda(t_dda *dda, t_player *player);
+void calculate_delta(t_ray *ray, t_player *player);
+void set_initial_step(t_dda *dda, t_ray *ray, t_player *player);
+void perform_dda_step(t_dda *dda, t_ray *ray);
+t_dda perform_dda(t_cube *game, t_player *player, t_ray *ray);
 
 #endif
