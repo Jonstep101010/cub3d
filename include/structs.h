@@ -13,7 +13,7 @@ typedef struct s_cube_file t_cube_file;
 typedef struct s_cube_data
 {
 	t_cube_file	*file;
-	mlx_t		*mlx;
+	mlx_t		*mlx_ptr;
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
 	uint8_t	 	unused;
