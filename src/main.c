@@ -20,6 +20,18 @@ void	free_cubed(t_cube_data *cubed)
 	free(cubed->file);
 }
 
+static void	close_window(void *param)
+{
+	free_cubed((t_cube_data *)param);
+	exit(EXIT_SUCCESS);
+}
+
+static void	key_press(mlx_key_data_t keydata, void *param)
+{
+	if (keydata.key == MLX_KEY_ESCAPE)
+		close_window(param);
+}
+
 int		paint_background(t_cube_data *game);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 int32_t	main(int argc, char **argv)
@@ -41,6 +53,8 @@ int32_t	main(int argc, char **argv)
 	paint_background(&cubed);
 
 
+	mlx_close_hook(cubed.mlx, close_window, NULL);
+	mlx_key_hook(cubed.mlx, key_press, (void*)&cubed);
 	// Run the main loop and terminate on quit.
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
