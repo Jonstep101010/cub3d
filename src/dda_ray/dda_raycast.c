@@ -10,7 +10,7 @@ t_dda perform_dda(t_cube *game, t_player *player, t_ray *ray)
 	while (true)
 	{
 		perform_dda_step(&dda, ray);
-		while (game->game_map.map_height > dda.map_y && game->game_map.map_width > dda.map_x)
+		while (true)
 		{
 			if (dda.x < dda.y)
 			{
@@ -123,8 +123,9 @@ void	draw_texture(t_cube *game, int col, double perp_wall_dist)
 void initialize_dda(t_dda *dda, t_player *player)
 {
 	// printf("Initializing DDA...\n");
-	dda->map_x = (int)(player->x);
-	dda->map_y = (int)(player->y);
+	(void)player;
+	dda->map_x = 5;
+	dda->map_y = 4;
 	// printf("Initial map position: map_x=%d, map_y=%d\n", dda->map_x, dda->map_y);
 }
 
@@ -192,9 +193,10 @@ void draw_map(t_cube *game)
 		game->ray.dir_x = game->player.dir_x + game->plane_x * camera_x;
 		game->ray.dir_y = game->player.dir_y + game->plane_y * camera_x;
 		calculate_delta(&game->ray, &game->player);
-		// printf("Ray direction for column %d: dir_x=%f, dir_y=%f\n", i, game->ray.dir_x, game->ray.dir_y);
+		printf("Ray direction for column %d: dir_x=%f, dir_y=%f\n", i, game->ray.dir_x, game->ray.dir_y);
 
 		t_dda calc_distance = perform_dda(game, &game->player, &game->ray);
+		printf("Ray direction for column %d: dir_x=%f, dir_y=%f\n", i, game->ray.dir_x, game->ray.dir_y);
 		if(game->texture.side == EAST || game->texture.side == WEST)
 			draw_texture(game, i, calc_distance.x - game->ray.delta_x);
 		else
