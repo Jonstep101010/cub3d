@@ -1,5 +1,5 @@
 #include "MLX42.h"
-#include "input.h"
+#include "structs.h"
 #include <stdlib.h>
 
 void	free_cubed(t_cube_data *cubed);

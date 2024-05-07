@@ -1,6 +1,5 @@
 #include "defines.h"
 #include "structs.h"
-#include "input.h"
 #include <stdlib.h>
 #include <unistd.h>
 

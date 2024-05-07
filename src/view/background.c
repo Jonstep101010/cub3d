@@ -28,8 +28,8 @@ int	paint_background(t_cube_data *game)
 
 	if (!game->ceiling || !game->floor)
 		return (1);
-	paint_image(game->ceiling, game->file->ceiling.color);
-	paint_image(game->floor, game->file->floor.color);
+	paint_image(game->ceiling, game->res->ceiling);
+	paint_image(game->floor, game->res->floor);
 
 	mlx_image_to_window(game->mlx_ptr, game->ceiling, 0, 0);
 	mlx_image_to_window(game->mlx_ptr, game->floor, 0, HEIGHT / 2);
