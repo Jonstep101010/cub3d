@@ -1,44 +1,58 @@
 #include "cube.h"
+#include <stdint.h>
 
-t_dda perform_dda(t_cube *game, t_player *player, t_ray *ray)
+void wall_collition(t_cube *game, t_dda *dda)
 {
-	t_dda dda;
-	initialize_dda(&dda, player);
-	calculate_delta(ray, player);
-	set_initial_step(&dda, ray, player);
-
 	while (true)
 	{
-		perform_dda_step(&dda, ray);
-		while (true)
+		if (dda->x < dda->y)
 		{
-			if (dda.x < dda.y)
-			{
-				dda.x += game->ray.delta_x;
-				dda.map_x += dda.step_x;
-				if (game->ray.dir_x > 0)
-					game->texture.side = EAST;
-				else
-					game->texture.side = WEST;
-			} else
-			{
-				dda.y += game->ray.delta_y;
-				dda.map_y += dda.step_y;
-				if (game->ray.dir_y > 0)
-					game->texture.side = SOUTH;
-				else
-					game->texture.side = NORTH;
-			}
-			// Check if the ray has hit a wall
-			if (!(game->game_map.map_height > dda.map_y || game->game_map.map_width > dda.map_x)
-				&& game->game_map.map[dda.map_y][dda.map_x] == '1')
-			{
-				printf("Wall hit at map_x=%d, map_y=%d\n", dda.map_x, dda.map_y);
-				break;  // Wall found
-			}
+			dda->x += game->ray.delta_x;
+			dda->map_x += dda->step_x;
+			if (game->ray.dir_x > 0)
+				game->texture.side = EAST;
+			else
+				game->texture.side = WEST;
 		}
+		else
+		{
+			dda->y += game->ray.delta_y;
+			dda->map_y += dda->step_y;
+			if (game->ray.dir_y > 0)
+				game->texture.side = SOUTH;
+			else
+				game->texture.side = NORTH;
+		}
+		if (game->game_map.map[dda->map_y][dda->map_x] == '1')
+			break ;
 	}
-	return (dda);
+}
+
+t_dda	dda(t_cube	*game)
+{
+	t_dda	dda;
+
+	dda.map_x = (int)(game->player.x);
+	dda.map_y = (int)(game->player.y);
+	dda.step_x = 1;
+	dda.step_y = 1;
+	if (game->ray.dir_x < 0)
+	{
+		dda.step_x = -1;
+		dda.x = (game->player.x - dda.map_x) *  game->ray.delta_x;
+	}
+	else
+		dda.x = (dda.map_x + 1.0 - game->player.dir_x) * game->ray.delta_x;
+	if (game->ray.dir_y < 0)
+	{
+		dda.step_x = -1;
+		dda.y = (game->player.y - dda.map_y) *  game->ray.delta_y;
+	}
+	else
+		dda.y = (dda.map_y + 1.0 - game->player.dir_y) * game->ray.delta_y;
+	wall_collition(game, &dda);
+	return(dda);
+
 }
 
 int	pixell(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -120,86 +134,38 @@ void	draw_texture(t_cube *game, int col, double perp_wall_dist)
 	draw_wall_section(game, &draw, col); // Draw the wall section
 }
 
-void initialize_dda(t_dda *dda, t_player *player)
-{
-	// printf("Initializing DDA...\n");
-	(void)player;
-	dda->map_x = 5;
-	dda->map_y = 4;
-	// printf("Initial map position: map_x=%d, map_y=%d\n", dda->map_x, dda->map_y);
-}
 
-void calculate_delta(t_ray *ray, t_player *player)
-{
-	// printf("Calculating delta values...\n");
-	if (player->dir_x == 0) {
-		ray->delta_x = 1e30;
-	} else {
-		ray->delta_x = fabs(1 / player->dir_x);
-	}
-	if (player->dir_y == 0) {
-		ray->delta_y = 1e30;
-	} else {
-		ray->delta_y = fabs(1 / player->dir_y);
-	}
-	// printf("Delta values: delta_x=%f, delta_y=%f\n", ray->delta_x, ray->delta_y);
-}
 
-void set_initial_step(t_dda *dda, t_ray *ray, t_player *player)
-{
-	// printf("Setting initial steps...\n");
-	double rayPosX = player->x;
-	double rayPosY = player->y;
 
-	if (player->dir_x < 0) {
-		dda->step_x = -1;
-		dda->x = (rayPosX - dda->map_x) * ray->delta_x;
-	} else {
-		dda->step_x = 1;
-		dda->x = (dda->map_x + 1.0 - rayPosX) * ray->delta_x;
-	}
 
-	if (player->dir_y < 0) {
-		dda->step_y = -1;
-		dda->y = (rayPosY - dda->map_y) * ray->delta_y;
-	} else {
-		dda->step_y = 1;
-		dda->y = (dda->map_y + 1.0 - rayPosY) * ray->delta_y;
-	}
 
-	// printf("Steps: step_x=%d, x=%f, step_y=%d, y=%f\n", dda->step_x, dda->x, dda->step_y, dda->y);
-}
 
-void perform_dda_step(t_dda *dda, t_ray *ray)
-{
-	// printf("Performing DDA step...\n");
-	if (dda->x < dda->y) {
-		dda->x += ray->delta_x;
-		dda->map_x += dda->step_x;
-	} else {
-		dda->y += ray->delta_y;
-		dda->map_y += dda->step_y;
-	}
-	// printf("DDA step results: x=%f, map_x=%d, y=%f, map_y=%d\n", dda->x, dda->map_x, dda->y, dda->map_y);
-}
 
 void draw_map(t_cube *game)
 {
-	// printf("Drawing map...\n");
-	int i = -1;
+	t_dda	dist;
+	double	cam_x;
+	int		i;
+
+	i = -1;
 	while(++i < SCREEN_WIDTH)
 	{
-		double camera_x = 2 * i / (double)SCREEN_WIDTH - 1; //normalize the screen x coord
-		game->ray.dir_x = game->player.dir_x + game->plane_x * camera_x;
-		game->ray.dir_y = game->player.dir_y + game->plane_y * camera_x;
-		calculate_delta(&game->ray, &game->player);
-		printf("Ray direction for column %d: dir_x=%f, dir_y=%f\n", i, game->ray.dir_x, game->ray.dir_y);
-
-		t_dda calc_distance = perform_dda(game, &game->player, &game->ray);
-		printf("Ray direction for column %d: dir_x=%f, dir_y=%f\n", i, game->ray.dir_x, game->ray.dir_y);
-		if(game->texture.side == EAST || game->texture.side == WEST)
-			draw_texture(game, i, calc_distance.x - game->ray.delta_x);
+		cam_x = 2 * i / (double)SCREEN_WIDTH - 1;
+		game->ray.dir_x = game->player.dir_x + game->plane_x * cam_x;
+		game->ray.dir_y = game->player.dir_y + game->plane_y * cam_x;
+		if(game->ray.dir_x == 0)
+			game->ray.delta_x = 1e30;
 		else
-			draw_texture(game, i, calc_distance.y - game->ray.delta_y);
+		 game->ray.delta_x = fabs(1 /game->ray.dir_x);
+		if(game->ray.dir_y == 0)
+			game->ray.delta_x = 1e30;
+		else
+		 game->ray.delta_y = fabs(1 /game->ray.dir_y);
+		dist = dda(game);
+		if(game->texture.side == EAST || game->texture.side == WEST)
+			draw_texture(game, i, dist.x - game->ray.delta_x);
+		else
+			draw_texture(game, i, dist.y - game->ray.delta_y);
 	}
+
 }

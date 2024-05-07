@@ -116,10 +116,7 @@ void load_texture(t_cube *game, t_texture *texture, const char *file_path);
 // cube.h içerisine ekleyin
 char* get_direction_name(t_direction dir);
 void draw_map(t_cube *game);
-void initialize_dda(t_dda *dda, t_player *player);
-void calculate_delta(t_ray *ray, t_player *player);
-void set_initial_step(t_dda *dda, t_ray *ray, t_player *player);
-void perform_dda_step(t_dda *dda, t_ray *ray);
-t_dda perform_dda(t_cube *game, t_player *player, t_ray *ray);
+
+t_dda	dda(t_cube	*game);
 
 #endif

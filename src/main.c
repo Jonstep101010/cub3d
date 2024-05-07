@@ -178,7 +178,7 @@ const char *GLOBAL_STATIC_MAP[] =
 	"1000011111",
 	"1000011111",
 	"1100000001",
-	"10000S0001",
+	"10000N0001",
 	"1111111111"
 };
 
@@ -239,6 +239,6 @@ int main(void)
 	initialize_game(&game); // Initialize game settings, player start position, etc.
 	init_player_direction(&game); // Initialize player direction based on start position
 	draw_map(&game);
-	// print_game_info(&game); // Print game info to check all is loaded correctly
+	print_game_info(&game); // Print game info to check all is loaded correctly
 	return 0;
 }
