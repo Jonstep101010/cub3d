@@ -21,14 +21,15 @@ t_direction determine_direction(char player_char) {
 	}
 
 
-void init_player_start_position(t_cube *game, int x, int y, char player_char) {
+void init_player_start_position(t_cube *game, int x, int y, char player_char)
+{
 	game->player.x = x;
 	game->player.y = y;
-	game->player.posX = (double)x + 0.5;
-	game->player.posY = (double)y + 0.5;
+	game->player.starting_posx = (double)x + 0.5;
+	game->player.starting_posy = (double)y + 0.5;
 	game->player.player_start_dir = determine_direction(player_char);  // Burada düzeltildi
 	printf("Player initialized at position: (%f, %f) facing %s\n",
-		   game->player.posX, game->player.posY, get_direction_name(game->player.player_start_dir));  // Burada düzeltildi
+		   game->player.starting_posx, game->player.starting_posy, get_direction_name(game->player.player_start_dir));  // Burada düzeltildi
 }
 
 
@@ -131,7 +132,7 @@ char* get_direction_name(t_direction dir) {
 void print_game_info(t_cube *game)
 {
 	printf("Player Info:\n");
-	printf(" Position: (%f, %f)\n", game->player.posX, game->player.posY);
+	printf(" Position: (%f, %f)\n", game->player.starting_posx, game->player.starting_posy);
 	printf(" Direction: %s (%f, %f)\n", get_direction_name(game->player.player_start_dir), game->player.dir_x, game->player.dir_y);
 
 	printf(" Camera Plane: (%f, %f)\n", game->player.plane_x, game->player.plane_y);
@@ -191,15 +192,15 @@ void load_map(t_cube *game)
 			fprintf(stderr, "Memory allocation failed for row %d\n", i);
 			exit(EXIT_FAILURE);
 		}
-		strcpy(game->game_map.map[i], GLOBAL_STATIC_MAP[i]);
+		ft_strcpy(game->game_map.map[i], GLOBAL_STATIC_MAP[i]);
 		i++;
 	}
 
 	// Map boyutlarını ayarlama
 	game->game_map.map_height = num_rows;
 	game->game_map.map_width = num_cols;
-	game->game_colors[0] = (t_color){255, 100, 50, 255};  // floor için organge
-	game->game_colors[1] = (t_color){100, 100, 255, 255}; // ceiling için blue
+	game->game_colors[0] = (t_color){255, 100, 50};  // floor için organge
+	game->game_colors[1] = (t_color){100, 100, 255}; // ceiling için blue
 
 }
 
