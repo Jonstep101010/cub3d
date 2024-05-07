@@ -1,4 +1,4 @@
-#include "cubed.h"
+#include "defines.h"
 #include "input.h"
 
 void	paint_image(mlx_image_t *image, t_rgb color)

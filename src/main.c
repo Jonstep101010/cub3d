@@ -1,4 +1,4 @@
-#include "cubed.h"
+#include "defines.h"
 #include "structs.h"
 #include "input.h"
 #include <stdlib.h>
