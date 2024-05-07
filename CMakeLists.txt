@@ -37,12 +37,12 @@ include(FetchContent)
 add_subdirectory(src)
 
 # link main.c to libcubed
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/include/MLX42)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/MLX42)
 
 add_executable(cub3d src/main.c)
 target_link_libraries(cub3d PRIVATE cubed mlx42)
 target_include_directories(cub3d PRIVATE 
-	${CMAKE_CURRENT_SOURCE_DIR}/include/MLX42/include/MLX42/
+	${CMAKE_CURRENT_SOURCE_DIR}/libs/MLX42/include/MLX42/
 	${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
