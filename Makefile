@@ -1,4 +1,4 @@
-NAME		  := cubed
+NAME		  := cub3d
 .DEFAULT_GOAL := all
 
 # ---------------------------- handle architecture --------------------------- #
@@ -13,13 +13,14 @@ endif
 # --------------------------------- includes --------------------------------- #
 
 INCS		= ./include \
-				./include/libft/ \
-				./include/MLX42/include/MLX42 \
+				./libs/libft/ \
+				./libs/gnl/ \
+				./libs/utils/include \
+				./libs/MLX42/include/MLX42/ \
 				$(GLFW)/include
 
-LIB			:= ft m mlx42
-# LIB_FT		:= include/libft/libft.a
-LIB_MLX		:= include/MLX42/build/libmlx42.a
+LIB			:= ft utils gnl m mlx42
+LIB_MLX		:= libs/MLX42/build/libmlx42.a
 
 BUILD_DIR	:= .build
 
@@ -27,11 +28,17 @@ BUILD_DIR	:= .build
 #                                 source files                                 #
 # ---------------------------------------------------------------------------- #
 
-VPATH		:= src/
+VPATH		:= src/:src/dda_ray:src/input:src/input/map:src/input/textures:src/utils:src/view
 
-SRC			:= main.c
+SRC			:= main.c mock_dda.c
+SRC_DDA		:= dda_raycast.c
+SRC_INPUT	:= parse_file.c parse_fc_color.c parse_non_map.c
+SRC_INPUT_MAP	:= parse_map.c player.c checks_basic.c check_walls.c build_map_lines.c
+SRC_INPUT_TEX	:= parse_textures.c tex_utils.c
+SRC_UTILS	:= color.c free_data.c key_hooks.c
+SRC_VIEW	:= background.c
 
-SRCS		:= $(SRC)
+SRCS		:= $(SRC) $(SRC_DDA) $(SRC_INPUT) $(SRC_INPUT_MAP) $(SRC_INPUT_TEX) $(SRC_UTILS) $(SRC_VIEW)
 
 # ---------------------------------------------------------------------------- #
 #                             compilation arguments                            #
@@ -44,8 +51,8 @@ CC			:= clang
 CFLAGS		?= -g3 -Wall -Wextra -Werror #-Wpedantic
 FRAMEWORKS	:= $(addprefix -framework, $(IOKit) $(Cocoa) $(OpenGL))
 CPPFLAGS	:= $(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS		:= $(addprefix -L,$(GLFW))
-LDLIB		:= $(addprefix -l,"glfw")
+LDFLAGS		:= $(addprefix -L,$(GLFW) "libs/gnl" "libs/libft" "libs/utils")
+LDLIB		:= $(addprefix -l,"glfw" "gnl" "ft" "utils" "m")
 
 MAKEFLAGS	+= --no-print-directory --silent
 
@@ -65,7 +72,7 @@ all: update $(NAME)
 # 	$(MAKE) -C $(@D) -B
 
 $(LIB_MLX):
-	cd include/MLX42 && cmake -B build
+	cd libs/MLX42 && cmake -B build
 	cmake --build $(@D) -j4
 
 $(NAME): $(OBJS) $(LIB_MLX)
@@ -102,7 +109,7 @@ run: all
 	./$(NAME) shift
 
 norme: $(clear)
-	-norminette src/ | grep Error; norminette include/*.h | grep Error; norminette include/libft | grep Error
+	-norminette src/ | grep Error; norminette libs/*.h | grep Error; norminette libs/libft | grep Error
 
 .PHONY: run update re clean fclean
 -include $(DEPS)

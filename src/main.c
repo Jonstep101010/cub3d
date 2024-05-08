@@ -7,6 +7,8 @@ void	free_cubed(t_cube_data *cubed);
 void	key_hooks(t_cube_data *data);
 int		paint_background(t_cube_data *game);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
+
+void	mock_dda();
 int32_t	main(int argc, char **argv)
 {
 	t_cube_data cubed;
@@ -31,5 +33,8 @@ int32_t	main(int argc, char **argv)
 
 	// free all data structures
 	free_cubed(&cubed);
+
+	// mock dda function calls
+	mock_dda();
 	return (EXIT_SUCCESS);
 }
