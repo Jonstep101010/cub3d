@@ -1,0 +1,4 @@
+Temel Fikir
+Işın yayınlamanın temel fikri şöyledir: harita 2 boyutlu kare bir ızgaradır ve her kare 0 (= duvar yok) veya pozitif bir değer (= belirli bir renk veya dokuya sahip bir duvar) olabilir.
+
+Ekranın her x'i için (yani ekranın her dikey şeridi için), oyuncunun konumundan başlayan ve hem oyuncunun bakış yönüne hem de ekranın x koordinatına bağlı bir yöne sahip bir ışın gönderin. Ardından, bu ışının duvar olan bir harita karesine çarpana kadar 2B haritada ilerlemesine izin verin. Eğer bir duvara çarparsa, bu çarpma noktasının oyuncuya olan uzaklığını hesaplayın ve bu uzaklığı kullanarak bu duvarın ekranda ne kadar yüksek çizilmesi gerektiğini hesaplayın: duvar ne kadar uzaksa ekranda o kadar küçük, ne kadar yakınsa o kadar yüksek görünür. Bunların hepsi 2B hesaplamalardır. Bu görüntü, oyuncudan (yeşil nokta) başlayan ve mavi duvarlara çarpan bu tür iki ışının (kırmızı) yukarıdan aşağıya genel görünümünü göstermektedir:

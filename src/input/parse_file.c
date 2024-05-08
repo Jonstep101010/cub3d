@@ -101,6 +101,7 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	char		**lines;
 	t_cube_file	file;
 
+	file = (t_cube_file){0};
 	if (fd == -1)
 		return (1);
 	lines = read_file_lines(fd);
