@@ -20,7 +20,6 @@ typedef enum e_direction
 
 typedef struct s_cube_data t_cube;
 
-void initialize_textures(t_cube *game);
 void load_texture(t_cube *game, t_texture *texture, const char *file_path);
 // cube.h içerisine ekleyin
 void draw_map(t_cube *game);

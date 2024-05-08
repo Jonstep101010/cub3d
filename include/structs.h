@@ -31,7 +31,6 @@ typedef struct s_player
 	double		starting_posy;  ////player position
 	double		dir_x;
 	double		dir_y;
-	int			player_start_dir; //playerın BASLAMA YONU
 } t_player;
 
 typedef struct s_texture

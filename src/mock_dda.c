@@ -54,7 +54,6 @@ void init_player_direction(t_cube *game) {
 	}
 }
 
-
 void print_game_info(t_cube *game)
 {
 	// Güvenlik önlemi olarak pointer'ın geçerli olduğundan emin olun
@@ -153,6 +152,8 @@ bool	parse_player_data(t_map_line *map_lines, t_parse_player *player);
 void	mock_dda(void)
 {
 	t_cube game; // Initialize the game structure
+
+	game = (t_cube){0};
 	load_map(&game); // Load the map into the game structure
 	if (!parse_player_data(game.res->map_lines, &game.res->p_start))
 		fprintf(stderr, "MOCK: player position not found\n"), exit(1);
