@@ -1,65 +1,15 @@
 #include "cube.h"
 #include <math.h>
 #include <stdlib.h>
+#include "input.h"
 #include "libft.h"
 
-bool	is_player_char(char c)
+void init_player_start_position(t_cube *game)
 {
-	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
-}
-
-///FIND THE PLAYER POSITION ////////////
-
-t_direction determine_direction(char player_char) {
-	if (player_char == 'N')
-		return NORTH;
-	else if (player_char == 'S')
-		return SOUTH;
-	else if (player_char == 'E')
-		return EAST;
-	else if (player_char == 'W')
-		return WEST;
-	else
-		return NON;  // Tanımsız veya bilinmeyen yön
-}
-
-void init_player_start_position(t_cube *game, int x, int y, char player_char)
-{
-	game->player.x = x;
-	game->player.y = y;
-	game->player.starting_posx = (double)x + 0.5;
-	game->player.starting_posy = (double)y + 0.5;
-	game->player.player_start_dir = determine_direction(player_char);  // Burada düzeltildi
-	// printf("Player initialized at position: (%f, %f) facing %s\n",
-	// 	   game->player.starting_posx, game->player.starting_posy, get_direction_name(game->player.player_start_dir));  // Burada düzeltildi
-}
-
-// 'player_char' kullanımı
-void find_player_start_position(t_cube *game)
-{
-	int y = 0;
-	int x = 0;;
-	bool found = false;
-
-	while (y < game->game_map.map_height && !found)
-	{
-		x = 0;
-		while (x < game->game_map.map_width && !found)
-		{
-			char current_char = game->game_map.map[y][x];
-			if (is_player_char(current_char))
-			{
-				init_player_start_position(game, x, y, current_char);
-				found = true;
-			}
-			x++;
-		}
-		y++;
-	}
-	if (!found) {
-		ft_putendl_fd(ERR_NO_START_POS, 2);
-		exit(EXIT_FAILURE);
-	}
+	game->player.x = game->res->p_start.x;
+	game->player.y = game->res->p_start.y;
+	game->player.starting_posx = (double)game->res->p_start.x + 0.5;
+	game->player.starting_posy = (double)game->res->p_start.y + 0.5;
 }
 
 ////// INIT PLAYER DIRECTION////
@@ -68,12 +18,12 @@ void	init_player_direction_ns(t_cube *game)
 {
 	game->player.dir_x = 0.0;
 	game->plane_y = 0.0;
-	if (game->player.player_start_dir == NORTH)
+	if (game->res->p_start.dir_nsew == 'N')
 	{
 		game->player.dir_y = -1.0;
 		game->plane_x = 0.66;
 	}
-	else if (game->player.player_start_dir == SOUTH)
+	else if (game->res->p_start.dir_nsew == 'S')
 	{
 		game->player.dir_y = 1.0;
 		game->plane_x = -0.66;
@@ -84,20 +34,19 @@ void	init_player_direction_ew(t_cube *game)
 {
 	game->player.dir_y = 0.0;
 	game->plane_x = 0.0;
-	if (game->player.player_start_dir == EAST) {
+	if (game->res->p_start.dir_nsew == EAST) {
 		game->player.dir_x = 1.0;
 		game->plane_y = 0.66;
-	} else if (game->player.player_start_dir == WEST) {
+	} else if (game->res->p_start.dir_nsew == WEST) {
 		game->player.dir_x = -1.0;
 		game->plane_y = -0.66;
 	}
 }
 
-// Oyuncunun yönünü başlatma
 void init_player_direction(t_cube *game) {
-	if (game->player.player_start_dir == EAST || game->player.player_start_dir == WEST)
+	if (game->res->p_start.dir_nsew == EAST || game->res->p_start.dir_nsew == WEST)
 		init_player_direction_ew(game);
-	else if (game->player.player_start_dir == NORTH || game->player.player_start_dir == SOUTH)
+	else if (game->res->p_start.dir_nsew == 'N' || game->res->p_start.dir_nsew == SOUTH)
 		init_player_direction_ns(game);
 	else {
 		ft_putendl_fd(ERR_INVALID_DIR, 2);
@@ -105,27 +54,11 @@ void init_player_direction(t_cube *game) {
 	}
 }
 
-void initialize_game(t_cube *game) {
-	find_player_start_position(game);
-}
-
-char* get_direction_name(t_direction dir) {
-	if (dir == NORTH)
-		return "North";
-	else if (dir == SOUTH)
-		return "South";
-	else if (dir == EAST)
-		return "East";
-	else if (dir == WEST)
-		return "West";
-	else
-		return "Unknown";
-}
 
 void print_game_info(t_cube *game)
 {
 	// Güvenlik önlemi olarak pointer'ın geçerli olduğundan emin olun
-	if (!game || !game->game_map.map) {
+	if (!game || !game->res->map_lines) {
 		// fprintf(stderr, "Game data is not initialized properly.\n");
 		return;
 	}
@@ -142,7 +75,7 @@ void print_game_info(t_cube *game)
 
 	// Yön bilgilerini kontrol ederek yazdırın
 	if (isfinite(game->player.dir_x) && isfinite(game->player.dir_y)) {
-		// printf(" Direction: %s (%f, %f)\n", get_direction_name(game->player.player_start_dir), game->player.dir_x, game->player.dir_y);
+		// printf(" Direction: %s (%f, %f)\n", get_direction_name(game->res->p_start.dir_nsew), game->player.dir_x, game->player.dir_y);
 	} else {
 		// printf(" Direction: Invalid\n");
 	}
@@ -156,16 +89,15 @@ void print_game_info(t_cube *game)
 
 	// printf("\nGame Map:\n");
 
-	// Oyun haritasını güvenli bir şekilde yazdırın
-	for (int i = 0; i < game->game_map.map_height; i++) {
-		if (game->game_map.map[i]) { // Satırın null olmadığından emin olun
-			// printf(" %s\n", game->game_map.map[i]);
+	for (size_t i = 0; i < game->res->map_height; i++) {
+		if (game->res->map_lines[i].y_view) { // Satırın null olmadığından emin olun
+			// printf(" %s\n", game->res->map_lines[i].y_view);
 		} else {
 			// printf(" Error: Map row is null\n");
 		}
 	}
 
-	// printf("Map Dimensions: %d x %d\n", game->game_map.map_width, game->game_map.map_height);
+	// printf("Map Dimensions: %d x %d\n", game->res->map_width, game->res->map_height);
 }
 
 // Global olarak tanımlanmış map
@@ -185,53 +117,45 @@ const char *GLOBAL_STATIC_MAP[] =
 
 void load_map(t_cube *game)
 {
-	int num_rows = sizeof(GLOBAL_STATIC_MAP) / sizeof(GLOBAL_STATIC_MAP[0]);
-	int num_cols = 0; // Her satır için maksimum sütun sayısını bul
-	int i = 0;
+	game->res = calloc(1, sizeof(t_parse_res));
+	game->res->map_height = sizeof(GLOBAL_STATIC_MAP) / sizeof(GLOBAL_STATIC_MAP[0]);
+	size_t i = 0;
 
-	// Maksimum sütun sayısını hesaplama
-	while (i < num_rows)
+	while (i < game->res->map_height)
 	{
-		int current_length = strlen(GLOBAL_STATIC_MAP[i]);
-		if (current_length > num_cols)
+		size_t current_length = strlen(GLOBAL_STATIC_MAP[i]);
+		if (current_length > game->res->map_width)
 		{
-			num_cols = current_length;
+			game->res->map_width = current_length;
 		}
 		i++;
 	}
-	// Bellek ayırma
-	game->game_map.map = calloc(num_rows + 1, sizeof(char *));
-	if (game->game_map.map == NULL)
+	// @audit align behaviour with build_map_lines
+	game->res->map_lines = calloc(game->res->map_height + 1, sizeof(t_map_line));
+	if (!game->res->map_lines)
 	{
 		// // fprintf(stderr, "Memory allocation failed\n");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < num_rows)
+	while (i < game->res->map_height)
 	{
-		game->game_map.map[i] = calloc((num_cols + 1), sizeof(char)); // +1 for null terminator
-		if (game->game_map.map[i] == NULL)
-		{
-			// fprintf(stderr, "Memory allocation failed for row %d\n", i);
-			exit(EXIT_FAILURE);
-		}
-		strcpy(game->game_map.map[i], GLOBAL_STATIC_MAP[i]);
+		game->res->map_lines[i].y_view = calloc(game->res->map_width + 1, sizeof(char));
+		game->res->map_lines[i].y_view =  ft_strdup(GLOBAL_STATIC_MAP[i]);
 		i++;
 	}
-
-	// Map boyutlarını ayarlama
-	game->game_map.map_height = num_rows;
-	game->game_map.map_width = num_cols;
 	game->floor_c = (t_rgb){255, 100, 50};  // floor için organge
 	game->ceil_c = (t_rgb){100, 100, 255}; // ceiling için blue
-
 }
+
+bool	parse_player_data(t_map_line *map_lines, t_parse_player *player);
 
 void	mock_dda(void)
 {
 	t_cube game; // Initialize the game structure
 	load_map(&game); // Load the map into the game structure
-	initialize_game(&game); // Initialize game settings, player start position, etc.
+	if (!parse_player_data(game.res->map_lines, &game.res->p_start))
+		fprintf(stderr, "MOCK: player position not found\n"), exit(1);
 	init_player_direction(&game); // Initialize player direction based on start position
 	draw_map(&game);
 	print_game_info(&game); // Print game info to check all is loaded correctly

@@ -19,20 +19,21 @@ int32_t	main(int argc, char **argv)
 	if (argc != 2 || parse_file(&cubed, argv[1]) != 0)
 		return (EXIT_FAILURE);
 
-	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3d", true);
+	// @follow-up utilize again once dda works
+	// cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 
-	if (!cubed.mlx_ptr)
-		return (EXIT_FAILURE);
+	// if (!cubed.mlx_ptr)
+	// 	return (EXIT_FAILURE);
 
-	paint_background(&cubed);
+	// paint_background(&cubed);
 
-	key_hooks(&cubed);
-	// Run the main loop and terminate on quit.
-	mlx_loop(cubed.mlx_ptr);
-	mlx_terminate(cubed.mlx_ptr);
+	// key_hooks(&cubed);
+	// // Run the main loop and terminate on quit.
+	// mlx_loop(cubed.mlx_ptr);
+	// mlx_terminate(cubed.mlx_ptr);
 
-	// free all data structures
-	free_cubed(&cubed);
+	// // free all data structures
+	// free_cubed(&cubed);
 
 	// mock dda function calls
 	mock_dda();
