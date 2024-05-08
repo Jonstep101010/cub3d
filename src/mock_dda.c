@@ -1,4 +1,7 @@
 #include "cube.h"
+#include <math.h>
+#include <stdlib.h>
+#include "libft.h"
 
 bool	is_player_char(char c)
 {
@@ -219,8 +222,8 @@ void load_map(t_cube *game)
 	// Map boyutlarını ayarlama
 	game->game_map.map_height = num_rows;
 	game->game_map.map_width = num_cols;
-	game->floor_c = (t_color){255, 100, 50};  // floor için organge
-	game->ceil_c = (t_color){100, 100, 255}; // ceiling için blue
+	game->floor_c = (t_rgb){255, 100, 50};  // floor için organge
+	game->ceil_c = (t_rgb){100, 100, 255}; // ceiling için blue
 
 }
 

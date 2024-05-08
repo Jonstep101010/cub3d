@@ -1,4 +1,6 @@
 #include "cube.h"
+#include "structs.h"
+#include <math.h>
 #include <stdint.h>
 
 void wall_collision(t_cube *game, t_dda *dda)
@@ -149,7 +151,7 @@ void draw_map(t_cube *game)
 		if(game->ray.dir_x == 0)
 			game->ray.delta_x = 1e30;
 		else
-		 game->ray.delta_x = fabs(1 /game->ray.dir_x);
+			game->ray.delta_x = fabs(1 /game->ray.dir_x);
 		if(game->ray.dir_y == 0)
 			game->ray.delta_x = 1e30;
 		else
