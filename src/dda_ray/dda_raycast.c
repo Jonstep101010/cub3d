@@ -1,7 +1,7 @@
 #include "cube.h"
 #include <stdint.h>
 
-void wall_collition(t_cube *game, t_dda *dda)
+void wall_collision(t_cube *game, t_dda *dda)
 {
 	while (true)
 	{
@@ -50,7 +50,7 @@ t_dda	dda(t_cube	*game)
 	}
 	else
 		dda.y = (dda.map_y + 1.0 - game->player.dir_y) * game->ray.delta_y;
-	wall_collition(game, &dda);
+	wall_collision(game, &dda);
 	return(dda);
 
 }
@@ -134,13 +134,6 @@ void	draw_texture(t_cube *game, int col, double perp_wall_dist)
 	draw_wall_section(game, &draw, col); // Draw the wall section
 }
 
-
-
-
-
-
-
-
 void draw_map(t_cube *game)
 {
 	t_dda	dist;
@@ -167,5 +160,4 @@ void draw_map(t_cube *game)
 		else
 			draw_texture(game, i, dist.y - game->ray.delta_y);
 	}
-
 }

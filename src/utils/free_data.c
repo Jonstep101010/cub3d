@@ -7,6 +7,8 @@ void	free_cubed(t_cube_data *cubed)
 	int i;
 
 	i = -1;
+	if (!cubed)
+		return ;
 	while (++i < 4)
 		mlx_delete_texture(cubed->res->tex[i]);
 	// handle errors in parsing as well, free all mallocs (sep func)

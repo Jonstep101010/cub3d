@@ -39,8 +39,6 @@ typedef struct s_dda_coord
 	int			step_y;
 }t_dda;
 
-
-
 typedef struct s_ray
 {
 	double		delta_x;
@@ -55,13 +53,11 @@ typedef struct s_player
 {
 	double		x;
 	double		y;
-	double starting_posx;  ///player position
-	double starting_posy;  ////player position
+	double		starting_posx;  ///player position
+	double		starting_posy;  ////player position
 	double		dir_x;
 	double		dir_y;
-
 	int			player_start_dir; //playerın BASLAMA YONU
-
 } t_player;
 
 typedef struct s_texture
@@ -73,13 +69,13 @@ typedef struct s_texture
 
 typedef struct s_draw
 {
-	int height; // Çizilecek texture yüksekliği
-	int start;      // Çizime başlanacak y koordinatı
-	int end;        // Çizim bitirilecek y koordinatı
-	int texture_x;   // Texture x koordinatı
-	double texture_y; // Texture y koordinatı adımı
-	double wall_x;   // Duvarın x koordinatı
-	double text_step;
+	int 	height; // Çizilecek texture yüksekliği
+	int 	start;      // Çizime başlanacak y koordinatı
+	int 	end;        // Çizim bitirilecek y koordinatı
+	int 	texture_x;   // Texture x koordinatı
+	double	texture_y; // Texture y koordinatı adımı
+	double	wall_x;   // Duvarın x koordinatı
+	double	text_step;
 } t_draw;
 
 typedef	struct s_map
@@ -99,16 +95,16 @@ typedef struct s_color
 typedef struct s_cube_data
 {
 	mlx_image_t		*image;
-	 mlx_t			*mlx_ptr;
+	mlx_t			*mlx_ptr;
 	t_player		player;
 	t_map			game_map;
 	t_texture		texture; // Textures for each direction
 	t_ray			ray;		// Ray dizisi
 	int				numRays;		// Ray sayısı
-	t_color		floor_c;
-	t_color		ceil_c;
-		double		plane_x;	   // playerin x düzlemindeki kendi koordinatı
-	double		plane_y;	   // playerin y düzlemindeki kendi koordinatı
+	t_color			floor_c;
+	t_color			ceil_c;
+	double			plane_x;	   // playerin x düzlemindeki kendi koordinatı
+	double			plane_y;	   // playerin y düzlemindeki kendi koordinatı
 } t_cube;
 
 void initialize_textures(t_cube *game);
