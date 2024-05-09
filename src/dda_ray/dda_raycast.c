@@ -1,5 +1,8 @@
 #include "cube.h"
+#include "input.h"
+#include "utils.h"
 #include "structs.h"
+#include "defines.h"
 #include <math.h>
 #include <stdint.h>
 
@@ -25,7 +28,7 @@ void wall_collision(t_cube *game, t_dda *dda)
 			else
 				game->texture.side = NORTH;
 		}
-		if (game->game_map.map[dda->map_y][dda->map_x] == '1')
+		if (game->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
 			break ;
 	}
 }
@@ -57,9 +60,9 @@ t_dda	dda(t_cube	*game)
 
 }
 
-int	pixell(int32_t r, int32_t g, int32_t b, int32_t a)
+int	pixell(t_rgb color)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	return (color.r << 24 | color.g << 16 | color.b << 8 | 255);
 }
 
 void draw_wall_section(t_cube *game, t_draw *draw, int col)
@@ -76,7 +79,7 @@ void draw_wall_section(t_cube *game, t_draw *draw, int col)
 		{
 			num = game->texture.texture[game->texture.side].width * 4 * (int)draw->texture_y + (int)draw->texture_x * 4;
 			pixel = &game->texture.texture[game->texture.side].pixels[num];
-			color = pixell(pixel[0], pixel[1], pixel[2], pixel[3]);
+			color = rgb_to_hex(pixel[0], pixel[1], pixel[2]);
 			mlx_put_pixel(game->image, col, t, color);
 			draw->texture_y += draw->text_step;
 		}
@@ -86,15 +89,15 @@ void draw_wall_section(t_cube *game, t_draw *draw, int col)
 void draw_ceiling_and_floor(t_cube *game, t_draw *draw, int col)
 {
 	int t = -1;
-	while (++t < SCREEN_HEIGHT)
+	while (++t < HEIGHT)
 	{
 		if (t < draw->start)
 		{
-			mlx_put_pixel(game->image, col, t, pixell(game->ceil_c.r, game->ceil_c.g, game->ceil_c.b, 255));
+			mlx_put_pixel(game->image, col, t, pixell(game->ceil_c));
 		}
 		else if (t > draw->end)
 		{
-			mlx_put_pixel(game->image, col, t, pixell(game->floor_c.r, game->floor_c.g, game->floor_c.b, 255));
+			mlx_put_pixel(game->image, col, t, pixell(game->floor_c));
 		}
 	}
 }
@@ -103,11 +106,11 @@ void	draw_texture(t_cube *game, int col, double perp_wall_dist)
 {
 	t_draw	draw;
 
-	draw.height = (int)(SCREEN_HEIGHT / perp_wall_dist);
+	draw.height = (int)(HEIGHT / perp_wall_dist);
 		// Calculate the starting and ending y-coordinates for the line on the screen.
 	// This centers the line vertically based on its calculated height.
-	draw.start =(SCREEN_HEIGHT / 2) - (draw.height / 2);     // Çizimin başlayacağı y noktası
-	draw.end = draw.height / 2 + (SCREEN_HEIGHT / 2);
+	draw.start =(HEIGHT / 2) - (draw.height / 2);     // Çizimin başlayacağı y noktası
+	draw.end = draw.height / 2 + (HEIGHT / 2);
 
 	if((game->texture.side) == EAST || (game->texture.side) == WEST)
 		draw.wall_x = game->player.y + perp_wall_dist * game->ray.dir_y;
@@ -143,19 +146,19 @@ void draw_map(t_cube *game)
 	int		i;
 
 	i = -1;
-	while(++i < SCREEN_WIDTH)
+	while(++i < WIDTH)
 	{
-		cam_x = 2 * i / (double)SCREEN_WIDTH - 1;
+		cam_x = 2 * i / (double)WIDTH - 1;
 		game->ray.dir_x = game->player.dir_x + game->plane_x * cam_x;
 		game->ray.dir_y = game->player.dir_y + game->plane_y * cam_x;
 		if(game->ray.dir_x == 0)
-			game->ray.delta_x = 1e30;
+			game->ray.delta_x = INFINITY;
 		else
 			game->ray.delta_x = fabs(1 /game->ray.dir_x);
 		if(game->ray.dir_y == 0)
-			game->ray.delta_x = 1e30;
+			game->ray.delta_x = INFINITY;
 		else
-		 game->ray.delta_y = fabs(1 /game->ray.dir_y);
+			game->ray.delta_y = fabs(1 /game->ray.dir_y);
 		dist = dda(game);
 		if(game->texture.side == EAST || game->texture.side == WEST)
 			draw_texture(game, i, dist.x - game->ray.delta_x);

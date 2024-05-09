@@ -31,7 +31,6 @@ typedef struct s_player
 	double		starting_posy;  ////player position
 	double		dir_x;
 	double		dir_y;
-	int			player_start_dir; //playerın BASLAMA YONU
 } t_player;
 
 typedef struct s_texture
@@ -51,14 +50,6 @@ typedef struct s_draw
 	double	wall_x;   // Duvarın x koordinatı
 	double	text_step;
 } t_draw;
-
-// @audit merge with t_map_line
-typedef	struct s_map
-{
-	char	**map;
-	int		map_height;
-	int		map_width;
-}t_map;
 
 // main data structures 
 typedef struct s_rgb
@@ -100,7 +91,6 @@ typedef struct s_cube_data
 	t_rgb			ceil_c;//tmp to merge data structures from incoming changes
 	mlx_image_t		*image;
 	t_player		player;
-	t_map			game_map;
 	t_texture		texture;
 	t_ray			ray;
 	int				numRays;
