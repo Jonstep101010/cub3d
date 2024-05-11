@@ -107,35 +107,22 @@ void	draw_texture(t_cube *game, int col, double perp_wall_dist)
 	t_draw	draw;
 
 	draw.height = (int)(HEIGHT / perp_wall_dist);
-		// Calculate the starting and ending y-coordinates for the line on the screen.
-	// This centers the line vertically based on its calculated height.
-	draw.start =(HEIGHT / 2) - (draw.height / 2);     // Çizimin başlayacağı y noktası
+
+	draw.start =(HEIGHT / 2) - (draw.height / 2);
 	draw.end = draw.height / 2 + (HEIGHT / 2);
 
 	if((game->texture.side) == EAST || (game->texture.side) == WEST)
 		draw.wall_x = game->player.y + perp_wall_dist * game->ray.dir_y;
 	else
 		draw.wall_x = game->player.x + perp_wall_dist * game->ray.dir_x;
-
-	 // Use only the fractional part of the wall x-coordinate by subtracting its floor value.
-	// This is essential for correct texture wrapping and alignment on the wall.
 	draw.wall_x -= floor(draw.wall_x);
-
-// Calculate the exact horizontal position within the texture from which to sample pixels
 		draw.texture_x = (int)(draw.wall_x * \
 	(double)game->texture.texture[game->texture.side].width);
-
-	// Initialize the texture sampling position along the y-axis of the texture
 	draw.texture_y = 0; // Starts sampling from the top of the texture
-
-	// Calculate the rate at which to move down the texture's y-axis per screen pixel drawn
-	draw.text_step = (double)game->texture.texture[game->texture.side].height / (double)draw.height;  // Adjust texture sampling rate based on line height
-
-	// Adjust the texture sampling start position if the top of the wall slice is off-screen
-	if(draw.start < 0)  // If the starting point is above the screen
-		draw.texture_y = fabs((double)draw.start) * draw.text_step;  //adjust text_y to skip the unseen part of the texture
-
-	draw_ceiling_and_floor(game, &draw, col); // Draw ceiling and floor
+	draw.text_step = (double)game->texture.texture[game->texture.side].height / (double)draw.height;
+	if(draw.start < 0)
+		draw.texture_y = fabs((double)draw.start) * draw.text_step;
+	draw_ceiling_and_floor(game, &draw, col); 
 	draw_wall_section(game, &draw, col); // Draw the wall section
 }
 

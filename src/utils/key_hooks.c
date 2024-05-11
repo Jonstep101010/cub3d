@@ -20,4 +20,6 @@ void	key_hooks(t_cube_data *data)
 {
 	mlx_close_hook(data->mlx_ptr, close_window, NULL);
 	mlx_key_hook(data->mlx_ptr, key_press, (void*)data);
+	//loop_hook better than key hook cause loop_hoop checks holding the key.
+	//mlx_loop_hook(data->mlx_ptr, key_press, &cubed);
 }
