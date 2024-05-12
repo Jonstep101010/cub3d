@@ -9,8 +9,8 @@
 
 
 
-void print_texture_details(const t_texture *tex) {
-    if (!tex) {
+void print_texture_details(mlx_texture_t *texture[4]) {
+    if (!texture) {
         printf("No texture data available.\n");
         return;
     }
@@ -18,21 +18,22 @@ void print_texture_details(const t_texture *tex) {
     // mlx_texture_t yapısındaki her bir texture için bilgi yazdırma
     for (int i = 0; i < 4; i++) {
         printf("Texture %d: \n", i);
-        printf("  Width: %u\n", tex->texture[i].width);
-        printf("  Height: %u\n", tex->texture[i].height);
-        printf("  Bytes per Pixel: %u\n", tex->texture[i].bytes_per_pixel);
-        printf("  Pixel Data Address: %p\n", (void*)tex->texture[i].pixels);
+        printf("  Width: %u\n", texture[i]->width);
+        printf("  Height: %u\n",texture[i]->height);
+        printf("  Bytes per Pixel: %u\n", texture[i]->bytes_per_pixel);
+        printf("  Pixel Data Address: %p\n", texture[i]->pixels);
     }
 
+	// @follow-up
     // Eğer xpm bilgileri varsa onları yazdır
-    for (int i = 0; i < 4; i++) {
-        if (tex->xpm[i]) {
-            printf("XPM %d: Description or relevant info here\n", i);
-            // Burada xpm yapısının içeriklerine göre detaylı bilgileri yazdırabilirsiniz
-        }
-    }
+    // for (int i = 0; i < 4; i++) {
+    //     if (tex->xpm[i]) {
+    //         printf("XPM %d: Description or relevant info here\n", i);
+    //         // Burada xpm yapısının içeriklerine göre detaylı bilgileri yazdırabilirsiniz
+    //     }
+    // }
 
-    printf("Texture Side: %d\n", tex->side);
+    // printf("Texture Side: %d\n", tex->side);
 }
 
 void print_parsed_data(const t_cube_data *data) {
@@ -46,7 +47,7 @@ void print_parsed_data(const t_cube_data *data) {
     printf("Map Height, Type: uint32_t, Value: %zu\n", data->res->map_height);
 
     // Texture verilerini yazdır
-    print_texture_details(&data->texture);
+    print_texture_details(data->res->tex);
 }
 
 
@@ -65,8 +66,9 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	t_cube_data cubed;
-	cubed.source_file = argv[1];  // Girdi olarak verilen dosya adını kaydet
+	t_cube_data cubed = {
+		.source_file = argv[1],  // Girdi olarak verilen dosya adını kaydet
+	};
 
 	if (parse_file(&cubed, argv[1]) != 0) {
 		fprintf(stderr, "Failed to parse the .cub file: %s\n", argv[1]);
