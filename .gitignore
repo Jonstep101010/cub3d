@@ -62,3 +62,5 @@ cub3d
 *.cmake
 _deps
 CMakeFiles
+CMakeCache.txt
+DartConfiguration.tcl
