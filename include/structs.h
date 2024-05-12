@@ -38,6 +38,7 @@ typedef struct s_texture
 	mlx_texture_t	texture[4];       // Image data for texture
 	xpm_t			*xpm[4];
 	int				side;
+
 } t_texture;
 
 typedef struct s_draw
@@ -51,7 +52,7 @@ typedef struct s_draw
 	double	text_step;
 } t_draw;
 
-// main data structures 
+// main data structures
 typedef struct s_rgb
 {
 	uint8_t	r;
@@ -96,6 +97,7 @@ typedef struct s_cube_data
 	int				numRays;
 	double			plane_x;
 	double			plane_y;
+	char*			source_file; // for print data
 }	t_cube_data;
 
 #endif
