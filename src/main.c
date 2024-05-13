@@ -10,46 +10,75 @@
 
 
 void print_texture_details(mlx_texture_t *texture[4]) {
-    if (!texture) {
-        printf("No texture data available.\n");
-        return;
-    }
+	if (!texture) {
+		printf("No texture data available.\n");
+		return;
+	}
 
-    // mlx_texture_t yapısındaki her bir texture için bilgi yazdırma
-    for (int i = 0; i < 4; i++) {
-        printf("Texture %d: \n", i);
-        printf("  Width: %u\n", texture[i]->width);
-        printf("  Height: %u\n",texture[i]->height);
-        printf("  Bytes per Pixel: %u\n", texture[i]->bytes_per_pixel);
-        printf("  Pixel Data Address: %p\n", texture[i]->pixels);
-    }
+	// mlx_texture_t yapısındaki her bir texture için bilgi yazdırma
+	for (int i = 0; i < 4; i++) {
+		printf("Texture %d: \n", i);
+		printf("  Width: %u\n", texture[i]->width);
+		printf("  Height: %u\n",texture[i]->height);
+		printf("  Bytes per Pixel: %u\n", texture[i]->bytes_per_pixel);
+		printf("  Pixel Data Address: %p\n", texture[i]->pixels);
+	}
 
 	// @follow-up
-    // Eğer xpm bilgileri varsa onları yazdır
-    // for (int i = 0; i < 4; i++) {
-    //     if (tex->xpm[i]) {
-    //         printf("XPM %d: Description or relevant info here\n", i);
-    //         // Burada xpm yapısının içeriklerine göre detaylı bilgileri yazdırabilirsiniz
-    //     }
-    // }
+	// Eğer xpm bilgileri varsa onları yazdır
+	// for (int i = 0; i < 4; i++) {
+	//     if (tex->xpm[i]) {
+	//         printf("XPM %d: Description or relevant info here\n", i);
+	//         // Burada xpm yapısının içeriklerine göre detaylı bilgileri yazdırabilirsiniz
+	//     }
+	// }
 
-    // printf("Texture Side: %d\n", tex->side);
+	// printf("Texture Side: %d\n", tex->side);
 }
+
+
+void print_player(const t_player *player) {
+	if (player == NULL) {
+		printf("Player data is null.\n");
+		return;
+	}
+	printf("...t_player struct...\n");
+	printf("player->x = %f\n", player->x);
+	printf("player->y = %f\n", player->y);
+	printf("player->dir_x = %f\n", player->dir_x);
+	printf("player->dir_y = %f\n", player->dir_y);
+   // printf("player->starting_posx = %f\n", player->starting_posx);
+   // printf("player->starting_posy = %f\n", player->starting_posy);
+	printf(".....t_player struct end...\n\n");
+}
+
+
+void print_parse_player(const t_parse_player *res)
+{
+	printf("..t_player struct...\n");
+	printf("t_parse_res res->p_start");
+	printf("res->p_start->x (size_t)= %zu\n", res->x);
+	printf("res->p_start->y (size_t)= %zu\n", res->y);
+	printf(" res->p_start->dir_nsew (char)= %c\n", res->dir_nsew);
+	printf(".....t_parse_player struct end...\n\n");
+}
+
 
 void print_parsed_data(const t_cube_data *data) {
-    if (!data || !data->res) {
-        printf("No data to display.\n");
-        return;
-    }
+	if (!data || !data->res) {
+		printf("No data to display.\n");
+		return;
+	}
 
-    printf("Parsed Data from file '%s':\n", data->source_file);
-    printf("Map Width, Type: uint32_t, Value: %zu\n", data->res->map_width);
-    printf("Map Height, Type: uint32_t, Value: %zu\n", data->res->map_height);
+	print_player(&data->player);
+	print_parse_player(&data->res->p_start);
+	printf("Parsed Data from file '%s':\n", data->source_file);
+	printf("Map Width, Type: uint32_t, Value: %zu\n", data->res->map_width);
+	printf("Map Height, Type: uint32_t, Value: %zu\n", data->res->map_height);
 
-    // Texture verilerini yazdır
-    print_texture_details(data->res->tex);
+	// Texture verilerini yazdır
+	print_texture_details(data->res->tex);
 }
-
 
 
 

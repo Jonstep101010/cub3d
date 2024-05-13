@@ -95,6 +95,43 @@ static t_parse_res	*create_res(t_cube_file *file, char **lines)
 	return (res);
 }
 
+void player_direction(t_cube_data *cubed)
+{
+	cubed->player.x = (double)cubed->res->p_start.x  + 0.5;
+	cubed->player.y = (double)cubed->res->p_start.y + 0.5;
+
+	if (cubed->res->p_start.dir_nsew == 'W' || cubed->res->p_start.dir_nsew == 'E')
+	{
+		cubed->player.dir_y = 0.0;
+		cubed->plane_x = 0.0;
+		if (cubed->res->p_start.dir_nsew == 'E')
+		{
+			cubed->player.dir_x = 1.0;
+			cubed->plane_y = 0.66;
+		}
+		else // Direction is 'W'
+		{
+			cubed->player.dir_x = -1.0;
+			cubed->plane_y = -0.66;
+		}
+	}
+	else if (cubed->res->p_start.dir_nsew == 'N' || cubed->res->p_start.dir_nsew == 'S')
+	{
+		cubed->player.dir_x = 0.0;
+		cubed->plane_y = 0.0;
+		if (cubed->res->p_start.dir_nsew == 'S')
+		{
+			cubed->player.dir_y = 1.0;
+			cubed->plane_x = -0.66;
+		}
+		else // Direction is 'N'
+		{
+			cubed->player.dir_y = -1.0;
+			cubed->plane_x = 0.66;
+		}
+	}
+}
+
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 {
 	const int	fd = open_cubefile(path_to_file);
@@ -123,5 +160,6 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	// only temporary @audit
 	data->ceil_c = data->res->ceiling;
 	data->floor_c = data->res->floor;
+	player_direction(data);
 	return (free(lines), 0);
 }
