@@ -5,15 +5,8 @@
 # include <stdbool.h>
 # include <unistd.h>
 
-typedef enum e_direction
-{
-	NORTH = 'N',
-	SOUTH = 'S',
-	EAST = 'E',
-	WEST = 'W',
-	NON = 0,
-} t_direction;
- 
+
+
 // Error messages defined for clarity and ease of maintenance
 # define ERR_INVALID_DIR "Error: Invalid initial direction provided."
 # define ERR_NO_START_POS "Error: No valid player start position found in the map."

@@ -7,8 +7,9 @@
 #include <stdint.h>
 #include <stdio.h>
 
-
-
+t_dda	dda(t_cube	*cubed);
+void debug_raycast(t_cube_data *cubed, t_dda *dda);
+void wall_collision(t_cube_data *cubed, t_dda *dda);
 
 
 int	pixell(t_rgb color)
@@ -75,7 +76,7 @@ void	draw_texture(t_cube_data *cubed, int col, double perp_wall_dist)
 	draw.start =(HEIGHT / 2) - (draw.height / 2);
 	draw.end = draw.height / 2 + (HEIGHT / 2);
 
-	if((cubed->texture.side) == EAST || (cubed->texture.side) == WEST)
+	if((cubed->texture.side) == E || (cubed->texture.side) == W)
 		draw.wall_x = cubed->player.y + perp_wall_dist * cubed->ray.dir_y;
 	else
 		draw.wall_x = cubed->player.x + perp_wall_dist * cubed->ray.dir_x;
@@ -93,7 +94,7 @@ void	draw_texture(t_cube_data *cubed, int col, double perp_wall_dist)
 
 
 
-void draw_map(t_cube *cubed)
+void draw_map(t_cube_data *cubed)
 {
 	t_dda	dist;
 	double	cam_x;
@@ -113,8 +114,8 @@ void draw_map(t_cube *cubed)
 			cubed->ray.delta_x = INFINITY;
 		else
 			cubed->ray.delta_y = fabs(1 /cubed->ray.dir_y);
-		dist = dda(cubed);
-		if(cubed->texture.side == EAST || cubed->texture.side == WEST)
+		/*dist =*/ dda(cubed);
+		if(cubed->texture.side == E || cubed->texture.side == W)
 			draw_texture(cubed, i, dist.x - cubed->ray.delta_x);
 		else
 			draw_texture(cubed, i, dist.y - cubed->ray.delta_y);
@@ -130,18 +131,18 @@ void wall_collision(t_cube_data *cubed, t_dda *dda)
 			dda->x += cubed->ray.delta_x;
 			dda->map_x += dda->step_x;
 			if (cubed->ray.dir_x > 0)
-				cubed->texture.side = EAST;
+				cubed->texture.side = E;
 			else
-				cubed->texture.side = WEST;
+				cubed->texture.side = W;
 		}
 		else
 		{
 			dda->y += cubed->ray.delta_y;
 			dda->map_y += dda->step_y;
 			if (cubed->ray.dir_y > 0)
-				cubed->texture.side = SOUTH;
+				cubed->texture.side = S;
 			else
-				cubed->texture.side = NORTH;
+				cubed->texture.side = N;
 		}
 		debug_raycast(cubed, dda);  // Debugging line
 		if (cubed->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
@@ -149,7 +150,7 @@ void wall_collision(t_cube_data *cubed, t_dda *dda)
 	}
 }
 
-t_dda	dda(t_cube	*cubed)
+t_dda	dda(t_cube_data	*cubed)
 {
 	t_dda	dda;
 

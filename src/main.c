@@ -1,3 +1,4 @@
+#include "cube.h"
 #include "defines.h"
 #include "structs.h"
 #include <stdbool.h>
@@ -76,6 +77,10 @@ void print_parsed_data(const t_cube_data *data) {
 	printf("Map Width, Type: uint32_t, Value: %zu\n", data->res->map_width);
 	printf("Map Height, Type: uint32_t, Value: %zu\n", data->res->map_height);
 
+	    // Printing plane data
+    printf("Plane x coordinate data->plane_x = %f\n", data->plane_x);
+    printf("Plane y coordinate data->plane_y = %f\n", data->plane_y);
+
 	// Texture verilerini yazdır
 	print_texture_details(data->res->tex);
 }
@@ -86,6 +91,14 @@ void	free_cubed(t_cube_data *cubed);
 void	key_hooks(t_cube_data *data);
 int		paint_background(t_cube_data *game);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
+
+
+static void ft_hook(void* param)
+{
+	const mlx_t* mlx = param;
+
+	printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
+}
 
 int main(int argc, char **argv)
 {
@@ -103,9 +116,24 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Failed to parse the .cub file: %s\n", argv[1]);
 		return EXIT_FAILURE;
 	}
+	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	cubed.image = mlx_new_image(cubed.mlx_ptr, WIDTH, HEIGHT);
+		if (mlx_image_to_window(cubed.mlx_ptr, cubed.image, 0, 0) == -1)
+	{
+		mlx_close_window(cubed.mlx_ptr);
+		puts(mlx_strerror(mlx_errno));
+		return (EXIT_FAILURE);
+	}
+		draw_map(&cubed);
 
-	// Parse edilen verileri yazdır
-	print_parsed_data(&cubed);
+	mlx_loop_hook(cubed.mlx_ptr, ft_hook, &cubed);
+	mlx_loop(cubed.mlx_ptr);
+
+
+	//print_parsed_data(&cubed);
+
+	free_cubed(&cubed);
+	mlx_terminate(cubed.mlx_ptr);
 
 	return EXIT_SUCCESS;  // Program başarılı bir şekilde tamamlandı
 }
