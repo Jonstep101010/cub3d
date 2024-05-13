@@ -38,7 +38,7 @@ typedef struct s_texture
 {
 	mlx_texture_t	texture[4];       // Image data for texture
 	xpm_t			*xpm[4];
-	int				side;
+	int				side; //this is empty.it s
 
 } t_texture;
 
