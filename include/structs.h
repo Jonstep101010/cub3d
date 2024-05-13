@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 # include "MLX42.h"
+#include "cube.h"
 # include <stdint.h>
 
 // data structures from dda
@@ -98,6 +99,7 @@ typedef struct s_cube_data
 	double			plane_x;
 	double			plane_y;
 	char*			source_file; // for print data
+	t_direction		dir;
 }	t_cube_data;
 
 #endif
