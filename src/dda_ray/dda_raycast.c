@@ -114,7 +114,7 @@ void draw_map(t_cube_data *cubed)
 			cubed->ray.delta_x = INFINITY;
 		else
 			cubed->ray.delta_y = fabs(1 /cubed->ray.dir_y);
-		/*dist =*/ dda(cubed);
+		dist = dda(cubed);
 		if(cubed->texture.side == E || cubed->texture.side == W)
 			draw_texture(cubed, i, dist.x - cubed->ray.delta_x);
 		else

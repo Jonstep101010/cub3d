@@ -92,12 +92,13 @@ void	key_hooks(t_cube_data *data);
 int		paint_background(t_cube_data *game);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 
-
-static void ft_hook(void* param)
+void	key_hook(void *param)
 {
-	const mlx_t* mlx = param;
+	t_cube_data	*cu;
 
-	printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
+	cu = (t_cube_data *)param;
+	if (mlx_is_key_down(cu->mlx_ptr, MLX_KEY_ESCAPE))
+		mlx_close_window(cu->mlx_ptr);
 }
 
 int main(int argc, char **argv)
@@ -116,7 +117,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Failed to parse the .cub file: %s\n", argv[1]);
 		return EXIT_FAILURE;
 	}
-	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	cubed.image = mlx_new_image(cubed.mlx_ptr, WIDTH, HEIGHT);
 		if (mlx_image_to_window(cubed.mlx_ptr, cubed.image, 0, 0) == -1)
 	{
@@ -126,7 +127,7 @@ int main(int argc, char **argv)
 	}
 		draw_map(&cubed);
 
-	mlx_loop_hook(cubed.mlx_ptr, ft_hook, &cubed);
+	mlx_loop_hook(cubed.mlx_ptr, key_hook , &cubed);
 	mlx_loop(cubed.mlx_ptr);
 
 
