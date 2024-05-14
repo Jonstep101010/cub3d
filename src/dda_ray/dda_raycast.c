@@ -155,14 +155,14 @@ t_dda	dda(t_cube_data	*cubed)
 		dda.x = (cubed->player.x - dda.map_x) *  cubed->ray.delta_x;
 	}
 	else
-		dda.x = (dda.map_x + 1.0 - cubed->player.dir_x) * cubed->ray.delta_x;
+		dda.x = (dda.map_x + 1.0 - cubed->player.x) * cubed->ray.delta_x;
 	if (cubed->ray.dir_y < 0)
 	{
 		dda.step_y = -1;
 		dda.y = (cubed->player.y - dda.map_y) *  cubed->ray.delta_y;
 	}
 	else
-		dda.y = (dda.map_y + 1.0 - cubed->player.dir_y) * cubed->ray.delta_y;
+		dda.y = (dda.map_y + 1.0 - cubed->player.y) * cubed->ray.delta_y;
 	wall_collision(cubed, &dda);
 	//debug_raycast(cubed, &dda);  // Debugging line
 	return(dda);
