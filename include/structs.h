@@ -94,13 +94,12 @@ typedef struct s_cube_data
 	mlx_t		*mlx_ptr;
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
-	uint8_t	 	unused;
 	// merged data from dda
 	t_rgb			floor_c;//tmp to merge data structures from incoming changes
 	t_rgb			ceil_c;//tmp to merge data structures from incoming changes
 	mlx_image_t		*image;
 	t_player		player;
-	t_texture		texture;
+	uint8_t			texture_side;
 	t_ray			ray;
 	int				numRays;
 	double			plane_x;
