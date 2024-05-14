@@ -5,11 +5,10 @@
 
 void move_player(t_cube_data *data, double dir_x, double dir_y)
 {
-	double next_x = data->player.x + dir_x;
-	double next_y = data->player.y + dir_y;
+	const double next_x = data->player.x + dir_x;
+	const double next_y = data->player.y + dir_y;
 	int map_x = (int)next_x;
 	int map_y = (int)next_y;
-
 
 	if (data->res->map_lines[map_y].y_view[map_x] == '0')
 	{

@@ -24,22 +24,20 @@ void	key_down(void *data)
 {
 	t_cube_data	*cubed = (t_cube_data*)data;
 
-	double move_speed = MOVE_SPEED; // Hareket hızı sabiti
-	double rotation_speed = ROTATION_SPEED; // Dönüş hızı sabiti
-
+	// @audit moving does not work
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_W))
-		move_player(cubed, cubed->player.dir_x * move_speed, cubed->player.dir_y * move_speed);
+		move_player(cubed, cubed->player.dir_x * MOVE_SPEED, cubed->player.dir_y * MOVE_SPEED);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_S))
-		move_player(cubed, -cubed->player.dir_x * move_speed, -cubed->player.dir_y * move_speed);
+		move_player(cubed, -cubed->player.dir_x * MOVE_SPEED, -cubed->player.dir_y * MOVE_SPEED);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_A))
-		move_player(cubed, cubed->player.dir_y * move_speed, -cubed->player.dir_x * move_speed);
+		move_player(cubed, cubed->player.dir_y * MOVE_SPEED, -cubed->player.dir_x * MOVE_SPEED);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_D))
-		move_player(cubed, -cubed->player.dir_y * move_speed, cubed->player.dir_x * move_speed);
+		move_player(cubed, -cubed->player.dir_y * MOVE_SPEED, cubed->player.dir_x * MOVE_SPEED);
 
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_LEFT))
-		rotate_player(cubed, -rotation_speed);
+		rotate_player(cubed, -ROTATION_SPEED);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_RIGHT))
-		rotate_player(cubed, rotation_speed);
+		rotate_player(cubed, ROTATION_SPEED);
 }
 
 void	key_hooks(t_cube_data *cubed)
