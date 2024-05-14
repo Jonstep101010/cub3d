@@ -12,9 +12,5 @@
 typedef struct s_cube_data t_cube;
 
 void draw_map(t_cube *game);
-
-t_dda	dda(t_cube	*game);
-void left_rotate(t_cube_data *r);
-void right_rotate(t_cube_data *r);
 void move_player(t_cube_data *data, double dir_x, double dir_y);
 #endif
