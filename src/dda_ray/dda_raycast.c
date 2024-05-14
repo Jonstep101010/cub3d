@@ -30,9 +30,7 @@ void debug_raycast(t_cube_data *cubed, t_dda *dda)
 
 void draw_wall_section(t_cube_data *cubed, t_draw *draw, int col)
 {
-	unsigned int color;
 	int t = draw->start - 1; // Start from the beginning of the wall section
-	uint8_t *pixel;
 	int num;
 
 	// Loop over each pixel in the wall section vertically
@@ -41,9 +39,8 @@ void draw_wall_section(t_cube_data *cubed, t_draw *draw, int col)
 		if (draw->texture_y < cubed->res->tex[cubed->texture.side]->height)
 		{
 			num = cubed->res->tex[cubed->texture.side]->width * 4 * (int)draw->texture_y + (int)draw->texture_x * 4;
-			pixel = &cubed->res->tex[cubed->texture.side]->pixels[num];
-			color = rgb_to_hex(pixel[0], pixel[1], pixel[2]);
-			mlx_put_pixel(cubed->image, col, t, color);
+			mlx_put_pixel(cubed->image, col, t, rgb_to_hex(
+				&cubed->res->tex[cubed->texture.side]->pixels[num]));
 			draw->texture_y += draw->text_step;
 		}
 	}
@@ -100,12 +97,11 @@ void draw_map(t_cube_data *cubed)
 		cam_x = 2 * i / (double)WIDTH - 1;
 		cubed->ray.dir_x = cubed->player.dir_x + cubed->plane_x * cam_x;
 		cubed->ray.dir_y = cubed->player.dir_y + cubed->plane_y * cam_x;
-		// @chaglr @follow-up this is needlessly complicated
-		if(cubed->ray.dir_x == 0)
+		if (cubed->ray.dir_x == 0)
 			cubed->ray.delta_x = INFINITY;
 		else
 			cubed->ray.delta_x = fabs(1 /cubed->ray.dir_x);
-		if(cubed->ray.dir_y == 0)
+		if (cubed->ray.dir_y == 0)
 			cubed->ray.delta_x = INFINITY;
 		else
 			cubed->ray.delta_y = fabs(1 /cubed->ray.dir_y);

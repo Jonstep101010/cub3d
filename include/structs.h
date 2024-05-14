@@ -3,14 +3,12 @@
 # include "MLX42.h"
 # include <stdint.h>
 
-
 typedef enum e_direction
 {
 	N,
-	S,
 	E,
+	S,
 	W,
-	NON = 0,
 } t_direction;
 // data structures from dda
 typedef struct s_dda_coord

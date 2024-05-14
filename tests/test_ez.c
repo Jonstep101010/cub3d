@@ -38,7 +38,7 @@ void	test_rgb_hex_color() {
 }
 
 void	test_rgb_hex_color_equal() {
-	const uint32_t	hex = rgb_to_hex(255, 127, 127);
+	const uint32_t	hex = rgb_to_hex((uint8_t[3]){255, 127, 127});
 	TEST_ASSERT_EQUAL_UINT32(0xFF7F7F, hex);
 	t_rgb	color;
 	color = create_rgb_hex(hex);

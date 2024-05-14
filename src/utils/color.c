@@ -1,12 +1,12 @@
 #include "structs.h"
 #include <stdint.h>
 
-uint32_t	rgb_to_hex(uint8_t r, uint8_t g, uint8_t b)
+uint32_t	rgb_to_hex(uint8_t rgb[3])
 {
 	return (
-		((uint32_t)r << 16)
-		| ((uint32_t)g << 8)
-		| (uint32_t)b
+		((uint32_t)rgb[0] << 16)
+		| ((uint32_t)rgb[1] << 8)
+		| (uint32_t)rgb[2]
 	);
 }
 

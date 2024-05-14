@@ -3,9 +3,6 @@
 #include "structs.h"
 #include "input.h"
 
-#define ROT_SPEED 0.0174
-#define MOVE_SPEED 0.01
-
 void move_player(t_cube_data *data, double dir_x, double dir_y)
 {
 	double next_x = data->player.x + dir_x;
@@ -21,13 +18,12 @@ void move_player(t_cube_data *data, double dir_x, double dir_y)
 	}
 }
 
-
 void rotate_player(t_cube_data *data, double angle)
 {
-	double old_dir_x = data->player.dir_x;
-	double old_plane_x = data->plane_x;
-	double cos_rot = cos(angle);
-	double sin_rot = sin(angle);
+	const double old_dir_x = data->player.dir_x;
+	const double old_plane_x = data->plane_x;
+	const double cos_rot = cos(angle);
+	const double sin_rot = sin(angle);
 
 	data->player.dir_x = data->player.dir_x * cos_rot - data->player.dir_y * sin_rot;
 	data->player.dir_y = old_dir_x * sin_rot + data->player.dir_y * cos_rot;
