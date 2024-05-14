@@ -102,7 +102,7 @@ void draw_map(t_cube_data *cubed)
 		else
 			cubed->ray.delta_x = fabs(1 /cubed->ray.dir_x);
 		if (cubed->ray.dir_y == 0)
-			cubed->ray.delta_x = INFINITY;
+			cubed->ray.delta_y = INFINITY;
 		else
 			cubed->ray.delta_y = fabs(1 /cubed->ray.dir_y);
 		dist = dda(cubed);
@@ -158,7 +158,7 @@ t_dda	dda(t_cube_data	*cubed)
 		dda.x = (dda.map_x + 1.0 - cubed->player.dir_x) * cubed->ray.delta_x;
 	if (cubed->ray.dir_y < 0)
 	{
-		dda.step_x = -1;
+		dda.step_y = -1;
 		dda.y = (cubed->player.y - dda.map_y) *  cubed->ray.delta_y;
 	}
 	else
