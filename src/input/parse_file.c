@@ -72,64 +72,33 @@ static char	**read_file_lines(int fd)
 	return (NULL);
 }
 
-uint8_t	parse_non_map(t_cube_file *file, char * const *lines);
-uint8_t	parse_map(t_cube_file *file);
+uint8_t		parse_non_map(t_cube_file *file, char * const *lines);
+uint8_t		parse_map(t_cube_file *file);
+uint32_t	srgb_hex(t_rgb color);
 
 static t_parse_res	*create_res(t_cube_file *file, char **lines)
 {
-	t_parse_res	*res;
+	t_parse_res			*res;
+	const t_parse_res	stacked =
+	{
+		.map_width = file->map_width,
+		.map_height = file->map_height,
+		.tex = {
+			file->tex_wall.dir_nesw[0].tex,
+			file->tex_wall.dir_nesw[1].tex,
+			file->tex_wall.dir_nesw[2].tex,
+			file->tex_wall.dir_nesw[3].tex
+		},
+		.floor = srgb_hex(file->floor.color),
+		.ceiling = srgb_hex(file->ceiling.color),
+		.map_lines = file->map_lines,
+	};
 
 	res = ft_calloc(1, sizeof(t_parse_res));
 	if (!res)
 		return (free_file_data(file, lines), NULL);
-	res->map_lines = file->map_lines;
-	res->map_height = file->map_height;
-	res->map_width = file->map_width;
-	ft_memmove(&res->p_start, &file->player, sizeof(t_parse_player));
-	res->floor = file->floor.color;
-	res->ceiling = file->ceiling.color;
-	res->tex[0] = file->tex_wall.dir_nesw[0].tex;
-	res->tex[1] = file->tex_wall.dir_nesw[1].tex;
-	res->tex[2] = file->tex_wall.dir_nesw[2].tex;
-	res->tex[3] = file->tex_wall.dir_nesw[3].tex;
+	ft_memcpy(res, &stacked, sizeof(t_parse_res));
 	return (res);
-}
-
-void player_direction(t_cube_data *cubed)
-{
-	cubed->player.x = (double)cubed->res->p_start.x  + 0.5;
-	cubed->player.y = (double)cubed->res->p_start.y + 0.5;
-
-	if (cubed->res->p_start.dir_nsew == 'W' || cubed->res->p_start.dir_nsew == 'E')
-	{
-		cubed->player.dir_y = 0.0;
-		cubed->plane_x = 0.0;
-		if (cubed->res->p_start.dir_nsew == 'E')
-		{
-			cubed->player.dir_x = 1.0;
-			cubed->plane_y = 0.66;
-		}
-		else // Direction is 'W'
-		{
-			cubed->player.dir_x = -1.0;
-			cubed->plane_y = -0.66;
-		}
-	}
-	else if (cubed->res->p_start.dir_nsew == 'N' || cubed->res->p_start.dir_nsew == 'S')
-	{
-		cubed->player.dir_x = 0.0;
-		cubed->plane_y = 0.0;
-		if (cubed->res->p_start.dir_nsew == 'S')
-		{
-			cubed->player.dir_y = 1.0;
-			cubed->plane_x = -0.66;
-		}
-		else // Direction is 'N'
-		{
-			cubed->player.dir_y = -1.0;
-			cubed->plane_x = 0.66;
-		}
-	}
 }
 
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
@@ -157,9 +126,6 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	data->res = create_res(&file, lines);
 	if (!data->res)
 		return (1);
-	// only temporary @audit
-	data->ceil_c = data->res->ceiling;
-	data->floor_c = data->res->floor;
-	player_direction(data);
+	ft_memcpy(&data->player, &file.player, sizeof(t_player));
 	return (free(lines), 0);
 }

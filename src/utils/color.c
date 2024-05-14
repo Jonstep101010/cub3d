@@ -27,3 +27,13 @@ t_rgb	create_rgb_hex(uint32_t hex)
 		.b = hex & 0xFF,
 	});
 }
+
+uint32_t	srgb_hex(t_rgb color)
+{
+	return (color.r << 24 | color.g << 16 | color.b << 8 | 255);
+}
+
+uint32_t	rgb_arr_hex(u_int8_t rgb[3])
+{
+	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
+}

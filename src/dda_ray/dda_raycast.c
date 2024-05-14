@@ -8,13 +8,8 @@
 #include <stdio.h>
 
 t_dda	dda(t_cube	*cubed);
-void debug_raycast(t_cube_data *cubed, t_dda *dda);
-void wall_collision(t_cube_data *cubed, t_dda *dda);
-
-int	pixell(t_rgb color)
-{
-	return (color.r << 24 | color.g << 16 | color.b << 8 | 255);
-}
+void	debug_raycast(t_cube_data *cubed, t_dda *dda);
+void	wall_collision(t_cube_data *cubed, t_dda *dda);
 
 void debug_raycast(t_cube_data *cubed, t_dda *dda)
 {
@@ -34,12 +29,12 @@ void draw_wall_section(t_cube_data *cubed, t_draw *draw, int col)
 	int num;
 
 	// Loop over each pixel in the wall section vertically
-	while (++t <= draw->end)
+	while (++t <= draw->end && t < HEIGHT)
 	{
 		if (draw->texture_y < cubed->res->tex[cubed->texture_side]->height)
 		{
 			num = cubed->res->tex[cubed->texture_side]->width * 4 * (int)draw->texture_y + (int)draw->texture_x * 4;
-			mlx_put_pixel(cubed->image, col, t, rgb_to_hex(
+			mlx_put_pixel(cubed->image, col, t, rgb_arr_hex(
 				&cubed->res->tex[cubed->texture_side]->pixels[num]));
 			draw->texture_y += draw->text_step;
 		}
@@ -53,11 +48,11 @@ void draw_ceiling_and_floor(t_cube_data *cubed, t_draw *draw, int col)
 	{
 		if (t < draw->start)
 		{
-			mlx_put_pixel(cubed->image, col, t, pixell(cubed->ceil_c));
+			mlx_put_pixel(cubed->image, col, t, cubed->res->ceiling);
 		}
 		else if (t > draw->end)
 		{
-			mlx_put_pixel(cubed->image, col, t, pixell(cubed->floor_c));
+			mlx_put_pixel(cubed->image, col, t, cubed->res->floor);
 		}
 	}
 }
@@ -68,6 +63,8 @@ void	draw_column(t_cube_data *cubed, int col, double perp_wall_dist)
 
 	draw.height = (int)(HEIGHT / perp_wall_dist);
 	draw.start =(HEIGHT / 2) - (draw.height / 2);
+	if (draw.start < 0)
+		draw.start = 0;
 	draw.end = draw.height / 2 + (HEIGHT / 2);
 
 	if((cubed->texture_side) == E || (cubed->texture_side) == W)
@@ -95,8 +92,8 @@ void draw_map(t_cube_data *cubed)
 	while(++i < WIDTH)
 	{
 		cam_x = 2 * i / (double)WIDTH - 1;
-		cubed->ray.dir_x = cubed->player.dir_x + cubed->plane_x * cam_x;
-		cubed->ray.dir_y = cubed->player.dir_y + cubed->plane_y * cam_x;
+		cubed->ray.dir_x = cubed->player.dir_x + cubed->player.plane_x * cam_x;
+		cubed->ray.dir_y = cubed->player.dir_y + cubed->player.plane_y * cam_x;
 		if (cubed->ray.dir_x == 0)
 			cubed->ray.delta_x = INFINITY;
 		else
@@ -164,6 +161,6 @@ t_dda	dda(t_cube_data	*cubed)
 	else
 		dda.y = (dda.map_y + 1.0 - cubed->player.y) * cubed->ray.delta_y;
 	wall_collision(cubed, &dda);
-	//debug_raycast(cubed, &dda);  // Debugging line
+	// debug_raycast(cubed, &dda);  // Debugging line
 	return(dda);
 }

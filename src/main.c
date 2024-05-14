@@ -10,7 +10,6 @@
 
 void	free_cubed(t_cube_data *cubed);
 void	key_hooks(t_cube_data *data);
-int		paint_background(t_cube_data *data);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 void	print_parsed_data(const t_cube_data *data);
 

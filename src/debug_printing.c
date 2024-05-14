@@ -33,13 +33,13 @@ void print_player(const t_player *player) {
 	printf(".....t_player struct end...\n\n");
 }
 
-void print_parse_player(const t_parse_player *res)
+void print_parse_player(const t_player *res)
 {
 	printf("..t_player struct...\n");
 	printf("t_parse_res res->p_start");
-	printf("res->p_start->x (size_t)= %zu\n", res->x);
-	printf("res->p_start->y (size_t)= %zu\n", res->y);
-	printf(" res->p_start->dir_nsew (char)= %c\n", res->dir_nsew);
+	printf("res->p_start->x (double)= %f\n", res->x);
+	printf("res->p_start->y (double)= %f\n", res->y);
+	printf(" res->p_start->dir_nesw (t_direction)= %c\n", res->start_nesw);
 	printf(".....t_parse_player struct end...\n\n");
 }
 
@@ -50,14 +50,14 @@ void print_parsed_data(const t_cube_data *data) {
 	}
 
 	print_player(&data->player);
-	print_parse_player(&data->res->p_start);
+	print_parse_player(&data->player);
 	printf("Parsed Data from file '%s':\n", data->source_file);
 	printf("Map Width, Type: size_t, Value: %zu\n", data->res->map_width);
 	printf("Map Height, Type: size_t, Value: %zu\n", data->res->map_height);
 
 	// Printing plane data
-	printf("Plane x coordinate data->plane_x = %f\n", data->plane_x);
-	printf("Plane y coordinate data->plane_y = %f\n", data->plane_y);
+	printf("Plane x coordinate data->player.plane_x = %f\n", data->player.plane_x);
+	printf("Plane y coordinate data->player.plane_y = %f\n", data->player.plane_y);
 
 	print_texture_details(data->res->tex);
 }

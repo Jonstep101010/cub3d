@@ -9,8 +9,8 @@
 typedef struct s_cube_data	t_cube_data;
 typedef struct s_rgb		t_rgb;
 
-# define MAP_CHARS "10NSEW "
-# define DIRECTIONS "NSEW"
+# define MAP_CHARS "10NESW "
+# define DIRECTIONS "NESW"
 
 typedef struct s_map_line
 {
@@ -43,7 +43,7 @@ typedef struct s_cube_file
 	t_parse_fc		ceiling;
 	size_t			map_height;
 	size_t			map_width;
-	t_parse_player	player;
+	t_player		player;
 }	t_cube_file;
 
 #endif
