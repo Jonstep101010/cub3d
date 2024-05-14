@@ -70,7 +70,6 @@ void	draw_column(t_cube_data *cubed, int col, double perp_wall_dist)
 	t_draw	draw;
 
 	draw.height = (int)(HEIGHT / perp_wall_dist);
-
 	draw.start =(HEIGHT / 2) - (draw.height / 2);
 	draw.end = draw.height / 2 + (HEIGHT / 2);
 
@@ -140,7 +139,7 @@ void wall_collision(t_cube_data *cubed, t_dda *dda)
 			else
 				cubed->texture.side = N;
 		}
-		debug_raycast(cubed, dda);  // Debugging line
+		//debug_raycast(cubed, dda);  // Debugging line
 		if (cubed->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
 			break ;
 	}
@@ -169,6 +168,6 @@ t_dda	dda(t_cube_data	*cubed)
 	else
 		dda.y = (dda.map_y + 1.0 - cubed->player.dir_y) * cubed->ray.delta_y;
 	wall_collision(cubed, &dda);
-	debug_raycast(cubed, &dda);  // Debugging line
+	//debug_raycast(cubed, &dda);  // Debugging line
 	return(dda);
 }

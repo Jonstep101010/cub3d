@@ -1,3 +1,4 @@
+#include "MLX42.h"
 #include "cube.h"
 #include "defines.h"
 #include "structs.h"
@@ -6,6 +7,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>  // For EXIT_SUCCESS, EXIT_FAILURE macros
+#include "utils.h"
+#include "math.h"
 
 
 
@@ -77,9 +80,9 @@ void print_parsed_data(const t_cube_data *data) {
 	printf("Map Width, Type: uint32_t, Value: %zu\n", data->res->map_width);
 	printf("Map Height, Type: uint32_t, Value: %zu\n", data->res->map_height);
 
-	    // Printing plane data
-    printf("Plane x coordinate data->plane_x = %f\n", data->plane_x);
-    printf("Plane y coordinate data->plane_y = %f\n", data->plane_y);
+		// Printing plane data
+	printf("Plane x coordinate data->plane_x = %f\n", data->plane_x);
+	printf("Plane y coordinate data->plane_y = %f\n", data->plane_y);
 
 	// Texture verilerini yazdır
 	print_texture_details(data->res->tex);
@@ -89,17 +92,42 @@ void print_parsed_data(const t_cube_data *data) {
 
 void	free_cubed(t_cube_data *cubed);
 void	key_hooks(t_cube_data *data);
-int		paint_background(t_cube_data *game);
+int		paint_background(t_cube_data *data);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
 
-void	key_hook(void *param)
-{
-	t_cube_data	*cu;
 
-	cu = (t_cube_data *)param;
-	if (mlx_is_key_down(cu->mlx_ptr, MLX_KEY_ESCAPE))
-		mlx_close_window(cu->mlx_ptr);
+
+
+
+void key_hook(void *param)
+{
+    t_cube_data *cubed = (t_cube_data *)param;
+
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_ESCAPE))
+        mlx_close_window(cubed->mlx_ptr);
+
+    double move_speed = MOVE_SPEED; // Hareket hızı sabiti
+    double rotation_speed = ROTATION_SPEED; // Dönüş hızı sabiti
+
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_W))
+        move_player(cubed, cubed->player.dir_x * move_speed, cubed->player.dir_y * move_speed);
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_S))
+        move_player(cubed, -cubed->player.dir_x * move_speed, -cubed->player.dir_y * move_speed);
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_A))
+        move_player(cubed, cubed->player.dir_y * move_speed, -cubed->player.dir_x * move_speed);
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_D))
+        move_player(cubed, -cubed->player.dir_y * move_speed, cubed->player.dir_x * move_speed);
+
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_LEFT))
+        rotate_player(cubed, -rotation_speed);
+    if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_RIGHT))
+        rotate_player(cubed, rotation_speed);
 }
+
+
+
+
+
 
 int main(int argc, char **argv)
 {
@@ -134,7 +162,7 @@ int main(int argc, char **argv)
 	//print_parsed_data(&cubed);
 
 	free_cubed(&cubed);
-	mlx_terminate(cubed.mlx_ptr);
+	 mlx_terminate(cubed.mlx_ptr);
 
 	return EXIT_SUCCESS;  // Program başarılı bir şekilde tamamlandı
 }
