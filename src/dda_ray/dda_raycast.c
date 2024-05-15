@@ -1,6 +1,11 @@
 #include "input.h"
 #include "structs.h"
 #include <stdint.h>
+#include "defines.h"
+#include  <math.h>
+#include <stdbool.h>
+
+#include <stdbool.h>
 
 static void wall_collision(t_cube_data *cubed, t_dda *dda)
 {
@@ -25,32 +30,40 @@ static void wall_collision(t_cube_data *cubed, t_dda *dda)
 				cubed->texture_side = N;
 		}
 		if (cubed->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
-			break ;
+			break;
 	}
 }
 
-t_dda	dda(t_cube_data	*cubed)
-{
-	t_dda	dda;
 
-	dda.map_x = (int)(cubed->player.x);
-	dda.map_y = (int)(cubed->player.y);
-	dda.step_x = 1;
-	dda.step_y = 1;
+void initialize_dda(t_cube_data *cubed, t_dda *dda)
+{
+	dda->map_x = (int)(cubed->player.x);
+	dda->map_y = (int)(cubed->player.y);
+	dda->step_x = 1;
+	dda->step_y = 1;
+
 	if (cubed->ray.dir_x < 0)
 	{
-		dda.step_x = -1;
-		dda.x = (cubed->player.x - dda.map_x) *  cubed->ray.delta_x;
+		dda->step_x = -1;
+		dda->x = (cubed->player.x - dda->map_x) * cubed->ray.delta_x;
 	}
 	else
-		dda.x = (dda.map_x + 1.0 - cubed->player.x) * cubed->ray.delta_x;
+		dda->x = (dda->map_x + 1.0 - cubed->player.x) * cubed->ray.delta_x;
+
 	if (cubed->ray.dir_y < 0)
 	{
-		dda.step_y = -1;
-		dda.y = (cubed->player.y - dda.map_y) *  cubed->ray.delta_y;
+		dda->step_y = -1;
+		dda->y = (cubed->player.y - dda->map_y) * cubed->ray.delta_y;
 	}
 	else
-		dda.y = (dda.map_y + 1.0 - cubed->player.y) * cubed->ray.delta_y;
-	wall_collision(cubed, &dda);
-	return(dda);
+		dda->y = (dda->map_y + 1.0 - cubed->player.y) * cubed->ray.delta_y;
 }
+
+t_dda dda(t_cube_data *cubed)
+{
+	t_dda dda;
+	initialize_dda(cubed, &dda);
+	wall_collision(cubed, &dda);
+	return (dda);
+}
+

@@ -4,106 +4,118 @@
 #include <math.h>
 #include <stdio.h>
 #include "input.h"
+#include "struct.h"
 
-t_dda	dda(t_cube_data	*cubed);
 
-void debug_raycast(t_cube_data *cubed, t_dda *dda)
+void draw_column(mlx_image_t *img, t_draw *draw, int col, mlx_texture_t *texture, uint32_t ceiling_color, uint32_t floor_color)
 {
-	printf("Ray Pos: (%f, %f), Ray Dir: (%f, %f)\n", cubed->player.x, cubed->player.y, cubed->ray.dir_x, cubed->ray.dir_y);
-	printf("Step: (X: %d, Y: %d), Delta: (X: %f, Y: %f)\n", dda->step_x, dda->step_y, cubed->ray.delta_x, cubed->ray.delta_y);
-	printf("Map Position: (X: %d, Y: %d), Side: %d\n", dda->map_x, dda->map_y, cubed->texture_side);
-
-	if (cubed->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
-		printf("Wall hit at: (X: %d, Y: %d)\n", dda->map_x, dda->map_y);
-	else
-		printf("No wall hit yet.\n");
-}
-
-static void draw_wall_section(t_cube_data *cubed, t_draw *draw, int col)
-{
-	int t = draw->start - 1; // Start from the beginning of the wall section
-	int num;
-
-	// Loop over each pixel in the wall section vertically
-	while (++t <= draw->end && t < HEIGHT)
+	int y = 0;
+	int tex_y;
+	uint32_t color;
+	uint8_t *pixels = texture->pixels;
+	const int img_height = (int)img->height;
+	const int img_width = (int)img->width;
+	const int tex_width = texture->width;
+	const int tex_height = texture->height;
+	while (y < draw->start)
 	{
-		if (draw->texture_y < cubed->res->tex[cubed->texture_side]->height)
-		{
-			num = cubed->res->tex[cubed->texture_side]->width * 4 * (int)draw->texture_y + (int)draw->texture_x * 4;
-			mlx_put_pixel(cubed->image, col, t, rgb_arr_hex(
-				&cubed->res->tex[cubed->texture_side]->pixels[num]));
-			draw->texture_y += draw->text_step;
-		}
+		if (y >= 0 && y < img_height && col >= 0 && col < img_width)
+			mlx_put_pixel(img, col, y, ceiling_color);
+		y++;
+	}
+	double current_texture_y = draw->texture_y;
+	while (y < draw->end)
+	{
+		tex_y = (int)current_texture_y & (tex_height - 1);
+		current_texture_y += draw->text_step;
+		int tex_index = (tex_y * tex_width + draw->texture_x) * 4;
+		uint8_t r = pixels[tex_index];
+		uint8_t g = pixels[tex_index + 1];
+		uint8_t b = pixels[tex_index + 2];
+		uint8_t a = pixels[tex_index + 3];
+		color = (r << 24) | (g << 16) | (b << 8) | a;
+		if (y >= 0 && y < img_height && col >= 0 && col < img_width)
+			mlx_put_pixel(img, col, y, color);
+		y++;
+	}
+	while (y < img_height)
+	{
+		if (y >= 0 && y < img_height && col >= 0 && col < img_width)
+			mlx_put_pixel(img, col, y, floor_color);
+		y++;
 	}
 }
 
-static void draw_ceiling_and_floor(t_cube_data *cubed, t_draw *draw, int col)
+void calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw)
 {
-	int t = -1;
-	while (++t < HEIGHT)
-	{
-		if (t < draw->start)
-		{
-			mlx_put_pixel(cubed->image, col, t, cubed->res->ceiling);
-		}
-		else if (t > draw->end)
-		{
-			mlx_put_pixel(cubed->image, col, t, cubed->res->floor);
-		}
-	}
+	if (game->texture_side == W || game->texture_side == E)
+		draw->wall_x = game->player.y + wall_distance * game->ray.dir_y;
+	else
+		draw->wall_x = game->player.x + wall_distance * game->ray.dir_x;
+	draw->wall_x -= floor(draw->wall_x);
 }
 
-static void	draw_column(t_cube_data *cubed, int col, double perp_wall_dist)
+void calculate_texture_coordinates(t_cube_data *game, t_draw *draw)
 {
-	t_draw	draw;
+	draw->texture_x = (int)(draw->wall_x * (double)game->res->tex[game->texture_side]->width);
+	draw->texture_y = 0;
+	draw->text_step = (double)game->res->tex[game->texture_side]->height / draw->height;
+	if (draw->start < 0)
+		draw->texture_y = -draw->start * draw->text_step;
+}
 
-	draw.height = (int)(HEIGHT / perp_wall_dist);
-	draw.start = (HEIGHT / 2) - (draw.height / 2);
-	draw.end = (draw.height / 2) + (HEIGHT / 2);
-
-	if(cubed->texture_side == E || cubed->texture_side == W)
-		draw.wall_x = cubed->player.y + perp_wall_dist * cubed->ray.dir_y;
+void draw_line_of_texture(t_cube_data *game, int col, double wall_distance)
+{
+	if (game == NULL || game->res == NULL || game->res->tex[game->texture_side] == NULL)
+	{
+		perror("Invalid game or resource data");
+		return;
+	}
+	t_draw draw;
+	draw.height = (int)(HEIGHT / wall_distance);
+	draw.start = SCREEN_MIDDLE - HALF_HEIGHT(draw.height);
+	draw.end = draw.start + draw.height;
+	if (game->texture_side == W || game->texture_side == E)
+		draw.wall_x = game->player.y + wall_distance * game->ray.dir_y;
 	else
-		draw.wall_x = cubed->player.x + perp_wall_dist * cubed->ray.dir_x;
+		draw.wall_x = game->player.x + wall_distance * game->ray.dir_x;
 	draw.wall_x -= floor(draw.wall_x);
-		draw.texture_x = (int)(draw.wall_x * \
-	(double)cubed->res->tex[cubed->texture_side]->width);
-	draw.texture_y = 0; // Starts sampling from the top of the texture
-	draw.text_step = (double)cubed->res->tex[cubed->texture_side]->height / (double)draw.height;
+	draw.texture_x = (int)(draw.wall_x * (double)game->res->tex[game->texture_side]->width);
+	draw.texture_y = 0;
+	draw.text_step = (double)game->res->tex[game->texture_side]->height / draw.height;
 	if (draw.start < 0)
 	{
+		draw.texture_y = -draw.start * draw.text_step;
 		draw.start = 0;
-		draw.texture_y = fabs((double)draw.start) * draw.text_step;
 	}
-	draw_ceiling_and_floor(cubed, &draw, col);
-	draw_wall_section(cubed, &draw, col); // Draw the wall section
+	if (draw.end >= HEIGHT)
+		draw.end = HEIGHT - 1;
+	draw_column(game->image, &draw, col, game->res->tex[game->texture_side], game->res->ceiling, game->res->floor);
 }
 
 void draw_map(t_cube_data *cubed)
 {
-	t_dda	dist;
-	double	cam_x;
-	int		i;
+	uint32_t *pixels = (uint32_t *)cubed->image->pixels;
+	int total_pixels = WIDTH * HEIGHT;
+	for (int i = 0; i < total_pixels; i++) {
+		pixels[i] = 0x000000FF; // Clear the image with a black color
+	}
 
-	i = -1;
-	while(++i < WIDTH)
+	t_dda dist;
+	double cam_x;
+	int i;
+
+	for (i = 0; i < WIDTH; ++i)
 	{
 		cam_x = 2 * i / (double)WIDTH - 1;
 		cubed->ray.dir_x = cubed->player.dir_x + cubed->player.plane_x * cam_x;
 		cubed->ray.dir_y = cubed->player.dir_y + cubed->player.plane_y * cam_x;
-		if (cubed->ray.dir_x == 0)
-			cubed->ray.delta_x = INFINITY;
-		else
-			cubed->ray.delta_x = fabs(1 /cubed->ray.dir_x);
-		if (cubed->ray.dir_y == 0)
-			cubed->ray.delta_y = INFINITY;
-		else
-			cubed->ray.delta_y = fabs(1 /cubed->ray.dir_y);
+		cubed->ray.delta_x = (cubed->ray.dir_x == 0) ? INFINITY : fabs(1 / cubed->ray.dir_x);
+		cubed->ray.delta_y = (cubed->ray.dir_y == 0) ? INFINITY : fabs(1 / cubed->ray.dir_y);
 		dist = dda(cubed);
-		// debug_raycast(cubed, &dda);  // Debugging line
-		if(cubed->texture_side == E || cubed->texture_side == W)
-			draw_column(cubed, i, dist.x - cubed->ray.delta_x);
-		else
-			draw_column(cubed, i, dist.y - cubed->ray.delta_y);
+		double wall_distance = (cubed->texture_side == E || cubed->texture_side == W)
+			? dist.x - cubed->ray.delta_x
+			: dist.y - cubed->ray.delta_y;
+		draw_line_of_texture(cubed, i, wall_distance);
 	}
 }

@@ -27,9 +27,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Failed to parse the .cub file: %s\n", argv[1]);
 		return EXIT_FAILURE;
 	}
-	print_parsed_data(&cubed);
+	//print_parsed_data(&cubed);
 
 	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", false);
+;
 	cubed.image = mlx_new_image(cubed.mlx_ptr, WIDTH, HEIGHT);
 	if (mlx_image_to_window(cubed.mlx_ptr, cubed.image, 0, 0) == -1)
 	{

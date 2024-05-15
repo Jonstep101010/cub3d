@@ -1,6 +1,7 @@
 #include "MLX42.h"
 #include "structs.h"
 #include <stdio.h>
+#include "input.h"
 
 void print_texture_details(mlx_texture_t *texture[4]) {
 	if (!texture) {
@@ -61,3 +62,16 @@ void print_parsed_data(const t_cube_data *data) {
 
 	print_texture_details(data->res->tex);
 }
+
+
+// void debug_raycast(t_cube_data *game, t_dda *dda)
+// {
+//     printf("Ray Pos: (%f, %f), Ray Dir: (%f, %f)\n", game->player.x, game->player.y, game->ray.dir_x, game->ray.dir_y);
+//     printf("Step: (X: %d, Y: %d), Delta: (X: %f, Y: %f)\n", dda->step_x, dda->step_y, game->ray.delta_x, game->ray.delta_y);
+//     printf("Map Position: (X: %d, Y: %d), Side: %d\n", dda->map_x, dda->map_y, game->texture_side);
+
+//     if (game->res->map_lines[dda->map_y].y_view[dda->map_x] == '1')
+//         printf("Wall hit at: (X: %d, Y: %d)\n", dda->map_x, dda->map_y);
+//     else
+//         printf("No wall hit yet.\n");
+// }

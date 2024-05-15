@@ -85,3 +85,6 @@ typedef struct s_cube_data
 }	t_cube_data;
 
 #endif
+
+void debug_raycast(t_cube_data *game, t_dda *dda);
+t_dda dda(t_cube_data *cubed);
