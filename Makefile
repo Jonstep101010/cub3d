@@ -28,17 +28,16 @@ BUILD_DIR	:= .build
 #                                 source files                                 #
 # ---------------------------------------------------------------------------- #
 
-VPATH		:= src/:src/dda_ray:src/input:src/input/map:src/input/textures:src/utils:src/view
+VPATH		:= src/:src/dda_ray:src/input:src/input/map:src/input/textures:src/utils
 
-SRC			:= main.c mock_dda.c
-SRC_DDA		:= dda_raycast.c
+SRC			:= main.c debug_printing.c
+SRC_DDA		:= dda_raycast.c draw_map.c rot.c
 SRC_INPUT	:= parse_file.c parse_fc_color.c parse_non_map.c
 SRC_INPUT_MAP	:= parse_map.c player.c checks_basic.c check_walls.c build_map_lines.c
 SRC_INPUT_TEX	:= parse_textures.c tex_utils.c
 SRC_UTILS	:= color.c free_data.c key_hooks.c
-SRC_VIEW	:= background.c
 
-SRCS		:= $(SRC) $(SRC_DDA) $(SRC_INPUT) $(SRC_INPUT_MAP) $(SRC_INPUT_TEX) $(SRC_UTILS) $(SRC_VIEW)
+SRCS		:= $(SRC) $(SRC_DDA) $(SRC_INPUT) $(SRC_INPUT_MAP) $(SRC_INPUT_TEX) $(SRC_UTILS)
 
 # ---------------------------------------------------------------------------- #
 #                             compilation arguments                            #
