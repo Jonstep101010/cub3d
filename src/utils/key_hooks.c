@@ -20,20 +20,19 @@ static void	key_press(mlx_key_data_t keydata, void *param)
 void	rotate_player(t_cube_data *data, double angle);
 void	move_player(t_cube_data *data, double dir_x, double dir_y);
 
-void	key_down(void *data)
+static void	key_down(void *data)
 {
-	t_cube_data	*cubed = (t_cube_data*)data;
+	t_cube_data	*cubed;
 
-	// @audit moving does not work
+	cubed = (t_cube_data *)data;
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_W))
-		move_player(cubed, cubed->player.dir_x * MOVE_SPEED, cubed->player.dir_y * MOVE_SPEED);
+		move_player(cubed, cubed->player.dir_x, cubed->player.dir_y);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_S))
-		move_player(cubed, -cubed->player.dir_x * MOVE_SPEED, -cubed->player.dir_y * MOVE_SPEED);
+		move_player(cubed, -cubed->player.dir_x, -cubed->player.dir_y);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_A))
-		move_player(cubed, cubed->player.dir_y * MOVE_SPEED, -cubed->player.dir_x * MOVE_SPEED);
+		move_player(cubed, cubed->player.dir_y, -cubed->player.dir_x);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_D))
-		move_player(cubed, -cubed->player.dir_y * MOVE_SPEED, cubed->player.dir_x * MOVE_SPEED);
-
+		move_player(cubed, -cubed->player.dir_y, cubed->player.dir_x);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_LEFT))
 		rotate_player(cubed, -ROTATION_SPEED);
 	if (mlx_is_key_down(cubed->mlx_ptr, MLX_KEY_RIGHT))
@@ -43,8 +42,6 @@ void	key_down(void *data)
 void	key_hooks(t_cube_data *cubed)
 {
 	mlx_close_hook(cubed->mlx_ptr, close_window, NULL);
-	mlx_key_hook(cubed->mlx_ptr, key_press, (void*)cubed);
-	//loop_hook better than key hook cause loop_hoop checks holding the key.
-	//mlx_loop_hook(data->mlx_ptr, key_press, &cubed);
+	mlx_key_hook(cubed->mlx_ptr, key_press, (void *)cubed);
 	mlx_loop_hook(cubed->mlx_ptr, key_down, cubed);
 }
