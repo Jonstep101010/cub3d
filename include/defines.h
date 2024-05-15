@@ -1,8 +1,9 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# define WIDTH 1280
-# define HEIGHT 720
+// aspect ratio 1.314
+# define WIDTH 788
+# define HEIGHT 600
 # define ROTATION_SPEED (double)0.0174
 # define MOVE_SPEED (double)0.1
 # define SCREEN_MIDDLE (HEIGHT / 2)
