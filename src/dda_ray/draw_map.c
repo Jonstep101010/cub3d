@@ -6,16 +6,16 @@
 /*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/15 16:07:02 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/15 16:47:56 by muhnal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
-#include "libft.h"
+ #include "cube.h"
+// #include "libft.h"
 #include "utils.h"
 #include "defines.h"
 #include <math.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include "input.h"
 
 void draw_column(mlx_image_t *img, t_draw *draw, int col, mlx_texture_t *texture, uint32_t ceiling_color, uint32_t floor_color)
@@ -79,8 +79,6 @@ void draw_line_of_texture(t_cube_data *game, int col, double wall_distance)
 {
 	t_draw 		draw;
 
-	if (game->res->tex[game->texture_side] == NULL)
-		return ((void)printf("Invalid texture\n"));
 	draw.height = (int)(HEIGHT / wall_distance);
 	draw.start = game->half_height - draw.height / 2;
 	draw.end = draw.start + draw.height;
@@ -108,7 +106,7 @@ void draw_map(t_cube_data *cubed)
 	double cam_x;
 	int i;
 
-	ft_memset(cubed->image->pixels, 0x000000FF, WIDTH * HEIGHT);
+
 	for (i = 0; i < WIDTH; ++i)
 	{
 		cam_x = 2 * i / (double)WIDTH - 1;
