@@ -44,7 +44,7 @@ void print_parse_player(const t_player *res)
 	printf(".....t_parse_player struct end...\n\n");
 }
 
-void print_parsed_data(const t_cube_data *data) {
+void print_parsed_data(const t_cube_data *data, const char *source_file) {
 	if (!data || !data->res) {
 		printf("No data to display.\n");
 		return;
@@ -52,7 +52,7 @@ void print_parsed_data(const t_cube_data *data) {
 
 	print_player(&data->player);
 	print_parse_player(&data->player);
-	printf("Parsed Data from file '%s':\n", data->source_file);
+	printf("Parsed Data from file '%s':\n", source_file);
 	printf("Map Width, Type: size_t, Value: %zu\n", data->res->map_width);
 	printf("Map Height, Type: size_t, Value: %zu\n", data->res->map_height);
 

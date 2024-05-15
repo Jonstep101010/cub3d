@@ -2,6 +2,7 @@
 #include "input.h"
 #include "libft.h"
 #include "libutils.h"
+#include "utils.h"
 
 static bool	string_is_digit(char *s)
 {
@@ -36,8 +37,7 @@ static t_parse_fc	parse_fc(const char *trimmed_line)
 	}
 	arr_free((char **)split);
 	return ((t_parse_fc){
-		.set = true, .color.r = atoi_ret[0],
-		.color.g = atoi_ret[1], .color.b = atoi_ret[2]
+		.set = true, .color = rgb_arr_hex(atoi_ret),
 	});
 }
 

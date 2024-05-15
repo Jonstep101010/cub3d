@@ -83,12 +83,12 @@ static t_parse_res	*create_res(t_cube_file *file, char **lines)
 		.map_width = file->map_width,
 		.map_height = file->map_height,
 		.tex = {
-		file->tex_wall.dir_nesw[0].tex,
-		file->tex_wall.dir_nesw[1].tex,
-		file->tex_wall.dir_nesw[2].tex,
-		file->tex_wall.dir_nesw[3].tex},
-		.floor = srgb_hex(file->floor.color),
-		.ceiling = srgb_hex(file->ceiling.color),
+		file->tex_wall.s_dir_nesw[0].tex,
+		file->tex_wall.s_dir_nesw[1].tex,
+		file->tex_wall.s_dir_nesw[2].tex,
+		file->tex_wall.s_dir_nesw[3].tex},
+		.floor =file->floor.color,
+		.ceiling = file->ceiling.color,
 		.map_lines = file->map_lines,
 	};
 
