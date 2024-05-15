@@ -11,7 +11,7 @@
 void	free_cubed(t_cube_data *cubed);
 void	key_hooks(t_cube_data *data);
 uint8_t	parse_file(t_cube_data *data, const char *path_to_file);
-void	print_parsed_data(const t_cube_data *data);
+void	print_parsed_data(const t_cube_data *data, const char *path_to_file);
 
 int main(int argc, char **argv)
 {
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Usage: %s <path_to_cub_file>\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-	cubed = (t_cube_data){.source_file = argv[1],
+	cubed = (t_cube_data){
 			.half_height = HEIGHT / 2,
 	};
 
@@ -32,7 +32,6 @@ int main(int argc, char **argv)
 	//print_parsed_data(&cubed);
 
 	cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", false);
-;
 	cubed.image = mlx_new_image(cubed.mlx_ptr, WIDTH, HEIGHT);
 	if (mlx_image_to_window(cubed.mlx_ptr, cubed.image, 0, 0) == -1)
 	{

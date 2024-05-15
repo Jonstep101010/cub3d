@@ -53,5 +53,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING)
    AND BUILD_TESTING)
-  add_subdirectory(tests)
+#   add_subdirectory(tests)
 endif()

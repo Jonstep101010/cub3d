@@ -1,7 +1,7 @@
 #include "input.h"
 #include "libft.h"
 
-bool	mixed_space_zero(char * const *lines)
+bool	mixed_space_zero(char *const *lines)
 {
 	size_t	i;
 	size_t	ii;
@@ -10,7 +10,8 @@ bool	mixed_space_zero(char * const *lines)
 	while (lines[i])
 	{
 		ii = 0;
-		while (lines[i][ii] && lines[i][ii + 1]) {
+		while (lines[i][ii] && lines[i][ii + 1])
+		{
 			if ((lines[i][ii + 1] == '0' && lines[i][ii] == ' ')
 				|| (lines[i][ii] == '0' && lines[i][ii + 1] == ' '))
 				return (printf("mixed zero and space\n"), true);
@@ -38,7 +39,7 @@ bool	map_has_empty_line(t_cube_file *file)
 		len = ft_strlen(*file->line_ptr);
 		while (i < len && !split_map)
 		{
-			if (ft_strchr("01NSEW ",  **file->line_ptr))
+			if (ft_strchr("01NSEW ", **file->line_ptr))
 				split_map = true;
 			i++;
 		}

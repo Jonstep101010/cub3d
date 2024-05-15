@@ -13,7 +13,7 @@ bool	parse_player_data(t_map_line *map_lines, t_player *player)
 		x = 0;
 		while (map_lines[y].y_view[x])
 		{
-			if (ft_strchr("NESW", map_lines[y].y_view[x]))
+			if (ft_strchr(DIRECTIONS, map_lines[y].y_view[x]))
 			{
 				if (!y || !x)
 					return (printf("player at 0 index\n"), false);

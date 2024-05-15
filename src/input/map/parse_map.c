@@ -3,7 +3,7 @@
 #include "str_utils.h"
 #include <limits.h>
 
-bool	mixed_space_zero(char * const *lines);
+bool	mixed_space_zero(char *const *lines);
 
 uint8_t	build_map_lines(t_cube_file *file);
 bool	map_has_empty_line(t_cube_file *file);
@@ -33,11 +33,9 @@ uint8_t	parse_map(t_cube_file *file)
 		return (1);
 	if (player_next_spaces(file))
 		return (1);
-	// map the player direction to integer
-	file->player.start_nesw = idx_strchr(DIRECTIONS, file->map_lines[(int)file->player.y].y_view[(int)file->player.x]);
-	// setup player direction
+	file->player.start_nesw = idx_strchr(DIRECTIONS,
+			file->map_lines[(int)file->player.y].y_view[(int)file->player.x]);
 	player_direction(&file->player);
 	file->map_lines[(int)file->player.y].y_view[(int)file->player.x] = '0';
-
 	return (0);
 }
