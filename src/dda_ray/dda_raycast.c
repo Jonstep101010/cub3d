@@ -6,17 +6,11 @@
 /*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:05:50 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/15 16:06:23 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/15 16:43:10 by muhnal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
-#include "structs.h"
-#include <stdint.h>
-//#include "defines.h"
-//#include <math.h>
-#include <stdbool.h>
-#include <stdbool.h>
 
 static void	wall_collision(t_cube_data *cubed, t_dda *dda)
 {
