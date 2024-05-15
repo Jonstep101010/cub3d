@@ -82,6 +82,7 @@ typedef struct s_cube_data
 	t_direction		texture_side;
 	t_ray			ray;
 	char*			source_file; // for print data
+	int				half_height;
 }	t_cube_data;
 
 #endif

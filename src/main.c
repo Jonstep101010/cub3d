@@ -21,7 +21,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Usage: %s <path_to_cub_file>\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-	cubed = (t_cube_data){.source_file = argv[1],};
+	cubed = (t_cube_data){.source_file = argv[1],
+			.half_height = HEIGHT / 2,
+	};
 
 	if (parse_file(&cubed, argv[1]) != 0) {
 		fprintf(stderr, "Failed to parse the .cub file: %s\n", argv[1]);

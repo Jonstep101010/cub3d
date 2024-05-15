@@ -1,11 +1,10 @@
 #include "cube.h"
+#include "libft.h"
 #include "utils.h"
 #include "defines.h"
 #include <math.h>
 #include <stdio.h>
 #include "input.h"
-#include "struct.h"
-
 
 void draw_column(mlx_image_t *img, t_draw *draw, int col, mlx_texture_t *texture, uint32_t ceiling_color, uint32_t floor_color)
 {
@@ -66,14 +65,12 @@ void calculate_texture_coordinates(t_cube_data *game, t_draw *draw)
 
 void draw_line_of_texture(t_cube_data *game, int col, double wall_distance)
 {
-	if (game == NULL || game->res == NULL || game->res->tex[game->texture_side] == NULL)
-	{
-		perror("Invalid game or resource data");
-		return;
-	}
-	t_draw draw;
+	t_draw 		draw;
+
+	if (game->res->tex[game->texture_side] == NULL)
+		return ((void)printf("Invalid texture\n"));
 	draw.height = (int)(HEIGHT / wall_distance);
-	draw.start = SCREEN_MIDDLE - HALF_HEIGHT(draw.height);
+	draw.start = game->half_height - draw.height / 2;
 	draw.end = draw.start + draw.height;
 	if (game->texture_side == W || game->texture_side == E)
 		draw.wall_x = game->player.y + wall_distance * game->ray.dir_y;
@@ -95,16 +92,11 @@ void draw_line_of_texture(t_cube_data *game, int col, double wall_distance)
 
 void draw_map(t_cube_data *cubed)
 {
-	uint32_t *pixels = (uint32_t *)cubed->image->pixels;
-	int total_pixels = WIDTH * HEIGHT;
-	for (int i = 0; i < total_pixels; i++) {
-		pixels[i] = 0x000000FF; // Clear the image with a black color
-	}
-
 	t_dda dist;
 	double cam_x;
 	int i;
 
+	ft_memset(cubed->image->pixels, 0x000000FF, WIDTH * HEIGHT);
 	for (i = 0; i < WIDTH; ++i)
 	{
 		cam_x = 2 * i / (double)WIDTH - 1;
