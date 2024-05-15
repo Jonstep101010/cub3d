@@ -5,6 +5,7 @@
 #include "libutils.h"
 #include "get_next_line.h"
 #include "libft.h"
+#include "utils.h"
 #include <fcntl.h>
 
 void	free_textures(t_cube_textures *tex);
@@ -72,23 +73,20 @@ static char	**read_file_lines(int fd)
 	return (NULL);
 }
 
-uint8_t		parse_non_map(t_cube_file *file, char * const *lines);
-uint8_t		parse_map(t_cube_file *file);
-uint32_t	srgb_hex(t_rgb color);
+uint8_t	parse_non_map(t_cube_file *file, char *const *lines);
+uint8_t	parse_map(t_cube_file *file);
 
 static t_parse_res	*create_res(t_cube_file *file, char **lines)
 {
 	t_parse_res			*res;
-	const t_parse_res	stacked =
-	{
+	const t_parse_res	stacked = {
 		.map_width = file->map_width,
 		.map_height = file->map_height,
 		.tex = {
-			file->tex_wall.dir_nesw[0].tex,
-			file->tex_wall.dir_nesw[1].tex,
-			file->tex_wall.dir_nesw[2].tex,
-			file->tex_wall.dir_nesw[3].tex
-		},
+		file->tex_wall.dir_nesw[0].tex,
+		file->tex_wall.dir_nesw[1].tex,
+		file->tex_wall.dir_nesw[2].tex,
+		file->tex_wall.dir_nesw[3].tex},
 		.floor = srgb_hex(file->floor.color),
 		.ceiling = srgb_hex(file->ceiling.color),
 		.map_lines = file->map_lines,
@@ -113,7 +111,7 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	lines = read_file_lines(fd);
 	if (!lines || close(fd) == -1)
 		return (EXIT_FAILURE);
-	if (parse_non_map(&file, (char * const *)lines) != 0)
+	if (parse_non_map(&file, (char *const *)lines) != 0)
 	{
 		free_file_data(&file, lines);
 		return (1);
