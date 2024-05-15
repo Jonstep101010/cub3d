@@ -1,7 +1,16 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
 # include "MLX42.h"
 # include <stdint.h>
+# include <math.h>
+
+typedef struct s_column_params
+{
+	mlx_texture_t *texture;
+	uint32_t ceiling_color;
+	uint32_t floor_color;
+} t_col_par;
 
 typedef enum e_direction
 {
@@ -64,7 +73,7 @@ typedef struct s_player
 }	t_player;
 
 /**
- * @brief 
+ * @brief
  * @param tex [index: north=0, east=1 south=2 west=3]
  */
 typedef struct s_parse_res

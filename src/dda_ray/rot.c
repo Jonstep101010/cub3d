@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rot.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/15 23:58:27 by muhnal            #+#    #+#             */
+/*   Updated: 2024/05/16 01:26:19 by muhnal           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube.h"
 #include "defines.h"
-#include "math.h"
 #include "structs.h"
 #include "input.h"
-#include <stdbool.h>
+#include "utils.h"
 
 bool	check_collision(t_cube_data *data, double next_x, double next_y)
 {
