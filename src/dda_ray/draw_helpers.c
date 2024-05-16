@@ -6,7 +6,7 @@
 /*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:56:03 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 01:33:33 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/16 01:58:32 by muhnal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,4 @@ void	draw_floor(mlx_image_t *img, int col, int start, uint32_t color)
 		mlx_put_pixel(img, col, start, color);
 		start++;
 	}
-}
-
-void	draw_column(mlx_image_t *img, t_draw *draw, int col, t_col_par *params)
-{
-	draw_ceiling(img, col, draw->start, params->ceiling_color);
-	draw_wall(img, draw, col, params);
-	draw_floor(img, col, draw->end, params->floor_color);
 }

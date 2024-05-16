@@ -29,4 +29,6 @@ double	calculate_camera_x(int i, int width);
 void	calculate_ray_deltas(t_ray *ray);
 double	calculate_wall_distance(int texture_side, \
 	t_dda dist, double delta_x, double delta_y);
+void	draw_ceiling(mlx_image_t *img, int col, int start, uint32_t color);
+void	draw_floor(mlx_image_t *img, int col, int start, uint32_t color);
 #endif

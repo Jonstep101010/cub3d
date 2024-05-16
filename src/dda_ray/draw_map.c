@@ -6,7 +6,7 @@
 /*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 01:33:02 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/16 01:58:37 by muhnal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,11 @@ void	draw_map(t_cube_data *cubed)
 		draw_line_of_texture(cubed, i, wall_distance);
 		i++;
 	}
+}
+
+void	draw_column(mlx_image_t *img, t_draw *draw, int col, t_col_par *params)
+{
+	draw_ceiling(img, col, draw->start, params->ceiling_color);
+	draw_wall(img, draw, col, params);
+	draw_floor(img, col, draw->end, params->floor_color);
 }
