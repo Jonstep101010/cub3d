@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:56:13 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:57:06 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:31:38 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ int	main(int argc, char **argv)
 		mlx_terminate(cubed.mlx_ptr);
 		return (EXIT_SUCCESS);
 	}
-	if (argc != 2)
-		printf("Usage: %s <path_to_cub_file>\n", argv[0]);
 	else
-		printf("Failed to parse the .cub file: %s\n", argv[1]);
+		printf("Error\nUsage: %s <path_to_cub_file>\n", argv[0]);
 	return (EXIT_FAILURE);
 }

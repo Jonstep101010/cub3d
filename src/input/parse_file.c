@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:55:08 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:59:59 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:27:22 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,10 @@ void	free_file_data(t_cube_file *file, void *nullable)
 static int	open_cubefile(const char *path_to_file)
 {
 	const size_t	len = secure_strlen(path_to_file);
-	int				fd;
 
 	if (len < 5 || ft_strncmp(".cub", &path_to_file[len - 4], 4))
-	{
-		printf("error\n");
 		return (-1);
-	}
-	fd = open(path_to_file, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("error\n");
-	}
-	return (fd);
+	return (open(path_to_file, O_RDONLY));
 }
 
 static char	**read_file_lines(int fd)
