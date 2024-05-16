@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:56:03 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 01:58:32 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/16 11:54:46 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-#include "structs.h"
 
 uint32_t	get_pixel_color(uint8_t *pixels, int tex_width, \
 		int tex_x, int tex_y)
@@ -21,11 +20,6 @@ uint32_t	get_pixel_color(uint8_t *pixels, int tex_width, \
 	tex_index = (tex_y * tex_width + tex_x) * 4;
 	return ((pixels[tex_index] << 24) | (pixels[tex_index + 1] << 16) \
 		| (pixels[tex_index + 2] << 8) | pixels[tex_index + 3]);
-}
-
-double	update_texture_y(double current_texture_y, double text_step)
-{
-	return (current_texture_y + text_step);
 }
 
 void	draw_ceiling(mlx_image_t *img, int col, int start, uint32_t color)
@@ -40,11 +34,11 @@ void	draw_ceiling(mlx_image_t *img, int col, int start, uint32_t color)
 	}
 }
 
-void	draw_floor(mlx_image_t *img, int col, int start, uint32_t color)
+void	draw_floor(mlx_image_t *img, int col, int end, uint32_t color)
 {
-	while (start < (int)img->height)
+	while (end < (int)img->height)
 	{
-		mlx_put_pixel(img, col, start, color);
-		start++;
+		mlx_put_pixel(img, col, end, color);
+		end++;
 	}
 }

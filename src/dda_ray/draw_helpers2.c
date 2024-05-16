@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_helper2.c                                     :+:      :+:    :+:   */
+/*   draw_helpers2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:58:51 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 01:33:47 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:08:26 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	calculate_texture_coordinates(t_cube_data *game, t_draw *draw)
 	draw->text_step = (double)game->res-> \
 		tex[game->texture_side]->height / draw->height;
 	if (draw->start < 0)
+	{
 		draw->texture_y = -draw->start * draw->text_step;
+		draw->start = 0;
+	}
 }
 
 double	calculate_wall_distance(int texture_side, \
