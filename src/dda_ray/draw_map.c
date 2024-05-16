@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 13:11:41 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:52:00 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static void	draw_column(t_cube_data *game, int col, double wall_distance)
 	draw.height = (int)(HEIGHT / wall_distance);
 	draw.start = game->half_height - draw.height / 2;
 	draw.end = draw.start + draw.height;
+	if (draw.end > HEIGHT)
+		draw.end = HEIGHT;
 	calculate_wall_x(game, wall_distance, &draw);
 	calculate_texture_coordinates(game, &draw);
 	game->res->cur_tex = game->res->tex[game->texture_side];
 	draw_ceiling(game->image, draw.col, draw.start, game->res->ceiling);
-	if (draw.end > HEIGHT)
-		draw.end = HEIGHT - 1;
 	draw_wall(game->image, &draw, game->res);
 	draw_floor(game->image, draw.col, draw.end, game->res->floor);
 }
