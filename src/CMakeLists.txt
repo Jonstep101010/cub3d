@@ -5,7 +5,7 @@
 set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -fsanitize=address")
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${CUBED_SOURCE_DIR}/libs/*.h")
 
-file(GLOB sources debug_printing.c input/*.c input/textures/*.c input/map/*.c utils/*.c dda_ray/*.c)
+file(GLOB sources input/*.c input/textures/*.c input/map/*.c utils/*.c dda_ray/*.c)
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(cubed ${sources} ${HEADER_LIST})

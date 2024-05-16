@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_raycast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhnal <muhnal@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:05:50 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/15 16:43:10 by muhnal           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:38:10 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	wall_collision(t_cube_data *cubed, t_dda *dda)
 	}
 }
 
-void	initialize_dda(t_cube_data *cubed, t_dda *dda)
+static void	initialize_dda(t_cube_data *cubed, t_dda *dda)
 {
 	dda->map_x = (int)(cubed->player.x);
 	dda->map_y = (int)(cubed->player.y);

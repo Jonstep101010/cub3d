@@ -64,3 +64,4 @@ _deps
 CMakeFiles
 CMakeCache.txt
 DartConfiguration.tcl
+.DS_Store

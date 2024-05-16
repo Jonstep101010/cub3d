@@ -1,5 +1,6 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
 # include "MLX42.h"
 # include <stdint.h>
 
@@ -41,6 +42,7 @@ typedef struct s_ray
  */
 typedef struct s_draw
 {
+	int		col;
 	int		height;
 	int		start;
 	int		end;
@@ -64,7 +66,7 @@ typedef struct s_player
 }	t_player;
 
 /**
- * @brief 
+ * @brief
  * @param tex [index: north=0, east=1 south=2 west=3]
  */
 typedef struct s_parse_res
@@ -75,6 +77,7 @@ typedef struct s_parse_res
 	const uint32_t	floor;
 	const uint32_t	ceiling;
 	t_map_line		*map_lines;
+	mlx_texture_t	*cur_tex;
 }	t_parse_res;
 
 typedef struct s_cube_data
