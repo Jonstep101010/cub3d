@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:58:51 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 13:25:32 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:51:03 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,13 @@ void	calculate_texture_coordinates(t_cube_data *game, t_draw *draw)
 	}
 }
 
-double	calculate_wall_distance(int texture_side, \
-	t_dda dist, double delta_x, double delta_y)
+double	calculate_wall_distance(t_cube *cubed)
 {
-	if (texture_side == E || texture_side == W)
-		return (dist.x - delta_x);
-	return (dist.y - delta_y);
-}
+	const t_dda	dist = dda(cubed);
 
-double	calculate_camera_x(int i, int width)
-{
-	return (2 * i / (double)width - 1);
+	if (cubed->texture_side == E || cubed->texture_side == W)
+		return (dist.x - cubed->ray.delta_x);
+	return (dist.y - cubed->ray.delta_y);
 }
 
 void	calculate_ray_deltas(t_ray *ray)

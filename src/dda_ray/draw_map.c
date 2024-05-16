@@ -6,14 +6,12 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 13:52:00 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:54:14 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 #include "defines.h"
-#include <math.h>
-#include <stdio.h>
 #include "input.h"
 
 static uint32_t	get_pixel_color(uint8_t rgba[4])
@@ -44,9 +42,10 @@ static void	draw_wall(mlx_image_t *img, t_draw *draw, t_parse_res *params)
 	}
 }
 
-static void	draw_column(t_cube_data *game, int col, double wall_distance)
+static void	draw_column(t_cube_data *game, int col)
 {
-	t_draw		draw;
+	t_draw			draw;
+	const double	wall_distance = calculate_wall_distance(game);
 
 	draw.col = col;
 	draw.height = (int)(HEIGHT / wall_distance);
@@ -62,24 +61,25 @@ static void	draw_column(t_cube_data *game, int col, double wall_distance)
 	draw_floor(game->image, draw.col, draw.end, game->res->floor);
 }
 
+static inline void	render_column(t_cube *cubed, int column)
+{
+	const double	camera_x = 2.0 * column / WIDTH - 1;
+	const t_player	*player = &cubed->player;
+
+	cubed->ray.dir_x = player->dir_x + player->plane_x * camera_x;
+	cubed->ray.dir_y = player->dir_y + player->plane_y * camera_x;
+	calculate_ray_deltas(&cubed->ray);
+	draw_column(cubed, column);
+}
+
 void	draw_map(t_cube_data *cubed)
 {
-	t_dda	dist;
-	int		i;
-	double	cam_x;
-	double	wall_distance;
+	int		column;
 
-	i = 0;
-	while (i < WIDTH)
+	column = 0;
+	while (column < WIDTH)
 	{
-		cam_x = calculate_camera_x(i, WIDTH);
-		cubed->ray.dir_x = cubed->player.dir_x + cubed->player.plane_x * cam_x;
-		cubed->ray.dir_y = cubed->player.dir_y + cubed->player.plane_y * cam_x;
-		calculate_ray_deltas(&cubed->ray);
-		dist = dda(cubed);
-		wall_distance = calculate_wall_distance(cubed->texture_side, dist, \
-					cubed->ray.delta_x, cubed->ray.delta_y);
-		draw_column(cubed, i, wall_distance);
-		i++;
+		render_column(cubed, column);
+		column++;
 	}
 }
