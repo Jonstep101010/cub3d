@@ -2,7 +2,6 @@
 #include "input.h"
 #include "libft.h"
 #include "libutils.h"
-#include "utils.h"
 
 static bool	string_is_digit(char *s)
 {
@@ -13,6 +12,11 @@ static bool	string_is_digit(char *s)
 		s++;
 	}
 	return (true);
+}
+
+static uint32_t	rgb_arr_hex(int rgb[3])
+{
+	return (rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 255);
 }
 
 static t_parse_fc	parse_fc(const char *trimmed_line)

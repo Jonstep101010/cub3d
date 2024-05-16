@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 18:46:18 by jschwabe          #+#    #+#             */
+/*   Updated: 2024/05/16 18:46:27 by jschwabe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
@@ -90,6 +102,4 @@ typedef struct s_cube_data
 	int				half_height;
 }	t_cube_data;
 
-void	debug_raycast(t_cube_data *game, t_dda *dda);
-t_dda	dda(t_cube_data *cubed);
 #endif
