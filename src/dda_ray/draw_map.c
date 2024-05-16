@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 18:15:21 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:23:52 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void	draw_wall(mlx_image_t *img, t_draw *draw, mlx_texture_t *cur_tex)
 	y = draw->start;
 	while (y < draw->end)
 	{
-		if (y >= 0 && y < (int)img->height
-			&& draw->col >= 0 && draw->col < (int)img->width)
+		if (y >= 0 && y < HEIGHT
+			&& draw->col >= 0 && draw->col < WIDTH)
 		{
 			tex_y = (int)draw->texture_y & (cur_tex->height - 1);
 			color = get_pixel_color(&cur_tex->pixels[
