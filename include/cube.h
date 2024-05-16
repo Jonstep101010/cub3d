@@ -5,17 +5,12 @@
 # include <stdbool.h>
 # include <unistd.h>
 
-// Error messages defined for clarity and ease of maintenance
-# define ERR_INVALID_DIR "Error: Invalid initial direction provided."
-# define ERR_NO_START_POS "Error: No valid player position found."
-
 typedef struct s_cube_data	t_cube;
 
 void	draw_map(t_cube *game);
 void	move_player(t_cube_data *data, double dir_x, double dir_y);
 void	debug_raycast(t_cube_data *game, t_dda *dda);
 t_dda	dda(t_cube_data *cubed);
-typedef struct s_cube_data	t_cube;
 void	draw_map(t_cube *game);
 void	move_player(t_cube_data *data, double dir_x, double dir_y);
 void	calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw);
