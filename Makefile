@@ -30,8 +30,8 @@ BUILD_DIR	:= .build
 
 VPATH		:= src/:src/dda_ray:src/input:src/input/map:src/input/textures:src/utils
 
-SRC			:= main.c debug_printing.c
-SRC_DDA		:= dda_raycast.c draw_map.c rot.c
+SRC			:= main.c
+SRC_DDA		:= dda_raycast.c draw_map.c rotate.c move.c draw_calc.c draw_fc.c
 SRC_INPUT	:= parse_file.c parse_fc_color.c parse_non_map.c
 SRC_INPUT_MAP	:= parse_map.c player.c checks_basic.c check_walls.c build_map_lines.c
 SRC_INPUT_TEX	:= parse_textures.c tex_utils.c
