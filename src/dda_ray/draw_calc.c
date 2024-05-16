@@ -1,30 +1,30 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw_calc.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 00:58:51 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 17:51:03 by jschwabe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "structs.h"
 #include "cube.h"
 #include <math.h>
-
+//rayin duvara carptigi noktayi hesaplar
 void	calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw)
 {
+	//Eğer ray doğu (E) veya batı (W) duvarına çarptıysa, duvarın X koordinatını hesaplamak için Y yönündeki bileşenler kullanılır: ? neden
+
+	//Ray doğu (E) veya batı (W) duvarına çarptığında, çarpışma noktasının X koordinatını hesaplamak için Y yönündeki bileşenler kullanılır çünkü doğu ve batı duvarları dikeydir ve bu duvarlara çarpma noktası, ray'in Y ekseni boyunca kat ettiği mesafeye bağlıdır.
+
 	if (game->texture_side == W || game->texture_side == E)
 		draw->wall_x = game->player.y + wall_distance * game->ray.dir_y;
-	else
+	else //degilse s ve e ise x koordinatini hesaplamak icin x i kullanir
 		draw->wall_x = game->player.x + wall_distance * game->ray.dir_x;
-	draw->wall_x -= floor(draw->wall_x);
+	draw->wall_x -= floor(draw->wall_x); // sadece kesirli tarafini aliriz. floor tam kismini hesaplarken cikararak tam kismi duvarin konumu gosterir. kesirli tarafi ise
+
+	//Örneğin, draw->wall_x değeri 0.3 ise, bu dokunun %30'luk kısmını kullanmamız gerektiğini gösterir. doku birim boyutta oldugundan tam kismi doku haritalama icin  gerekli degildir. tam kismi sadece genel koordinatlarini verir bu da hesaplamak icin gereksizdir.
+
+	//Örneğin, eğer draw->wall_x 5.3 ise, bu aslında duvarın 5 birim ilerisinde olduğunu gösterir. Ancak, doku koordinatları için sadece 0.3 kısmı önemlidir.
 }
 
+
+//duvar dokusunun (texture) ekranda nasıl görüntüleneceğini belirlemek için doku koordinatlarını hesaplar.bu  fonks, çarpışma noktasının doku üzerindeki X ve Y koordinatlarını hesaplar ve doku üzerinde hangi kısmın ekranda gösterileceğini belirler.
 void	calculate_texture_coordinates(t_cube_data *game, t_draw *draw)
 {
+	//draw->wall_x: Çarpışma noktasının kesirli X koordinatı. Bu değer 0 ile 1 arasında bir değerdir.
 	draw->texture_x = (int)(draw->wall_x * \
 		(double)game->res->tex[game->texture_side]->width);
 	draw->texture_y = 0;
