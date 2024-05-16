@@ -77,7 +77,6 @@ typedef struct s_parse_res
 	const uint32_t	floor;
 	const uint32_t	ceiling;
 	t_map_line		*map_lines;
-	mlx_texture_t	*cur_tex;
 }	t_parse_res;
 
 typedef struct s_cube_data

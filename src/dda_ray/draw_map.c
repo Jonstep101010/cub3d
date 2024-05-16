@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 17:54:14 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:15:21 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static uint32_t	get_pixel_color(uint8_t rgba[4])
 		| (*(rgba + 2) << 8) | *(rgba + 3));
 }
 
-static void	draw_wall(mlx_image_t *img, t_draw *draw, t_parse_res *params)
+static void	draw_wall(mlx_image_t *img, t_draw *draw, mlx_texture_t *cur_tex)
 {
 	int			y;
 	uint32_t	color;
@@ -32,9 +32,9 @@ static void	draw_wall(mlx_image_t *img, t_draw *draw, t_parse_res *params)
 		if (y >= 0 && y < (int)img->height
 			&& draw->col >= 0 && draw->col < (int)img->width)
 		{
-			tex_y = (int)draw->texture_y & (params->cur_tex->height - 1);
-			color = get_pixel_color(&params->cur_tex->pixels[
-					(params->cur_tex->width * tex_y + draw->texture_x) * 4]);
+			tex_y = (int)draw->texture_y & (cur_tex->height - 1);
+			color = get_pixel_color(&cur_tex->pixels[
+					(cur_tex->width * tex_y + draw->texture_x) * 4]);
 			mlx_put_pixel(img, draw->col, y, color);
 			draw->texture_y += draw->text_step;
 		}
@@ -55,9 +55,8 @@ static void	draw_column(t_cube_data *game, int col)
 		draw.end = HEIGHT;
 	calculate_wall_x(game, wall_distance, &draw);
 	calculate_texture_coordinates(game, &draw);
-	game->res->cur_tex = game->res->tex[game->texture_side];
 	draw_ceiling(game->image, draw.col, draw.start, game->res->ceiling);
-	draw_wall(game->image, &draw, game->res);
+	draw_wall(game->image, &draw, game->res->tex[game->texture_side]);
 	draw_floor(game->image, draw.col, draw.end, game->res->floor);
 }
 
