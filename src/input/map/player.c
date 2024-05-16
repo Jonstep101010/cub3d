@@ -2,7 +2,7 @@
 #include "libft.h"
 #include <stdint.h>
 
-bool	parse_player_data(t_map_line *map_lines, t_parse_player *player)
+bool	parse_player_data(t_map_line *map_lines, t_player *player)
 {
 	size_t	y;
 	size_t	x;
@@ -13,7 +13,7 @@ bool	parse_player_data(t_map_line *map_lines, t_parse_player *player)
 		x = 0;
 		while (map_lines[y].y_view[x])
 		{
-			if (ft_strchr("NESW", map_lines[y].y_view[x]))
+			if (ft_strchr(DIRECTIONS, map_lines[y].y_view[x]))
 			{
 				if (!y || !x)
 					return (printf("player at 0 index\n"), false);
@@ -21,7 +21,6 @@ bool	parse_player_data(t_map_line *map_lines, t_parse_player *player)
 					return (printf("more than one player found\n"), false);
 				player->x = x;
 				player->y = y;
-				player->dir_nsew = map_lines[y].y_view[x];
 				printf("player found at line %zu, col %zu\n", y, x);
 			}
 			x++;
@@ -33,17 +32,45 @@ bool	parse_player_data(t_map_line *map_lines, t_parse_player *player)
 
 bool	player_next_spaces(t_cube_file *file)
 {
-	const t_parse_player	*player = &file->player;
-	const t_map_line		*map_lines = file->map_lines;
+	const t_player		*player = &file->player;
+	const t_map_line	*map_lines = file->map_lines;
+	const int			start_x = player->x;
+	const int			start_y = player->y;
 
-	return (player->x + 1 >= map_lines[player->y].len
-		|| map_lines[player->y - 1].y_view[player->x] == ' '
-		|| map_lines[player->y + 1].y_view[player->x] == ' '
-		|| map_lines[player->y].y_view[player->x - 1] == ' '
-		|| map_lines[player->y].y_view[player->x + 1] == ' '
-		|| map_lines[player->y + 1].y_view[player->x - 1] == ' '
-		|| map_lines[player->y + 1].y_view[player->x + 1] == ' '
-		|| map_lines[player->y - 1].y_view[player->x - 1] == ' '
-		|| map_lines[player->y - 1].y_view[player->x + 1] == ' '
+	return (player->x + 1 >= map_lines[start_y].len
+		|| map_lines[start_y - 1].y_view[start_x] == ' '
+		|| map_lines[start_y + 1].y_view[start_x] == ' '
+		|| map_lines[start_y].y_view[start_x - 1] == ' '
+		|| map_lines[start_y].y_view[start_x + 1] == ' '
+		|| map_lines[start_y + 1].y_view[start_x - 1] == ' '
+		|| map_lines[start_y + 1].y_view[start_x + 1] == ' '
+		|| map_lines[start_y - 1].y_view[start_x - 1] == ' '
+		|| map_lines[start_y - 1].y_view[start_x + 1] == ' '
 	);
+}
+
+void	player_direction(t_player *player)
+{
+	player->x += 0.5;
+	player->y += 0.5;
+	if (player->start_nesw == N)
+	{
+		player->dir_y = -1.0;
+		player->plane_x = 0.66;
+	}
+	else if (player->start_nesw == S)
+	{
+		player->dir_y = 1.0;
+		player->plane_x = -0.66;
+	}
+	else if (player->start_nesw == E)
+	{
+		player->dir_x = 1.0;
+		player->plane_y = 0.66;
+	}
+	else if (player->start_nesw == W)
+	{
+		player->dir_x = -1.0;
+		player->plane_y = -0.66;
+	}
 }

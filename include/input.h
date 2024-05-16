@@ -7,10 +7,9 @@
 # include "structs.h"
 
 typedef struct s_cube_data	t_cube_data;
-typedef struct s_rgb		t_rgb;
 
-# define MAP_CHARS "10NSEW "
-# define DIRECTIONS "NSEW"
+# define MAP_CHARS "10NESW "
+# define DIRECTIONS "NESW"
 
 typedef struct s_map_line
 {
@@ -21,7 +20,7 @@ typedef struct s_map_line
 typedef struct s_parse_fc
 {
 	bool		set;
-	t_rgb		color;
+	uint32_t	color;
 }	t_parse_fc;
 
 typedef struct s_cube_textures
@@ -30,7 +29,7 @@ typedef struct s_cube_textures
 	{
 		char			*path;
 		mlx_texture_t	*tex;
-	}					dir_nesw[4];
+	}					s_dir_nesw[4];
 	bool				set;
 }	t_cube_textures;
 
@@ -43,7 +42,7 @@ typedef struct s_cube_file
 	t_parse_fc		ceiling;
 	size_t			map_height;
 	size_t			map_width;
-	t_parse_player	player;
+	t_player		player;
 }	t_cube_file;
 
 #endif

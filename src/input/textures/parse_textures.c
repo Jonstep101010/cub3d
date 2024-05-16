@@ -10,14 +10,14 @@ static bool	load_textures(t_cube_textures *tex)
 	i = -1;
 	while (++i < 4)
 	{
-		tex->dir_nesw[i].tex = mlx_load_png(tex->dir_nesw[i].path);
-		free_null(&tex->dir_nesw[i].path);
-		if (!tex->dir_nesw[i].tex)
+		tex->s_dir_nesw[i].tex = mlx_load_png(tex->s_dir_nesw[i].path);
+		free_null(&tex->s_dir_nesw[i].path);
+		if (!tex->s_dir_nesw[i].tex)
 		{
 			while (i-- > 0)
 			{
-				free_null(&tex->dir_nesw[i].path);
-				mlx_delete_texture(tex->dir_nesw[i].tex);
+				free_null(&tex->s_dir_nesw[i].path);
+				mlx_delete_texture(tex->s_dir_nesw[i].tex);
 			}
 			return (false);
 		}
@@ -42,8 +42,8 @@ static uint8_t	check_paths_differ(char **path,
 	{
 		if (i != direction)
 		{
-			if (tex->dir_nesw[i].path && len == ft_strlen(tex->dir_nesw[i].path)
-				&& ft_strnstr(*path, tex->dir_nesw[i].path, len))
+			if (tex->s_dir_nesw[i].path && len == ft_strlen(tex->s_dir_nesw[i].path)
+				&& ft_strnstr(*path, tex->s_dir_nesw[i].path, len))
 				return (1);
 		}
 		i++;
@@ -60,7 +60,7 @@ static	uint8_t	tex_direction(const char *line,
 	char	**path;
 	int		fd;
 
-	path = &(tex->dir_nesw[direction].path);
+	path = &(tex->s_dir_nesw[direction].path);
 	if (*path)
 		return (free_textures(tex), 1);
 	*path = ft_strtrim(line + 2, " ");
@@ -72,10 +72,10 @@ static	uint8_t	tex_direction(const char *line,
 	if (fd == -1)
 		return (free_textures(tex), 1);
 	close(fd);
-	return (tex->dir_nesw[0].path
-		&& tex->dir_nesw[1].path
-		&& tex->dir_nesw[2].path
-		&& tex->dir_nesw[3].path
+	return (tex->s_dir_nesw[0].path
+		&& tex->s_dir_nesw[1].path
+		&& tex->s_dir_nesw[2].path
+		&& tex->s_dir_nesw[3].path
 		&& !load_textures(tex)
 	);
 }

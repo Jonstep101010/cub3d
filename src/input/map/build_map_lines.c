@@ -12,7 +12,7 @@ static size_t	get_line_len(char const *lnptr)
 	return (len);
 }
 
-static bool	set_map_size(char * const *lnptr, size_t *width, size_t *height)
+static bool	set_map_size(char *const *lnptr, size_t *width, size_t *height)
 {
 	size_t	len;
 
@@ -58,7 +58,8 @@ uint8_t	build_map_lines(t_cube_file *file)
 	while (i <= file->map_height && *file->line_ptr && **file->line_ptr)
 	{
 		file->map_lines[i].len = get_line_len(*file->line_ptr);
-		file->map_lines[i].y_view = ft_calloc(file->map_width + 1, sizeof(char));
+		file->map_lines[i].y_view = ft_calloc(
+				file->map_width + 1, sizeof(char));
 		if (!file->map_lines[i].y_view)
 		{
 			while (i--)

@@ -40,7 +40,8 @@ bool	x_contains_invalid_chars(t_cube_file *file)
 	{
 		x_wall_west = false;
 		x_wall_east = false;
-		if (!x_delim_walls(file->map_lines[i].y_view, &x_wall_west, &x_wall_east))
+		if (!x_delim_walls(file->map_lines[i].y_view,
+				&x_wall_west, &x_wall_east))
 			return (true);
 		if (!x_wall_west || !x_wall_east)
 			return (true);
@@ -62,7 +63,8 @@ static bool	y_delim_walls(t_cube_file *file, size_t x,
 		if (file->map_lines[y].y_view[x] == '1' && !*wall_north)
 			*wall_north = true;
 		else if (!*wall_north
-			&& ((file->map_lines[y].y_view[x] == '0' || ft_strchr(DIRECTIONS, file->map_lines[y].y_view[x]))))
+			&& ((file->map_lines[y].y_view[x] == '0'
+					|| ft_strchr(DIRECTIONS, file->map_lines[y].y_view[x]))))
 			return (printf("Player not enclosed by walls\n"), false);
 		y++;
 	}
@@ -70,8 +72,8 @@ static bool	y_delim_walls(t_cube_file *file, size_t x,
 	{
 		if (file->map_lines[y].y_view[x] == '1' && !*wall_south)
 			*wall_south = true;
-		else if (!*wall_south
-			&& ((file->map_lines[y].y_view[x] == '0' || ft_strchr(DIRECTIONS, file->map_lines[y].y_view[x])) && x < file->map_lines[y].len))
+		else if (!*wall_south && ft_strchr("0NESW",
+				file->map_lines[y].y_view[x]) && x < file->map_lines[y].len)
 			return (printf("Player not enclosed by walls\n"), false);
 	}
 	return (true);

@@ -5,6 +5,7 @@
 #include "libutils.h"
 #include "get_next_line.h"
 #include "libft.h"
+#include "utils.h"
 #include <fcntl.h>
 
 void	free_textures(t_cube_textures *tex);
@@ -72,26 +73,29 @@ static char	**read_file_lines(int fd)
 	return (NULL);
 }
 
-uint8_t	parse_non_map(t_cube_file *file, char * const *lines);
+uint8_t	parse_non_map(t_cube_file *file, char *const *lines);
 uint8_t	parse_map(t_cube_file *file);
 
 static t_parse_res	*create_res(t_cube_file *file, char **lines)
 {
-	t_parse_res	*res;
+	t_parse_res			*res;
+	const t_parse_res	stacked = {
+		.map_width = file->map_width,
+		.map_height = file->map_height,
+		.tex = {
+		file->tex_wall.s_dir_nesw[0].tex,
+		file->tex_wall.s_dir_nesw[1].tex,
+		file->tex_wall.s_dir_nesw[2].tex,
+		file->tex_wall.s_dir_nesw[3].tex},
+		.floor =file->floor.color,
+		.ceiling = file->ceiling.color,
+		.map_lines = file->map_lines,
+	};
 
 	res = ft_calloc(1, sizeof(t_parse_res));
 	if (!res)
 		return (free_file_data(file, lines), NULL);
-	res->map_lines = file->map_lines;
-	res->map_height = file->map_height;
-	res->map_width = file->map_width;
-	ft_memmove(&res->p_start, &file->player, sizeof(t_parse_player));
-	res->floor = file->floor.color;
-	res->ceiling = file->ceiling.color;
-	res->tex[0] = file->tex_wall.dir_nesw[0].tex;
-	res->tex[1] = file->tex_wall.dir_nesw[1].tex;
-	res->tex[2] = file->tex_wall.dir_nesw[2].tex;
-	res->tex[3] = file->tex_wall.dir_nesw[3].tex;
+	ft_memcpy(res, &stacked, sizeof(t_parse_res));
 	return (res);
 }
 
@@ -107,7 +111,7 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	lines = read_file_lines(fd);
 	if (!lines || close(fd) == -1)
 		return (EXIT_FAILURE);
-	if (parse_non_map(&file, (char * const *)lines) != 0)
+	if (parse_non_map(&file, (char *const *)lines) != 0)
 	{
 		free_file_data(&file, lines);
 		return (1);
@@ -120,8 +124,6 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	data->res = create_res(&file, lines);
 	if (!data->res)
 		return (1);
-	// only temporary @audit
-	data->ceil_c = data->res->ceiling;
-	data->floor_c = data->res->floor;
+	ft_memcpy(&data->player, &file.player, sizeof(t_player));
 	return (free(lines), 0);
 }

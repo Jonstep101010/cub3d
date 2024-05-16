@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_data.c                                        :+:      :+:    :+:   */
+/*   draw_fc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 17:59:16 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/15 18:00:24 by jschwabe         ###   ########.fr       */
+/*   Created: 2024/05/16 00:56:03 by muhnal            #+#    #+#             */
+/*   Updated: 2024/05/16 13:11:15 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42.h"
-#include "input.h"
-#include <stdlib.h>
+#include "cube.h"
 
-void	free_cubed(t_cube_data *cubed)
+void	draw_ceiling(mlx_image_t *img, int col, int start, uint32_t color)
 {
-	int	i;
+	int	y;
 
-	i = -1;
-	if (!cubed)
-		return ;
-	while (++i < 4)
-		mlx_delete_texture(cubed->res->tex[i]);
-	i = -1;
-	while (++i <= (int)cubed->res->map_height)
-		free(cubed->res->map_lines[i].y_view);
-	free(cubed->res->map_lines);
-	free(cubed->res);
+	y = 0;
+	while (y < start)
+	{
+		mlx_put_pixel(img, col, y, color);
+		y++;
+	}
+}
+
+void	draw_floor(mlx_image_t *img, int col, int end, uint32_t color)
+{
+	while (end < (int)img->height)
+	{
+		mlx_put_pixel(img, col, end, color);
+		end++;
+	}
 }

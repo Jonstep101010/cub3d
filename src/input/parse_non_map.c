@@ -32,7 +32,7 @@ static uint8_t	parse_non_map_line(t_cube_file	*file, bool *map)
 	return (0);
 }
 
-uint8_t	parse_non_map(t_cube_file *file, char * const *lines)
+uint8_t	parse_non_map(t_cube_file *file, char *const *lines)
 {
 	bool	map;
 
@@ -52,8 +52,8 @@ uint8_t	parse_non_map(t_cube_file *file, char * const *lines)
 	}
 	return ((!map && printf("Error\nno map provided\n"))
 		|| (map && ((!file->tex_wall.set
-			&& printf("Error\nprovided invalid textures\n"))
+					&& printf("Error\nprovided invalid textures\n"))
 				|| ((!file->ceiling.set || !file->floor.set)
-				&& printf("Error\nprovided invalid colors\n"))))
+					&& printf("Error\nprovided invalid colors\n"))))
 	);
 }
