@@ -43,6 +43,7 @@ typedef struct s_ray
  */
 typedef struct s_draw
 {
+	int		col;
 	int		height;
 	int		start;
 	int		end;

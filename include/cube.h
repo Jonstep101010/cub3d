@@ -18,12 +18,9 @@ t_dda	dda(t_cube_data *cubed);
 typedef struct s_cube_data	t_cube;
 void	draw_map(t_cube *game);
 void	move_player(t_cube_data *data, double dir_x, double dir_y);
-void	draw_wall(mlx_image_t *img, t_draw *draw, int col, t_parse_res *params);
-uint32_t	get_pixel_color(uint8_t *pixels, int tex_width, \
-		int tex_x, int tex_y);
+uint32_t	get_pixel_color(uint8_t pixels[4]);
 void	calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw);
 void	calculate_texture_coordinates(t_cube_data *game, t_draw *draw);
-void	draw_column(mlx_image_t *img, t_draw *draw, int col, t_parse_res *params);
 double	calculate_camera_x(int i, int width);
 void	calculate_ray_deltas(t_ray *ray);
 double	calculate_wall_distance(int texture_side, \

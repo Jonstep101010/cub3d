@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:58:51 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 12:08:26 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:53:06 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ double	calculate_wall_distance(int texture_side, \
 {
 	if (texture_side == E || texture_side == W)
 		return (dist.x - delta_x);
-	else
-		return (dist.y - delta_y);
+	return (dist.y - delta_y);
 }
 
 double	calculate_camera_x(int i, int width)
