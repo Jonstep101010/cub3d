@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_helpers.c                                     :+:      :+:    :+:   */
+/*   draw_fc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:56:03 by muhnal            #+#    #+#             */
+/*   Updated: 2024/05/16 13:11:15 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-
-uint32_t	get_pixel_color(uint8_t rgba[4])
-{
-	return ((*rgba << 24) | (*(rgba + 1) << 16) \
-		| (*(rgba + 2) << 8) | *(rgba + 3));
-}
 
 void	draw_ceiling(mlx_image_t *img, int col, int start, uint32_t color)
 {

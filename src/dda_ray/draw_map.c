@@ -6,12 +6,18 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:07:00 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 12:51:55 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:11:41 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 #include "defines.h"
+
+static uint32_t	get_pixel_color(uint8_t rgba[4])
+{
+	return ((*rgba << 24) | (*(rgba + 1) << 16) \
+		| (*(rgba + 2) << 8) | *(rgba + 3));
+}
 
 static void	draw_wall(mlx_image_t *img, t_draw *draw, t_parse_res *params)
 {
