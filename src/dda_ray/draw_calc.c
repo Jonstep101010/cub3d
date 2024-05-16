@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_helpers2.c                                    :+:      :+:    :+:   */
+/*   draw_calc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 00:58:51 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 12:53:06 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:25:32 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "cube.h"
+#include <math.h>
 
 void	calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw)
 {

@@ -3,7 +3,6 @@
 
 # include "MLX42.h"
 # include <stdint.h>
-# include <math.h>
 
 typedef enum e_direction
 {

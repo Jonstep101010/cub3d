@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rot.c                                              :+:      :+:    :+:   */
+/*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 23:58:27 by muhnal            #+#    #+#             */
-/*   Updated: 2024/05/16 13:17:50 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:25:16 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 #include "structs.h"
+#include <math.h>
 
 /**
  * @brief get new player FOV, update player dir and plane
