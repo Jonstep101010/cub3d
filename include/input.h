@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:45:32 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:45:33 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:03:12 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,8 @@ typedef struct s_cube_file
 	t_player		player;
 }	t_cube_file;
 
+uint8_t	parse_non_map(t_cube_file *file, char *const *lines);
+uint8_t	parse_map(t_cube_file *file);
+
+void	free_textures(t_cube_textures *tex);
 #endif

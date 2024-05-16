@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:55:08 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:55:09 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:59:59 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 
 void	free_textures(t_cube_textures *tex);
 
-/**
- * @audit moves line_ptr for the last time
- */
 void	free_file_data(t_cube_file *file, void *nullable)
 {
 	int		i;
@@ -84,9 +81,6 @@ static char	**read_file_lines(int fd)
 	return (NULL);
 }
 
-uint8_t	parse_non_map(t_cube_file *file, char *const *lines);
-uint8_t	parse_map(t_cube_file *file);
-
 static t_parse_res	*create_res(t_cube_file *file, char **lines)
 {
 	t_parse_res			*res;
@@ -98,7 +92,7 @@ static t_parse_res	*create_res(t_cube_file *file, char **lines)
 		file->tex_wall.s_dir_nesw[1].tex,
 		file->tex_wall.s_dir_nesw[2].tex,
 		file->tex_wall.s_dir_nesw[3].tex},
-		.floor =file->floor.color,
+		.floor = file->floor.color,
 		.ceiling = file->ceiling.color,
 		.map_lines = file->map_lines,
 	};

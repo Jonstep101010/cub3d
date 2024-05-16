@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:54:33 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:54:34 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:00:41 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ static bool	load_textures(t_cube_textures *tex)
 	return (true);
 }
 
-void	free_textures(t_cube_textures *tex);
-
-/**
- * @brief make sure there are textex for each direction
- */
 static uint8_t	check_paths_differ(char **path,
 	t_cube_textures *tex, int direction)
 {
@@ -54,7 +49,8 @@ static uint8_t	check_paths_differ(char **path,
 	{
 		if (i != direction)
 		{
-			if (tex->s_dir_nesw[i].path && len == ft_strlen(tex->s_dir_nesw[i].path)
+			if (tex->s_dir_nesw[i].path
+				&& len == ft_strlen(tex->s_dir_nesw[i].path)
 				&& ft_strnstr(*path, tex->s_dir_nesw[i].path, len))
 				return (1);
 		}
