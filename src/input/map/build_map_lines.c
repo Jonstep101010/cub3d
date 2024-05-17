@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:55:00 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:55:01 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/17 18:49:20 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ static bool	set_map_size(char *const *lnptr, size_t *width, size_t *height)
 	return (*height > 3);
 }
 
-static void	fill_from_lineptr(t_map_line *map_lineptr, char *lineptr)
+static void	fill_from_lineptr(t_map_line *map_lineptr,
+								char *lineptr, size_t width)
 {
 	size_t	ii;
 
 	ii = 0;
 	while (ii <= map_lineptr->len && lineptr[ii])
 	{
-		if (ii < map_lineptr->len)
+		if (ii <= map_lineptr->len)
 			map_lineptr->y_view[ii] = lineptr[ii];
-		else
-			map_lineptr->y_view[ii] = ' ';
 		ii++;
 	}
+	while (ii < width)
+		map_lineptr->y_view[ii++] = ' ';
 	free(lineptr);
 	lineptr++;
 }
@@ -78,7 +79,8 @@ uint8_t	build_map_lines(t_cube_file *file)
 				free_null(&(file->map_lines[i].y_view));
 			return (2);
 		}
-		fill_from_lineptr(&file->map_lines[i], *file->line_ptr);
+		fill_from_lineptr(&file->map_lines[i],
+			*file->line_ptr, file->map_width);
 		file->line_ptr++;
 		i++;
 	}
