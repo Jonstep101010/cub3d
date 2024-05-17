@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:55:08 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/17 12:58:37 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:59:47 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,11 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 	if (parse_map(&file) != 0)
 	{
 		free_file_data(&file, lines);
-		return (1);
+		return (printf("Error\n"), 1);
 	}
 	data->res = create_res(&file, lines);
 	if (!data->res)
-		return (1);
+		return (printf("Error\n"), 1);
 	ft_memcpy(&data->player, &file.player, sizeof(t_player));
 	return (free(lines), 0);
 }

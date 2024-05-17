@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:54:50 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 18:54:51 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:32:16 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ bool	map_has_empty_line(t_cube_file *file)
 	size_t	len;
 	bool	split_map;
 
-	i = 0;
 	split_map = false;
 	while (*file->line_ptr)
 	{
