@@ -15,7 +15,7 @@ void	calculate_wall_x(t_cube_data *game, double wall_distance, t_draw *draw)
 		draw->wall_x = game->player.x + wall_distance * game->ray.dir_x;
 	draw->wall_x -= floor(draw->wall_x); // sadece kesirli tarafini aliriz. floor tam kismini hesaplarken cikararak tam kismi duvarin konumu gosterir. kesirli tarafi ise
 
-	//Örneğin, draw->wall_x değeri 0.3 ise, bu dokunun %30'luk kısmını kullanmamız gerektiğini gösterir. doku birim boyutta oldugundan tam kismi doku haritalama icin  gerekli degildir. tam kismi sadece genel koordinatlarini verir bu da hesaplamak icin gereksizdir.
+	//Örneğin, draw->wall_x değeri 0.3 ise, bu dokunun %30'luk kısmını kullanmamız gerektiğini gösterir. texture birim boyutta oldugundan tam kismi doku haritalama icin  gerekli degildir. tam kismi sadece genel koordinatlarini verir bu da hesaplamak icin gereksizdir.
 
 	//Örneğin, eğer draw->wall_x 5.3 ise, bu aslında duvarın 5 birim ilerisinde olduğunu gösterir. Ancak, doku koordinatları için sadece 0.3 kısmı önemlidir.
 }
