@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:56:13 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 19:31:38 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:54:51 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	main(int argc, char **argv)
 	t_cube_data	cubed;
 
 	cubed = (t_cube_data){.half_height = HEIGHT / 2,};
-	if (argc == 2 && parse_file(&cubed, argv[1]) == 0)
+	if (argc == 2)
 	{
+		if (parse_file(&cubed, argv[1]) != 0)
+			return (EXIT_FAILURE);
 		cubed.mlx_ptr = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 		cubed.image = mlx_new_image(cubed.mlx_ptr, WIDTH, HEIGHT);
 		if (mlx_image_to_window(cubed.mlx_ptr, cubed.image, 0, 0) == -1)
@@ -46,7 +48,6 @@ int	main(int argc, char **argv)
 		mlx_terminate(cubed.mlx_ptr);
 		return (EXIT_SUCCESS);
 	}
-	else
-		printf("Error\nUsage: %s <path_to_cub_file>\n", argv[0]);
+	printf("Error\nUsage: %s <path_to_cub_file>\n", argv[0]);
 	return (EXIT_FAILURE);
 }

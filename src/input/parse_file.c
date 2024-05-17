@@ -6,7 +6,7 @@
 /*   By: jschwabe <jschwabe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:55:08 by jschwabe          #+#    #+#             */
-/*   Updated: 2024/05/16 19:27:22 by jschwabe         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:58:37 by jschwabe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ uint8_t	parse_file(t_cube_data *data, const char *path_to_file)
 
 	file = (t_cube_file){0};
 	if (fd == -1)
-		return (1);
+		return (printf("Error\n"), 1);
 	lines = read_file_lines(fd);
 	if (!lines || close(fd) == -1)
-		return (EXIT_FAILURE);
+		return (printf("Error\n"), EXIT_FAILURE);
 	if (parse_non_map(&file, (char *const *)lines) != 0)
 	{
 		free_file_data(&file, lines);
